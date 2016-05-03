@@ -33,3 +33,5 @@ nb-configuration.xml
 *.swp
 *.DS_Store
 *.lock
+nbproject/project.xml
+/VSF/nbproject/private/
