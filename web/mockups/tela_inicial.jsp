@@ -5,6 +5,8 @@
   <title>VSF - Tela Inicial</title>
 
   <jsp:include page="includes/commom/head/assets.jsp" />  
+
+  <link rel="stylesheet" href="assets/css/mainpage.css">
 </head>
 
 <body>
