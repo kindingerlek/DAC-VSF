@@ -3,14 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;
+package model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  *
  * @author Alisson
+ * @author Mei
  */
 public class User {
 
@@ -156,9 +158,15 @@ public class User {
     }
     
     public List<Transaction> getExtract(PersonalAccount account){
-        List<Transaction> transactions = new ArrayList();
+        ArrayList<Transaction> transactions = new ArrayList<>();
         return transactions;
-    } 
+    }
+    
+    public List<Transaction> getFullExtract(PersonalAccount account,
+            Date from, Date to){
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        return transactions;
+    }
     
      /*
     public static boolean auth(String email, String senha){

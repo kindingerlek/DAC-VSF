@@ -5,6 +5,10 @@
  */
 package Model;
 
+import model.Transaction;
+import model.User;
+import model.Agency;
+import model.PersonalAccount;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;

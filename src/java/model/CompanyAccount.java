@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;
+package model;
 
 /**
  *
- * @author Alisson
+ * @author Mei
  */
-class Transaction {
-    
+public class CompanyAccount extends PersonalAccount {
+    public boolean loot(Double out){
+        //TODO
+        return true;
+    }
 }
