@@ -5,6 +5,7 @@
  */
 package model;
 
+import dao.UserDAO;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,9 +27,15 @@ public class User {
     private String addressNumber;
     private String complement;
     private String zipCode;
+    private String cpf;
+    private String rg;
+    private String cnpj;
+    private String nome;
+    private int type;
 
     private List<PersonalAccount> accountList;
 
+    
     // Beans Structure
     public User() {
     }
@@ -125,10 +132,50 @@ public class User {
         return accountList.get(indexPersonalAccount);
     }
 
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getRg() {
+        return rg;
+    }
+
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
+
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     //Class Structure
     
     public boolean create() {
-        return true;
+        return UserDAO.insert(this);
     }
     
     public User read() {
