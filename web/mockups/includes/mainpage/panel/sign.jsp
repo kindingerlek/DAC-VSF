@@ -7,15 +7,15 @@
       <h1>Não possui cadastro ainda?</h1>                                
     </div> 
 
-    <form>
+      <form action="../addUser" method="POST">
       <div class="col-md-12">
         <div class="form-group">
           <label for="">Tipo de Pessoa:</label>
           <br>
-          <input type="radio" name="typePerson" value="PF" id="123" checked> Pessoa Física
+          <input type="radio" name="personType" value="1" id="123" checked> Pessoa Física
           <br>
           <br>      
-          <input type="radio" name="typePerson" value="PJ"> Pessoa Jurídica
+          <input type="radio" name="personType" value="2"> Pessoa Jurídica
         </div>
       </div>
 

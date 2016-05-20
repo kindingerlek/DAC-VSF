@@ -30,8 +30,9 @@ public class User {
     private String cpf;
     private String rg;
     private String cnpj;
-    private String nome;
+    private String name;
     private int type;
+    private String fantasyName;
 
     private List<PersonalAccount> accountList;
 
@@ -156,12 +157,12 @@ public class User {
         this.cnpj = cnpj;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getType() {
@@ -172,10 +173,24 @@ public class User {
         this.type = type;
     }
 
+    public String getFantasyName() {
+        return fantasyName;
+    }
+
+    public void setFantasyName(String fantasyName) {
+        this.fantasyName = fantasyName;
+    }
+    
+    
+
     //Class Structure
     
-    public boolean create() {
-        return UserDAO.insert(this);
+    public boolean createPf() {
+        return UserDAO.insertPf(this);
+    }
+    
+    public boolean createPj() {
+        return UserDAO.insertPj(this);
     }
     
     public User read() {

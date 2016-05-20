@@ -20,10 +20,10 @@ public class ConnectionFactory {
         try {
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/vsf", "postgres", "admin");
+            System.out.println("Conectado com sucesso.");
         } catch (ClassNotFoundException ex) {
             System.out.println("Problema com conexão erro:" + ex.getMessage());
         }
-        System.out.println("Conectado com sucesso.");
         return c;
     }
 }
