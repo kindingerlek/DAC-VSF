@@ -9,14 +9,16 @@ cpf varchar(14),
 rg varchar(12),
 cnpj varchar(18),
 email varchar(100),
-nome varchar(100),
+name varchar(100),
+fantasy_name varchar(100),
 user_type integer,
 land_phone varchar(15),
 cell_phone varchar(15),
 address varchar(100),
 address_number varchar(10),
 complement varchar(100),
-zip_code varchar(8)
+zip_code varchar(8),
+password varchar(100)
 );
 
 CREATE TABLE public.agency (

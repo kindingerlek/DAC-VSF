@@ -18,32 +18,52 @@ import model.User;
  * @author Bruno
  */
 public class UserDAO {
-    private static String insert = "INSERT INTO public.user (cpf, rg, cnpj, email, nome,"
-            + " user_type, land_phone, cell_phone, address, address_number, complement, zip_code) "
-            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private static String insertPf = "INSERT INTO public.user (cpf, rg, email, name,"
+            + " password) VALUES (?, ?, ?, ?, ?);";
     
+    private static String insertPj = "INSERT INTO public.user (cnpj, email, name,"
+            + " fantasy_name, password) VALUES (?, ?, ?, ?, ?);";
     
-    public static boolean insert(User user){
+    public static boolean insertPj(User user){
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         
         try {
             con = ConnectionFactory.getConnection();
-            ps = con.prepareStatement(insert, PreparedStatement.RETURN_GENERATED_KEYS);
+            ps = con.prepareStatement(insertPj, PreparedStatement.RETURN_GENERATED_KEYS);
+            
+            ps.setString(1, user.getCnpj());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getName());
+            ps.setString(4, user.getFantasyName());
+            ps.setString(5, user.getPassword());
+            
+            ps.executeQuery();
+            
+            user.setId(setID(ps));
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Error on insert user.");
+        } finally {
+            return false;
+        }
+    }
+    
+    public static boolean insertPf(User user){
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            con = ConnectionFactory.getConnection();
+            ps = con.prepareStatement(insertPf, PreparedStatement.RETURN_GENERATED_KEYS);
             
             ps.setString(1, user.getCpf());
             ps.setString(2, user.getRg());
-            ps.setString(3, user.getCnpj());
-            ps.setString(4, user.getEmail());
-            ps.setString(5, user.getNome());
-            ps.setInt(6, user.getType());
-            ps.setString(7, user.getLandPhone());
-            ps.setString(8, user.getCellPhone());
-            ps.setString(9, user.getAddress());
-            ps.setString(10, user.getAddressNumber());
-            ps.setString(11, user.getComplement());
-            ps.setString(12, user.getZipCode());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getName());
+            ps.setString(5, user.getPassword());
             
             ps.executeQuery();
             
