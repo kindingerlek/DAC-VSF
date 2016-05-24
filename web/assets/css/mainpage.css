@@ -26,6 +26,9 @@ body
 	margin-top: 0px;
 	margin-bottom: 20px;
 	background-color: #264348;
+
+	
+	color: #ffffff;
 }
 
 .page-header .form-group {
@@ -38,7 +41,6 @@ body
 }
 
 .page-header label {
-	color: #ffffff;
 }
 
 .page-header button {
@@ -63,17 +65,25 @@ body
 	margin-bottom: 0px;
 }
 
+.page-header h3
+{
+	font-size: 11pt;
+	color: #c2c2c2;
+
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
 
 .panel
 {
 	opacity: 0.86;
-	-webkit-transition: opacity 1s; /* Safari */
-	transition: opacity 1s;
+	-webkit-transition: opacity 0.5s; /* Safari */
+	transition: opacity 0.5s;
 }
 
 .panel:hover
 {
 	opacity: 1;
-	-webkit-transition: opacity 1s; /* Safari */
-	transition: opacity 1s;
+	-webkit-transition: opacity 0.5s; /* Safari */
+	transition: opacity 0.5s;
 }

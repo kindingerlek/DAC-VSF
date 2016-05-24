@@ -4,7 +4,7 @@
   <div class="panel-body">
 
     <div class="container-fluid">
-      <h1>Criar uma nova conta no banco?</h1>                          
+      <h1>Criar uma nova conta bancária?</h1>                          
     </div>
 
     <div class="container-fluid text-justified">          
@@ -17,8 +17,6 @@
       </p>
     </div>
 
-    <form>
-      <jsp:include page="form/new_account.jsp" />
-    </form>
+    <jsp:include page="form/new_account.jsp" />
 
   </div>
