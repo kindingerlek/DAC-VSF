@@ -1,8 +1,3 @@
--- Geração de Modelo físico
--- Sql ANSI 2003 - brModelo.
-
-
-
 CREATE TABLE public.user (
 user_id serial PRIMARY KEY,
 cpf varchar(14),
@@ -22,12 +17,12 @@ password varchar(100)
 );
 
 CREATE TABLE public.agency (
-agency_id integer PRIMARY KEY,
+agency_id serial PRIMARY KEY,
 agency_number integer
 );
 
 CREATE TABLE public.account (
-account_id integer PRIMARY KEY,
+account_id serial PRIMARY KEY,
 user_id integer,
 agency_id integer,
 number integer,
@@ -37,7 +32,7 @@ FOREIGN KEY(agency_id) REFERENCES public.agency (agency_id)
 );
 
 CREATE TABLE public.transaction (
-transaction_id INTEGER PRIMARY KEY,
+transaction_id serial PRIMARY KEY,
 account_id integer,
 transaction_account integer,
 date DATE,
