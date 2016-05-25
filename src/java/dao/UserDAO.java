@@ -58,10 +58,9 @@ public class UserDAO {
             ps.executeUpdate();
             return true;
         } catch (SQLException ex) {
-            System.out.println("Error on insert user.");
-        } finally {
-            return false;
+            System.out.println("Error on update Pj. " + ex);
         }
+        return false;
     }
 
     public static boolean updatePf(User user) {
@@ -89,7 +88,7 @@ public class UserDAO {
             ps.executeUpdate();
             return true;
         } catch (SQLException ex) {
-            System.out.println("Error on insert user.");
+            System.out.println("Error on update Pf. " + ex);
         }
         return false;
     }
@@ -115,17 +114,15 @@ public class UserDAO {
             user.setId(setID(ps));
             return true;
         } catch (SQLException ex) {
-            System.out.println("Error on insert user.");
-        } finally {
-            return false;
+            System.out.println("Error on insert Pj. " + ex);
         }
+        return false;
     }
 
     public static boolean insertPf(User user) {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        boolean hasResult = false;
 
         try {
             con = ConnectionFactory.getConnection();
@@ -142,9 +139,8 @@ public class UserDAO {
             user.setId(setID(ps));
             return true;
         } catch (SQLException ex) {
-            System.out.println("Error on insert user. " + ex);
+            System.out.println("Error on insert Pf. " + ex);
         }
-        System.out.println(hasResult);
         return false;
     }
 

@@ -52,11 +52,11 @@ public class UserTest {
         
         User user = new User();
         
-        user.setCpf("2");
-        user.setRg("2");
-        user.setEmail("2");
-        user.setName("2");
-        user.setPassword("2");
+        user.setCpf("cpfTest");
+        user.setRg("rgTest");
+        user.setEmail("testPf@email");
+        user.setName("namePfTest");
+        user.setPassword("passTest");
         user.setType(1);
         
         boolean result = user.createPf();
@@ -64,14 +64,43 @@ public class UserTest {
         
         System.out.println("updatePf");
         
-        user.setAddress("123");
-        user.setAddressNumber("123");
-        user.setLandPhone("123");
-        user.setCellPhone("123");
-        user.setComplement("123");
-        user.setZipCode("123");
+        user.setAddress("addressTest");
+        user.setAddressNumber("addNumTest");
+        user.setLandPhone("landPhoneTest");
+        user.setCellPhone("cellPhoneTest");
+        user.setComplement("complementTest");
+        user.setZipCode("zipTest");
         
         result = user.updatePf();
+        assertEquals(true, result);
+    }
+    
+    @Test
+    public void testCreateAndUpdatePj() {
+        System.out.println("createPj");
+        
+        User user = new User();
+        
+        user.setCnpj("cnpjTest");
+        user.setFantasyName("fantasyNameTest");
+        user.setEmail("testPj@email");
+        user.setName("namePjTest");
+        user.setPassword("passTest");
+        user.setType(2);
+        
+        boolean result = user.createPj();
+        assertEquals(true, result);
+        
+        System.out.println("updatePj");
+        
+        user.setAddress("addressTest");
+        user.setAddressNumber("addNumTest");
+        user.setLandPhone("landPhoneTest");
+        user.setCellPhone("cellPhoneTest");
+        user.setComplement("complementTest");
+        user.setZipCode("zipTest");
+        
+        result = user.updatePj();
         assertEquals(true, result);
     }
     
