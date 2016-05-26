@@ -1,17 +1,26 @@
 .sidebar-menu {
 	background-color: #f3f3f3;
+
+	padding-top: 15px;
+	padding-bottom: 15px;
+	padding-left: 10px;
+	padding-right: 10px;
+
+
+	height: 100%;
+	width: 100%;
 }
 
 .sidebar-menu .sidebar-item {
 	height: 60px;
-	width: 250px;
+	width: 100%;
 
 	background-color: #ffffff;
 	border: 1px solid #c0c0c0;
 
 	color: #2a2a2a;
 
-	margin: 8px 8px 8px 8px;
+	margin-top: 10px;
 
 
 	-webkit-transition: color 0.2s, border 0.2s; /* Safari */
