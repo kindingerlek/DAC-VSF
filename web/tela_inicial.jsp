@@ -6,7 +6,8 @@
 
   <jsp:include page="includes/commom/head/assets.jsp" />  
 
-  <link rel="stylesheet" href="assets/css/mainpage.css">
+  <link rel="stylesheet" href="assets/css/mainpage.css">  
+  <link rel="stylesheet" href="assets/css/main_header.css">
 </head>
 
 <body>

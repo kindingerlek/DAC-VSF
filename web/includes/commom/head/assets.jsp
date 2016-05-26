@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="assets/addons/bootflat/css/bootflat.css">
 <link rel="stylesheet" href="assets/addons/square/blue.css">
 <link rel="stylesheet" href="assets/addons/font_awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="assets/css/sidebar.css">
 <link rel="stylesheet" href="assets/css/application.css">
 
 <!-- JQuery file-->
