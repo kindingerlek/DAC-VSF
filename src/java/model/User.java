@@ -197,8 +197,12 @@ public class User {
         return new User();
     }
     
-    public boolean update(){
-        return true;
+    public boolean updatePf(){
+        return UserDAO.updatePf(this);
+    }
+    
+    public boolean updatePj() {
+        return UserDAO.updatePj(this);
     }
     
     public boolean delete(){
