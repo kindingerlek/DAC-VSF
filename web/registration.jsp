@@ -59,14 +59,14 @@
 					<div class="col-md-6">                                    
 						<div class="form-group">
 							<label>Nome Fantasia:</label>
-							<input type="text" class="form-control" id="tradename" readonly>
+							<input type="text" class="form-control" id="tradename">
 						</div>
 					</div>
 
 					<div class="col-md-6">                                    
 						<div class="form-group">
-							<label>RG:</label>
-							<input type="text" class="form-control" id="cpf" readonly>
+							<label>CNPJ:</label>
+							<input type="text" class="form-control" id="cnpj" readonly>
 						</div>
 					</div>
 
