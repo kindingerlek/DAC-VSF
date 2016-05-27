@@ -1,13 +1,53 @@
-header {
-}
-
-nav {
-}
 
 body {
-    background-color: #E2E2E2;
+	background-color: #E2E2E2;
+}
+
+.header {
+	background-color: #264348;	
+	color: #ffffff;
+
+	min-height: 55px;
+	padding-left: 20px;
+	padding-right: 20px;
+
+	padding-top: 12px;
+	padding-bottom: 12px;
+
+	margin-top: 0px;
+}
+
+.header h1 {
+	font-size: 18pt;
+
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.header button {
+	height: 30px;
+
+	font-size: 12pt;
+	font-style: bold;
+
+	margin-left: 8px;
+	margin-right: 8px;
+
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+.nav {
+	min-width: 240px;
+	padding: 0px 0px 0px 0px;
+}
+
+.section {
+	padding: 18px 18px 18px 18px;
+
 }
 
 .section  h1 {
-    font-size: 20pt;
+	font-size: 20pt;
+
 }
