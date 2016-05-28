@@ -1,6 +1,6 @@
 
 body {
-	background-color: #E2E2E2;
+	background-color: #F1F2F6;
 }
 
 .header {
@@ -47,7 +47,51 @@ body {
 
 }
 
-.section  h1 {
+h1 {
 	font-size: 20pt;
-
 }
+
+h2 {
+	font-size: 18pt;
+}
+
+h3 {
+	font-size: 16pt
+}
+
+.events h4{
+	margin-top: 6px !important;
+	margin-bottom: 16px !important;
+}
+
+.withdrawal .circ {
+	background-color: #DC3023 !important;
+}
+
+.withdrawal .time {
+	color: #DC3023 !important;
+}
+
+.withdrawal .value {
+	color: #DC3023 !important;
+	font-size: 11pt;
+	font-weight: bold;
+}
+
+
+.deposit .circ {
+	background-color: #26A65B !important;
+}
+
+.deposit .time {
+	color: #26A65B !important;
+}
+
+.deposit .value {
+	color: #26A65B !important;
+	font-size: 11pt;
+	font-weight: bold;
+}
+
+
+
