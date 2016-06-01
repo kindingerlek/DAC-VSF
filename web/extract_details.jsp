@@ -25,8 +25,16 @@
 
 					<h2> Intervalo:</h2>
 
-					<form>
-						De: <input type="date" name=""/> à <input type="date" name="" \>
+					<form class="form-inline">
+
+						<div class="form-group">
+						<label for="">De: </label>
+							<input type="text" name="from-date" class="form-control" id="from-date" placeholder="dd/mm/aaaa">
+						</div>
+						<div class="form-group">
+							<label for="">&nbsp até &nbsp</label>
+							<input type="text" name="to-date" class="form-control" id="to-date" placeholder="dd/mm/aaaa">
+						</div>
 
 						<div class="pull-right">
 							<button class="btn btn-primary">
