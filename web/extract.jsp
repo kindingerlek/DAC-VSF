@@ -24,7 +24,7 @@
 
 					<div class="row">						
 						<div class="pull-right">
-							<a href="#" class="btn btn-primary">
+							<a href="./extract_details.jsp" class="btn btn-primary">
 								Ver detalhes
 							</a>			
 						</div>
