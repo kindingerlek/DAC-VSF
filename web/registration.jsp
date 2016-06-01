@@ -27,7 +27,7 @@
 					</div>
 				</div>
 
-				<form>
+				<form class="form">
 					<div class="col-md-12">                                    
 						<div class="form-group">
 							<label for="">Nome:</label>
