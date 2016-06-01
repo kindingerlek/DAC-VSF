@@ -28,9 +28,9 @@
 }
 
 .sidebar-menu .sidebar-item:hover {
-	color: #5aaaaa;
+	color: #48929B;
 
-	border: 1px solid #5aaaaa;
+	border: 1px solid #48929B;
 
 	-webkit-transition: color 0.2s, border 0.2s; /* Safari */
 	transition: color 0.2s, border 0.2s;	
