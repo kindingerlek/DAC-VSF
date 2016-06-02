@@ -67,7 +67,7 @@
 		</div>
 	</a>
 
-	<a href="#">
+	<a href="accounts.jsp">
 		<div class="sidebar-item">
 			<div class="item-icon">
 				<i class="fa fa-gear fa-2x" aria-hidden="true"></i>					

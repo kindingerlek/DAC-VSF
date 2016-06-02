@@ -16,21 +16,32 @@
 	</div>
 
 	<div class="section col-md-9">
-		<div class="panel">
+
+		<div class="panel panel-default">
 			<div class="panel-body">
 				<div class="container-fluid">
-					<jsp:include page="includes/person/edit.jsp" />
+					<jsp:include page="includes/account/details.jsp" />
 				</div>
 			</div>
 		</div>
 
-		<div class="panel">
-			<div class="panel-body">				
+		<div class="panel panel-default">
+			<div class="panel-body">
 				<div class="container-fluid">
-					<jsp:include page="includes/account/details.jsp"/>
+					<jsp:include page="includes/account/new.jsp" />
 				</div>
-			</div>			
+			</div>
 		</div>
+
+
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="container-fluid">
+					<jsp:include page="includes/account/list.jsp"/>
+				</div>
+			</div>
+		</div>			
 	</div>
+</div>
 </body>
 </html>
