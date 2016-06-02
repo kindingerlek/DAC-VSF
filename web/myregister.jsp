@@ -16,15 +16,21 @@
 	</div>
 
 	<div class="section col-md-9">
-		<div class="panel panel-default">
+		<div class="panel">
 			<div class="panel-body">
 				<div class="container-fluid">
-					<jsp:include page="includes/extract/timeline.jsp" />
+					<jsp:include page="includes/person/edit.jsp" />
 				</div>
 			</div>
 		</div>
+
+		<div class="panel">
+			<div class="panel-body">				
+				<div class="container-fluid">
+					<jsp:include page="includes/account/details.jsp"/>
+				</div>
+			</div>			
+		</div>
 	</div>
-
-
 </body>
 </html>

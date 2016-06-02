@@ -11,40 +11,52 @@
 </head>
 
 <body>
-  <jsp:include page="includes/mainpage/header.jsp" />  
+  <jsp:include page="includes/commom/index-header.jsp" />  
 
 
   <div class="section container-fluid">                    
-    <div class="col-md-6">      
-      <jsp:include page="includes/mainpage/panel/sign.jsp" />
+    <div class="col-md-6">
+      <div class="panel">
+        <div class="panel-body">
+          <div class="container-fluid">
+            <jsp:include page="includes/mainpage/sign.jsp" />
+          </div>
+        </div>        
+      </div>
     </div>
 
     <div class="col-md-6">
-     <jsp:include page="includes/mainpage/panel/new_account.jsp" />
-   </div>
- </div>  
+      <div class="panel">
+        <div class="panel-body">
+          <div class="container-fluid">
+            <jsp:include page="includes/account/new.jsp" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
 
- <script>
-  $(document).ready(function(){
-    $('input').iCheck({
-      checkboxClass: 'icheckbox_square-blue',
-      radioClass: 'iradio_square-blue',
+  <script>
+    $(document).ready(function(){
+      $('input').iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue',
+      });
+
+      $("input[name=personType]:radio").on('ifChecked', function(event){
+        if (this.value == '1') {
+          $('#person-section').show();            
+          $('#enterprise-section').hide();
+        }
+        else {       
+          $('#person-section').hide();            
+          $('#enterprise-section').show();
+        }
+      });
+
     });
 
-    $("input[name=typePerson]:radio").on('ifChecked', function(event){
-      if (this.value == 'PF') {
-        $('#person-section').show();            
-        $('#enterprise-section').hide();
-      }
-      else {            
-        $('#person-section').hide();            
-        $('#enterprise-section').show();
-      }
-    });
-
-  });
-
-</script>
+  </script>
 
 </body>
 </html>

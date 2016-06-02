@@ -15,11 +15,17 @@
 		<jsp:include page="includes/commom/sidebar.jsp" />
 	</div>
 
-	<div class="section col-md-9">		
-		<h1> Bem Vindo Usuário! </h1>
+	<div class="section col-md-9">			
+		<div class="panel">
+			<div class="panel-body">
+				<div class="container-fluid">
+					<h1> Bem Vindo Usuário! </h1>
 
-		<h2>Seu saldo nesta conta:</h2>
-		<h2>Movimentos no mês:</h2>
+					<h2>Seu saldo nesta conta:</h2>
+					<h2>Movimentos no mês:</h2>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="sidebar-menu">
-	<a href="#">
+	<a href="home.jsp">
 		<div class="sidebar-item">
 			<div class="item-icon">
 				<i class="fa fa-home fa-2x" aria-hidden="true"></i>					
@@ -12,7 +12,7 @@
 		</div>
 	</a>
 
-	<a href="#">
+	<a href="extract.jsp">
 		<div class="sidebar-item">
 			<div class="item-icon">
 				<i class="fa fa-file-text fa-2x" aria-hidden="true"></i>					
@@ -56,18 +56,18 @@
 		</div>
 	</a>
 
-	<a href="#">
+	<a href="myregister.jsp">
 		<div class="sidebar-item">
 			<div class="item-icon">
 				<i class="fa fa-user fa-2x" aria-hidden="true"></i>					
 			</div>
 			<div class="item-text">
-				Minha conta
+				Meu Cadastro
 			</div>
 		</div>
 	</a>
 
-	<a href="#">
+	<a href="accounts.jsp">
 		<div class="sidebar-item">
 			<div class="item-icon">
 				<i class="fa fa-gear fa-2x" aria-hidden="true"></i>					
