@@ -5,24 +5,86 @@
  */
 package model;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-/**
- *
- * @author Alisson
- * @author Mei
- */
+@Entity
+@Table(name = "account")
 public class PersonalAccount {
+
+    @Id
+    @GeneratedValue
+    @Column(name = "account_id")
     private int id;
+
+    @ManyToOne
+    @JoinColumn(name = "agency_id", nullable = true)
     private Agency agency;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = true)
+    private User user;
+
+    @Column(name = "number")
     private int number;
+
+    @Column(name = "type")
+    private int type;
+
     //Double para amount
-    private Double amount;
-    private ArrayList<Transaction> transactionList;
-    
+    @Column(name = "balance")
+    private Double balance;
+
+    @OneToMany(mappedBy = "transactionAccount", fetch = FetchType.LAZY, targetEntity = Transaction.class, cascade = CascadeType.ALL)
+    private Collection<Transaction> transactionsIn;
+
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, targetEntity = Transaction.class, cascade = CascadeType.ALL)
+    private Collection<Transaction> transactionsOut;
+
     //Bean structure / getters & setters
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public Collection<Transaction> getTransactionsIn() {
+        return transactionsIn;
+    }
+
+    public void setTransactionsIn(Collection<Transaction> transactionsIn) {
+        this.transactionsIn = transactionsIn;
+    }
+
+    public Collection<Transaction> getTransactionsOut() {
+        return transactionsOut;
+    }
+
+    public void setTransactionsOut(Collection<Transaction> transactionsOut) {
+        this.transactionsOut = transactionsOut;
+    }
+
     public int getId() {
         return id;
     }
@@ -47,80 +109,70 @@ public class PersonalAccount {
         this.number = number;
     }
 
-    public Double getAmount() {
-        return amount;
+    public Double getBalance() {
+        return balance;
     }
 
-    public void setAmount(Double amount) {
-        this.amount = amount;
+    public void setBalance(Double balance) {
+        this.balance = balance;
     }
 
-    public ArrayList<Transaction> getTransactionList() {
-        return transactionList;
-    }
-
-    public void setTransactionList(ArrayList<Transaction> transactionList) {
-        this.transactionList = transactionList;
-    }
-    
-    
-    
     //Class structure
-    public PersonalAccount getAccountById (int id){
+    public PersonalAccount getAccountById(int id) {
         //TODO
         PersonalAccount account = new PersonalAccount();
         return account;
     }
-    
+
     //Sem agency?
-    public PersonalAccount getAccountByNumber (int number){
+    public PersonalAccount getAccountByNumber(int number) {
         //TODO
         PersonalAccount account = new PersonalAccount();
         return account;
     }
-    
+
     //Double?
-    public void deposit (Double in){
+    public void deposit(Double in) {
         //TODO: Check
-        this.amount += in;
+        this.balance += in;
     }
-    
-    public boolean transfer(PersonalAccount destination, Double out){
+
+    public boolean transfer(PersonalAccount destination, Double out) {
         //TODO
         return true;
     }
-    
-    public List<Transaction> getTransactionsByPeriod(Date start, Date end){
+
+    public Collection<Transaction> getTransactionsByPeriod(Date start, Date end) {
         //TODO
-        ArrayList<Transaction> transactions = new ArrayList<>();
+        Collection<Transaction> transactions = null;
         return transactions;
     }
-    
+
     public PersonalAccount createAccount(int number, Agency agency,
-            User owner, String password){
+            User owner, String password) {
         //TODO
         PersonalAccount account = new PersonalAccount();
         return account;
     }
-    
-    public boolean auth(String password){
+
+    public boolean auth(String password) {
         //TODO
         return true;
     }
-    
-    public boolean update(){
+
+    public boolean update() {
         //TODO
         return true;
     }
-    
-    public boolean close(User user){
+
+    public boolean close(User user) {
         //TODO
         return true;
     }
-    
-    public List<Transaction> getExtract(Date from, Date to){
+
+    public Collection<Transaction> getExtract(Date from, Date to) {
         //TODO
-        ArrayList<Transaction> transactions = new ArrayList<>();
+        Collection<Transaction> transactions = null;
         return transactions;
     }
 }

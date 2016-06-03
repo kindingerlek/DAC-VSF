@@ -3,150 +3,132 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao;
+package DAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
 import model.User;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import static utilities.HibernateUtils.getSessionFactory;
 
 /**
  *
- * @author Bruno
+ * @author Alisson
  */
 public class UserDAO {
 
-    private static String insertPf = "INSERT INTO public.user (cpf, rg, email, name,"
-            + " password, user_type) VALUES (?, ?, ?, ?, ?, ?);";
-
-    private static String insertPj = "INSERT INTO public.user (cnpj, email, name,"
-            + " fantasy_name, password, user_type) VALUES (?, ?, ?, ?, ?, ?);";
-
-    private static String updatePf = "UPDATE public.user SET cpf = ?, rg = ?, "
-            + "email = ?, name = ?, user_type = ?, land_phone = ?, cell_phone = ?,"
-            + " address = ?, address_number = ?, complement = ?, zip_code = ? where user_id = ?;";
-
-    private static String updatePj = "UPDATE public.user SET cnpj = ?, email = ?, name = ?,"
-            + " fantasy_name = ?, user_type = ?, land_phone = ?, cell_phone = ?, address = ?, "
-            + "address_number = ?, complement = ?, zip_code = ? where user_id = ?;";
-
-    public static boolean updatePj(User user) {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
+    public static boolean update(User user) {
+        Transaction transaction = null;
+        Session session = null;
         try {
-            con = ConnectionFactory.getConnection();
-            ps = con.prepareStatement(updatePj);
-
-            ps.setString(1, user.getCnpj());
-            ps.setString(2, user.getEmail());
-            ps.setString(3, user.getName());
-            ps.setString(4, user.getFantasyName());
-            ps.setInt(5, user.getType());
-            ps.setString(6, user.getLandPhone());
-            ps.setString(7, user.getCellPhone());
-            ps.setString(8, user.getAddress());
-            ps.setString(9, user.getAddressNumber());
-            ps.setString(10, user.getComplement());
-            ps.setString(11, user.getZipCode());
-            ps.setInt(12, user.getId());
-
-            ps.executeUpdate();
+            session = getSessionFactory().openSession();
+            session.beginTransaction();
+            session.update(user);
+            transaction = session.getTransaction();
+            transaction.commit();
             return true;
-        } catch (SQLException ex) {
-            System.out.println("Error on update Pj. " + ex);
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+                throw e;
+            }
+            System.out.println(e.getMessage());
+            System.out.println("EUAHEUAHUEHAUEAHUHEAU");
+            return false;
+        } finally {
+            session.close();
         }
-        return false;
     }
 
-    public static boolean updatePf(User user) {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
+    public static boolean create(User user) {
+        Transaction transaction = null;
+        Session session = null;
         try {
-            con = ConnectionFactory.getConnection();
-            ps = con.prepareStatement(updatePf);
-
-            ps.setString(1, user.getCpf());
-            ps.setString(2, user.getRg());
-            ps.setString(3, user.getEmail());
-            ps.setString(4, user.getName());
-            ps.setInt(5, user.getType());
-            ps.setString(6, user.getLandPhone());
-            ps.setString(7, user.getCellPhone());
-            ps.setString(8, user.getAddress());
-            ps.setString(9, user.getAddressNumber());
-            ps.setString(10, user.getComplement());
-            ps.setString(11, user.getZipCode());
-            ps.setInt(12, user.getId());
-
-            ps.executeUpdate();
+            session = getSessionFactory().openSession();
+            session.beginTransaction();
+            session.save(user);
+            transaction = session.getTransaction();
+            transaction.commit();
             return true;
-        } catch (SQLException ex) {
-            System.out.println("Error on update Pf. " + ex);
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+                throw e;
+            }
+            return false;
+        } finally {
+            session.close();
         }
-        return false;
     }
 
-    public static boolean insertPj(User user) {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
+    public static List<User> readAll() {
+        Session session = null;
+        List<User> list = new ArrayList();
         try {
-            con = ConnectionFactory.getConnection();
-            ps = con.prepareStatement(insertPj, PreparedStatement.RETURN_GENERATED_KEYS);
-
-            ps.setString(1, user.getCnpj());
-            ps.setString(2, user.getEmail());
-            ps.setString(3, user.getName());
-            ps.setString(4, user.getFantasyName());
-            ps.setString(5, user.getPassword());
-            ps.setInt(6, user.getType());
-
-            ps.executeUpdate();
-
-            user.setId(setID(ps));
-            return true;
-        } catch (SQLException ex) {
-            System.out.println("Error on insert Pj. " + ex);
+            session = getSessionFactory().openSession();
+            list = session.createCriteria(User.class).list();
+        } catch (Exception e) {
+            System.out.println("readAll User");
+            System.out.println(e.getMessage());
+        } finally {
+            session.close();
         }
-        return false;
+        return list;
     }
 
-    public static boolean insertPf(User user) {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
+    public static User read(User user) {
+        Session session = null;
+        User userReturned = new User();
         try {
-            con = ConnectionFactory.getConnection();
-            ps = con.prepareStatement(insertPf, PreparedStatement.RETURN_GENERATED_KEYS);
-
-            ps.setString(1, user.getCpf());
-            ps.setString(2, user.getRg());
-            ps.setString(3, user.getEmail());
-            ps.setString(4, user.getName());
-            ps.setString(5, user.getPassword());
-            ps.setInt(6, user.getType());
-
-            ps.executeUpdate();
-            user.setId(setID(ps));
-            return true;
-        } catch (SQLException ex) {
-            System.out.println("Error on insert Pf. " + ex);
+            session = getSessionFactory().openSession();
+            Query query = session.createQuery("from User where email = :email");
+            query.setParameter("email", user.getEmail());
+            userReturned = (User) query.uniqueResult();
+        } catch (Exception e) {
+            System.out.println("read user");
+        } finally {
+            session.close();
+            return userReturned;
         }
-        return false;
     }
 
-    private static int setID(PreparedStatement statment) throws SQLException {
-        ResultSet resultSet = statment.getGeneratedKeys();
-        resultSet.next();
-        return resultSet.getInt(1);
+    public static List<User> readAll(String type, String param) {
+        Transaction transaction = null;
+        Session session = null;
+        List<User> list = new ArrayList();
+        try {
+            session = getSessionFactory().openSession();
+            Query query = session.createQuery("from User where " + type + " like :param");
+            query.setParameter("param", "%" + param + "%");
+            list = query.list();
+        } catch (Exception e) {
+            System.out.println("Error readAll Users");
+        } finally {
+            session.close();
+        }
+        return list;
+    }
+
+    public static boolean delete(User user) {
+        Transaction transaction = null;
+        Session session = null;
+        try {
+            session = getSessionFactory().openSession();
+            session.beginTransaction();
+            session.delete(user);
+            transaction = session.getTransaction();
+            transaction.commit();
+            return true;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+                throw e;
+            }
+            return true;
+        } finally {
+            session.close();
+        }
     }
 }

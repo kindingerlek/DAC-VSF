@@ -47,22 +47,25 @@ public class UserTest {
      * Test of getId method, of class User.
      */
     @Test
-    public void testCreateAndUpdatePf() {
-        System.out.println("createPf");
+    public void testCreateAndUpdateUser() {
+        System.out.println("createUser");
         
         User user = new User();
         
         user.setCpf("cpfTest");
         user.setRg("rgTest");
-        user.setEmail("testPf@email");
-        user.setName("namePfTest");
+        user.setEmail("test@email");
+        user.setName("nameTest");
         user.setPassword("passTest");
         user.setType(1);
         
-        boolean result = user.createPf();
+        boolean result = user.create();
         assertEquals(true, result);
         
-        System.out.println("updatePf");
+        System.out.println("readUser");
+        user = user.read();
+        
+        System.out.println("updateUser");
         
         user.setAddress("addressTest");
         user.setAddressNumber("addNumTest");
@@ -71,36 +74,11 @@ public class UserTest {
         user.setComplement("complementTest");
         user.setZipCode("zipTest");
         
-        result = user.updatePf();
-        assertEquals(true, result);
-    }
-    
-    @Test
-    public void testCreateAndUpdatePj() {
-        System.out.println("createPj");
-        
-        User user = new User();
-        
-        user.setCnpj("cnpjTest");
-        user.setFantasyName("fantasyNameTest");
-        user.setEmail("testPj@email");
-        user.setName("namePjTest");
-        user.setPassword("passTest");
-        user.setType(2);
-        
-        boolean result = user.createPj();
+        result = user.update();
         assertEquals(true, result);
         
-        System.out.println("updatePj");
-        
-        user.setAddress("addressTest");
-        user.setAddressNumber("addNumTest");
-        user.setLandPhone("landPhoneTest");
-        user.setCellPhone("cellPhoneTest");
-        user.setComplement("complementTest");
-        user.setZipCode("zipTest");
-        
-        result = user.updatePj();
+        System.out.println("deleteUser");
+        result = user.delete();
         assertEquals(true, result);
     }
     

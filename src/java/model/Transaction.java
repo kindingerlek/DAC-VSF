@@ -5,21 +5,40 @@
  */
 package model;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-/**
- *
- * @author Alisson
- * @author Mei
- */
+@Entity
+@Table(name = "transaction")
 public class Transaction {
+    @Id
+    @GeneratedValue
+    @Column(name = "transaction_id")
     private int id;
+    
+    @Column(name = "type")
     private int transactionType;
-    private int accountId;
+    
+    @ManyToOne
+    @JoinColumn(name = "account_id", nullable = true)
+    private PersonalAccount account;
+    
+    @ManyToOne
+    @JoinColumn(name = "transaction_account", nullable = true)
     private PersonalAccount transactionAccount;
+    
+    @Column(name = "date")
     private Date date;
+    
+    @Column(name = "ammount")
     private Double amount;
     
     //Bean structure
@@ -39,12 +58,12 @@ public class Transaction {
         this.transactionType = transactionType;
     }
 
-    public int getAccountId() {
-        return accountId;
+    public PersonalAccount getAccount() {
+        return account;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setAccount(PersonalAccount account) {
+        this.account = account;
     }
 
     public PersonalAccount getTransactionAccount() {
@@ -72,10 +91,10 @@ public class Transaction {
     }
     
     //Class structure
-    public List<Transaction> getExtract(Date from, Date to, 
+    public Collection<Transaction> getExtract(Date from, Date to, 
             PersonalAccount account){
         //TODO
-        ArrayList<Transaction> transactions = new ArrayList<>();
+        Collection<Transaction> transactions = null;
         return transactions;
     }
 }
