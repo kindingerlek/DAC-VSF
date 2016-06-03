@@ -44,7 +44,7 @@ public class addUser extends HttpServlet {
                     user.setCpf((String) request.getParameter("cpf"));
                     user.setRg((String) request.getParameter("rg"));
                     user.setPassword(password);
-                    user.createPf();
+                    user.create();
                     break;
                 case 2:
                     user.setName((String) request.getParameter("name"));
@@ -52,7 +52,7 @@ public class addUser extends HttpServlet {
                     user.setEmail((String) request.getParameter("email"));
                     user.setCnpj((String) request.getParameter("cnpj"));
                     user.setPassword(password);
-                    user.createPj();
+                    user.create();
                     break;
                 default:
                     //error

@@ -5,13 +5,22 @@
  */
 package model;
 
-/**
- *
- * @author Alisson
- * @author Mei
- */
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "agency")
 public class Agency {
+
+    @Id
+    @GeneratedValue
+    @Column(name = "agency_id")
     private int id;
+
+    @Column(name = "agency_number")
     private int number;
 
     public int getId() {
@@ -29,5 +38,5 @@ public class Agency {
     public void setNumber(int number) {
         this.number = number;
     }
-    
+
 }

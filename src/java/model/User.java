@@ -5,35 +5,57 @@
  */
 package model;
 
-import dao.UserDAO;
-import java.util.ArrayList;
+import DAO.UserDAO;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-/**
- *
- * @author Alisson
- * @author Mei
- */
+@Entity
+@Table(name = "tbuser")
 public class User {
-
+    @Id
+    @GeneratedValue
+    @Column(name = "user_id")
     private int id;
+    @Column(name = "password")
     private String password;
+    @Column(name = "email", unique = true)
     private String email;
-    private boolean active;
+    @Column(name = "land_phone")
     private String landPhone;
+    @Column(name = "cell_phone")
     private String cellPhone;
+    @Column(name = "address")
     private String address;
+    @Column(name = "address_number")
     private String addressNumber;
+    @Column(name = "complement")
     private String complement;
+    @Column(name = "zip_code")
     private String zipCode;
+    @Column(name = "cpf", unique = true, nullable = true)
     private String cpf;
+    @Column(name = "rg")
     private String rg;
+    @Column(name = "cnpj", unique = true, nullable = true)
     private String cnpj;
+    @Column(name = "name")
     private String name;
+    @Column(name = "user_type")
     private int type;
+    @Column(name = "fantasy_name")
     private String fantasyName;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, targetEntity = PersonalAccount.class, cascade = CascadeType.ALL)
     private List<PersonalAccount> accountList;
 
     
@@ -65,14 +87,7 @@ public class User {
         this.email = email;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
+ 
     public String getLandPhone() {
         return landPhone;
     }
@@ -181,58 +196,47 @@ public class User {
         this.fantasyName = fantasyName;
     }
     
-    
-
     //Class Structure
     
-    public boolean createPf() {
-        return UserDAO.insertPf(this);
-    }
-    
-    public boolean createPj() {
-        return UserDAO.insertPj(this);
+    public boolean create() {
+        return UserDAO.create(this);
     }
     
     public User read() {
-        return new User();
+        return UserDAO.read(this);
     }
     
-    public boolean updatePf(){
-        return UserDAO.updatePf(this);
+    public boolean update(){
+        return UserDAO.update(this);
     }
-    
-    public boolean updatePj() {
-        return UserDAO.updatePj(this);
-    }
-    
     public boolean delete(){
-        return true;
+        return UserDAO.delete(this);
     }
-    
-    public static User auth(String email, String senha){
-        User user = new User();
-        user.setEmail(email);
-        return user;
-    }
-    
-    public float getAmount(){
-        return 1;
-    }
-    
-    public PersonalAccount getAccount(int number, Agency agency){
-        return new PersonalAccount();
-    }
-    
-    public List<Transaction> getExtract(PersonalAccount account){
-        ArrayList<Transaction> transactions = new ArrayList<>();
-        return transactions;
-    }
-    
-    public List<Transaction> getFullExtract(PersonalAccount account,
-            Date from, Date to){
-        ArrayList<Transaction> transactions = new ArrayList<>();
-        return transactions;
-    }
+//    
+//    public static User auth(String email, String senha){
+//        User user = new User();
+//        user.setEmail(email);
+//        return user;
+//    }
+//    
+//    public float getAmount(){
+//        return 1;
+//    }
+//    
+//    public PersonalAccount getAccount(int number, Agency agency){
+//        return new PersonalAccount();
+//    }
+//    
+//    public List<Transaction> getExtract(PersonalAccount account){
+//        Collection<Transaction> transactions = new Collection<>();
+//        return transactions;
+//    }
+//    
+//    public List<Transaction> getFullExtract(PersonalAccount account,
+//            Date from, Date to){
+//        Collection<Transaction> transactions = new Collection<>();
+//        return transactions;
+//    }
     
      /*
     public static boolean auth(String email, String senha){
