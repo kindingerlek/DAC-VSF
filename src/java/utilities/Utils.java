@@ -5,7 +5,7 @@
  */
 package utilities;
 
-import java.util.ArrayList;
+import dao.AgencyDAO;
 import java.util.List;
 import model.Agency;
 
@@ -15,8 +15,7 @@ import model.Agency;
  */
 public class Utils {
     public static List<Agency> getAllAgencies(){
-        //TODO
-        ArrayList<Agency> agencies = new ArrayList<>();
+        List<Agency> agencies = AgencyDAO.readAll();
         return agencies;
     }
     

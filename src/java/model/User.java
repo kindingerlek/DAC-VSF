@@ -6,6 +6,7 @@
 package model;
 
 import dao.UserDAO;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -21,7 +22,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tbuser")
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "user_id")

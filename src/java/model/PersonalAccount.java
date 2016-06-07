@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -21,7 +22,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "account")
-public class PersonalAccount {
+public class PersonalAccount implements Serializable {
 
     @Id
     @GeneratedValue
