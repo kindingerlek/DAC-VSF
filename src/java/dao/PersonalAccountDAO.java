@@ -68,4 +68,19 @@ public class PersonalAccountDAO {
         session.close();
     }
     
+    public static PersonalAccount login(int number, String password, int agencyId){
+        PersonalAccount account;
+        Session session = getSessionFactory().openSession();
+        String queryString = "from PersonalAccount "
+                + "where number = :number AND password = :password "
+                + "AND agency_id = :agency_id";
+        Query query = session.createQuery(queryString);
+        query.setParameter("number", number);
+        query.setParameter("password", password);
+        query.setParameter("agency_id", agencyId);
+        account = (PersonalAccount) query.uniqueResult();
+        session.close();
+        return account;
+    }
+    
 }

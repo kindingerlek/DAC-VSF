@@ -17,12 +17,11 @@ import static utilities.HibernateUtils.getSessionFactory;
  */
 public class AgencyDAO {
     
-    public static Agency read(int id) {
+    public static Agency read(int agency_number) {
         Session session = getSessionFactory().openSession();
-        Agency agency = new Agency();
-        agency.setId(id);
-        Query query = session.createQuery("from Agency where id = :id");
-        query.setParameter("id", agency.getId());
+        Agency agency;
+        Query query = session.createQuery("from Agency where agency_number = :agency_number");
+        query.setParameter("agency_number", agency_number);
         agency = (Agency) query.uniqueResult();
         session.close();
         return agency;

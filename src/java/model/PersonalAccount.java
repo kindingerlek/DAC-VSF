@@ -42,6 +42,9 @@ public class PersonalAccount implements Serializable {
 
     @Column(name = "type")
     private int type;
+    
+    @Column(name = "password")
+    private String password;
 
     //Double para amount
     @Column(name = "balance")
@@ -60,6 +63,14 @@ public class PersonalAccount implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+    
+    public String getPassword() {
+        return password;
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int getType() {
