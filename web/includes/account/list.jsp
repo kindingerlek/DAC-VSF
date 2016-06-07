@@ -2,7 +2,8 @@
 <h1>Contas</h1>
 <hr>
 
-<h2>Saldo total: R$10.000,00</h2>					
+<h2>Saldo total: R$10.000,00</h2>
+<h2>Limite total: R$30.000,00</h2>				
 
 <table class="table table-striped">
 	<thead>

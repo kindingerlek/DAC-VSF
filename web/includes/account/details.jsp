@@ -6,6 +6,7 @@
 <p>Número da Conta:</p>
 <p>Agência:</p>
 <p>Saldo:</p>
+<p>Limite:</p>
 <p>Situação:</p>
 
 <div class="text-center">

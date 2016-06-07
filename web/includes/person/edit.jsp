@@ -109,6 +109,13 @@
 		</div>
 	</div>
 
+	<div class="col-md-6">                                    
+		<div class="form-group">
+			<label>Renda Declarada:</label>
+			<input type="text" class="form-control" id="income" placeholder="R$1000,00">
+		</div>
+	</div>
+
 
 
 	<div class="col-md-12">                                    

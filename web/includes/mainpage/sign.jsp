@@ -10,7 +10,7 @@
     <div class="form-group">
       <label for="">Tipo de Pessoa:</label>
       <br>
-      <input type="radio" name="personType" value="1" id="123" checked> Pessoa Física
+      <input type="radio" name="personType" value="1" checked> Pessoa Física
       <br>
       <br>      
       <input type="radio" name="personType" value="2"> Pessoa Jurídica
