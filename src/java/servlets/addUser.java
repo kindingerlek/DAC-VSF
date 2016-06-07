@@ -7,11 +7,13 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.User;
 
 /**
@@ -36,6 +38,8 @@ public class addUser extends HttpServlet {
         String confirmPassword = (String) request.getParameter("confirmPassword");
         User user = new User();
         user.setType(Integer.parseInt((String) request.getParameter("personType")));
+        HttpSession session = request.getSession();
+        
         if (password.equals(confirmPassword)) {
             switch (user.getType()) {
                 case 1:
@@ -44,7 +48,7 @@ public class addUser extends HttpServlet {
                     user.setCpf((String) request.getParameter("cpf"));
                     user.setRg((String) request.getParameter("rg"));
                     user.setPassword(password);
-                    user.createPf();
+                    user.create();
                     break;
                 case 2:
                     user.setName((String) request.getParameter("name"));
@@ -52,12 +56,13 @@ public class addUser extends HttpServlet {
                     user.setEmail((String) request.getParameter("email"));
                     user.setCnpj((String) request.getParameter("cnpj"));
                     user.setPassword(password);
-                    user.createPj();
+                    user.create();
                     break;
                 default:
                     //error
-                    break;
             }
+            session.setAttribute("user", user);
+            response.sendRedirect("registration.jsp");
         } else {
             //error
         }
