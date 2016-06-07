@@ -5,7 +5,7 @@
  */
 package model;
 
-import DAO.UserDAO;
+import dao.UserDAO;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
