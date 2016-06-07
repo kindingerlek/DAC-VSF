@@ -1,7 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
-<%@ page contentType="text/html; charset=UTF-8" %>
-
 <h1>Não possui cadastro ainda?</h1>                                
 <hr>
 
