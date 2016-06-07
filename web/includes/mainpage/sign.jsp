@@ -1,19 +1,17 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
-<%@ page contentType="text/html; charset=UTF-8" %>
-
 <h1>Não possui cadastro ainda?</h1>                                
 <hr>
 
 <div class="col-md-12">
-    <div class="form-group">
-        <label for="">Tipo de Pessoa:</label>
-        <br>
-        <input type="radio" name="personType" value="1" checked> Pessoa Física
-        <br>
-        <br>      
-        <input type="radio" name="personType" value="2"> Pessoa Jurídica
-    </div>
+  <div class="form-group">
+    <label for="">Tipo de Pessoa:</label>
+    <br>
+    <input type="radio" name="personType" value="1" checked> Pessoa Física
+    <br>
+    <br>      
+    <input type="radio" name="personType" value="2"> Pessoa Jurídica
+  </div>
 </div>
 
 <jsp:include page="../person/person/new.jsp" />
