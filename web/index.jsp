@@ -14,7 +14,10 @@
   <jsp:include page="includes/commom/index-header.jsp" />  
 
 
-  <div class="section container-fluid">                    
+  <div class="section container-fluid">
+
+    <div id="alerts"></div>
+      
     <div class="col-md-6">
       <div class="panel">
         <div class="panel-body">

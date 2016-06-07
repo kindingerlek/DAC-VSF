@@ -16,6 +16,9 @@
 	</div>
 
 	<div class="section col-md-9">			
+
+		<div id="alerts"></div>
+		
 		<div class="panel">
 			<div class="panel-body">
 				<div class="container-fluid">
