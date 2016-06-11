@@ -9,7 +9,7 @@
 </div>
 
 <form class="form" action="CompleteRegistration" method="POST">
-        <input type="hidden" class="form-control" name="personType" value="${fn:escapeXml(user.type)}">
+	<input type="hidden" class="form-control" name="personType" value="${fn:escapeXml(user.type)}">
 
 	<div class="col-md-12">                                    
 		<div class="form-group">
@@ -21,35 +21,37 @@
 	<div class="col-md-12">                                    
 		<div class="form-group">
 			<label>Email:</label>
-                        <input type="text" class="form-control" name="email" id="email" value="${fn:escapeXml(user.email)}" readonly>
+			<input type="text" class="form-control" name="email" id="email" placeholder="example@domain.com" value="${fn:escapeXml(user.email)}">
 		</div>
 	</div>
 
 	<div class="col-md-6">                                    
 		<div class="form-group">
 			<label>CPF:</label>
-                        <input type="text" class="form-control" name="cpf" id="cpf" value="${fn:escapeXml(user.cpf)}" readonly>
+			<input type="text" class="form-control" name="cpf" id="cpf" value="${fn:escapeXml(user.cpf)}">
+
 		</div>
 	</div>
 
 	<div class="col-md-6">                                    
 		<div class="form-group">
 			<label>RG:</label>
-                        <input type="text" class="form-control" name="rg" id="cpf" value="${fn:escapeXml(user.rg)}" readonly>
+			<input type="text" class="form-control" name="rg" id="rg" placeholder="999.999.999-99" value="${fn:escapeXml(user.rg)}">
 		</div>
 	</div>
 
 	<div class="col-md-6">                                    
 		<div class="form-group">
 			<label>Nome Fantasia:</label>
-                        <input type="text" class="form-control" name="fantasyName" id="tradename" value="${fn:escapeXml(user.fantasyName)}" readonly>
+			<input type="text" class="form-control" name="fantasyName" id="tradename" value="${fn:escapeXml(user.fantasyName)}">
 		</div>
 	</div>
 
 	<div class="col-md-6">                                    
 		<div class="form-group">
 			<label>CNPJ:</label>
-                        <input type="text" class="form-control" name="cnpj" id="cnpj" value="${fn:escapeXml(user.cnpj)}" readonly>
+			<input type="text" class="form-control" name="cnpj" id="cnpj" value="${fn:escapeXml(user.cnpj)}">
+			
 		</div>
 	</div>
 
@@ -116,7 +118,12 @@
 		</div>
 	</div>
 
-
+	<div class="col-md-6">                                    
+		<div class="form-group">
+			<label>Renda Declarada:</label>
+			<input type="text" class="form-control" name="income" id="income" placeholder="R$1000,00">
+		</div>
+	</div>
 
 	<div class="col-md-12 text-center">                                    
 		<button type="submit" class="btn btn-lg btn-primary">Salvar</button>
