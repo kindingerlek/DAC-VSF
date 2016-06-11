@@ -18,7 +18,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "transaction")
-public class Transaction {
+public class AccountTransaction {
     @Id
     @GeneratedValue
     @Column(name = "transaction_id")
@@ -91,10 +91,10 @@ public class Transaction {
     }
     
     //Class structure
-    public Collection<Transaction> getExtract(Date from, Date to, 
+    public Collection<AccountTransaction> getExtract(Date from, Date to, 
             PersonalAccount account){
         //TODO
-        Collection<Transaction> transactions = null;
+        Collection<AccountTransaction> transactions = null;
         return transactions;
     }
 }

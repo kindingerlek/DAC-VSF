@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 import model.Agency;
 import model.PersonalAccount;
-import model.Transaction;
+import model.AccountTransaction;
 import model.User;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -67,7 +67,10 @@ public class UserTest {
         
         System.out.println("updateUser");
         
-        user.setAddress("addressTest");
+        user.setCity("cityTest");
+        user.setNeighborhood("neighborhoodTest");
+        user.setState("stateTest");
+        user.setStreet("streetTest");
         user.setAddressNumber("addNumTest");
         user.setLandPhone("landPhoneTest");
         user.setCellPhone("cellPhoneTest");

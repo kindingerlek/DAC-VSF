@@ -14,18 +14,18 @@
   </p>
 </div>
 
-<form>
+<form action="OpenAccount" method="POST">
   <div class="col-md-12">                                    
     <div class="form-group">
       <label for="">Email:</label>
-      <input type="text" class="form-control" id="exampleInputEmail1" placeholder="exemplo@dominio.com">
+      <input type="text" class="form-control" name="email" placeholder="exemplo@dominio.com">
     </div>
   </div>
 
   <div class="col-md-12">                                    
     <div class="form-group">
       <label for="">Senha:</label>
-      <input type="password" class="form-control" id="exampleInputEmail1" placeholder="********">
+      <input type="password" class="form-control" name="password" placeholder="********">
       <a href="#"> Esqueceu sua senha?</a>
     </div>
   </div>
