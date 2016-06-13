@@ -5,6 +5,7 @@
  */
 package model;
 
+import dao.AgencyDAO;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,9 +21,17 @@ public class Agency {
     @Column(name = "agency_id")
     private int id;
 
-    @Column(name = "agency_number")
-    private int number;
+    @Column(name = "agency_number", length = 5)
+    private String number;
 
+    public Agency(String number) {
+        this.number = number;
+    }
+
+    public Agency() {
+    }
+
+    
     public int getId() {
         return id;
     }
@@ -31,12 +40,20 @@ public class Agency {
         this.id = id;
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
+    }
+    
+    public boolean create() {
+        return AgencyDAO.create(this);
+    }
+    
+    public Agency readByNumber() {
+        return AgencyDAO.read(this);
     }
 
 }

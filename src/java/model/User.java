@@ -34,8 +34,14 @@ public class User {
     private String landPhone;
     @Column(name = "cell_phone")
     private String cellPhone;
-    @Column(name = "address")
-    private String address;
+    @Column(name = "state")
+    private String state;
+    @Column(name = "city")
+    private String city;
+    @Column(name = "neighborhood")
+    private String neighborhood;
+    @Column(name = "street")
+    private String street;
     @Column(name = "address_number")
     private String addressNumber;
     @Column(name = "complement")
@@ -63,6 +69,38 @@ public class User {
     public User() {
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getNeighborhood() {
+        return neighborhood;
+    }
+
+    public void setNeighborhood(String neighborhood) {
+        this.neighborhood = neighborhood;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+    
     public int getId() {
         return id;
     }
@@ -102,14 +140,6 @@ public class User {
 
     public void setCellPhone(String cellPhone) {
         this.cellPhone = cellPhone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getAddressNumber() {
@@ -211,6 +241,35 @@ public class User {
     }
     public boolean delete(){
         return UserDAO.delete(this);
+    }
+    
+    public boolean hasAllInformationPF(){
+        if(this.getCity() == null ||
+            this.getState() == null ||
+            this.getNeighborhood() == null ||
+            this.getStreet() == null ||
+            this.getAddressNumber() == null ||
+            this.getCellPhone() == null ||
+            this.getComplement() == null ||
+            this.getLandPhone() == null ||
+            this.getZipCode() == null ||
+            this.getRg() == null ||
+            this.getCpf() == null ||
+            (this.getCity().isEmpty()) ||
+            (this.getState().isEmpty()) ||
+            (this.getNeighborhood().isEmpty()) ||
+            (this.getStreet().isEmpty()) ||
+            (this.getAddressNumber().isEmpty()) ||
+            (this.getCellPhone().isEmpty()) ||
+            (this.getComplement().isEmpty()) ||
+            (this.getLandPhone().isEmpty()) ||
+            (this.getZipCode().isEmpty()) ||
+            (this.getRg().isEmpty()) ||
+            (this.getCpf().isEmpty())) {
+            return false;
+        } else {
+            return true;
+        }
     }
 //    
 //    public static User auth(String email, String senha){

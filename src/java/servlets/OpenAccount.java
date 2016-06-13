@@ -6,25 +6,26 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.Agency;
+import model.Email;
+import model.PersonalAccount;
 import model.User;
-import org.hibernate.Session;
-import static utilities.HibernateUtils.getSessionFactory;
+import org.apache.commons.mail.EmailException;
 
 /**
  *
  * @author Bruno
  */
-@WebServlet(name = "CompletRegistration", urlPatterns = {"/CompleteRegistration"})
-public class CompleteRegistration extends HttpServlet {
+@WebServlet(name = "OpenAccount", urlPatterns = {"/OpenAccount"})
+public class OpenAccount extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,54 +39,52 @@ public class CompleteRegistration extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        String address;;
+
         String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        HttpSession session = request.getSession();
+
         User user = new User();
         user.setEmail(email);
+
         user = user.read();
-        int type = user.getType();
-        switch(type) {
-            case 1:
-                user.setName(request.getParameter("name"));
-                user.setCpf(request.getParameter("cpf"));
-                user.setRg(request.getParameter("rg"));
-                user.setZipCode(request.getParameter("zipCode"));
-                user.setCity(request.getParameter("city"));
-                user.setState(request.getParameter("state"));
-                user.setNeighborhood(request.getParameter("neighborhood"));
-                user.setStreet(request.getParameter("street"));
-                user.setComplement(request.getParameter("complement"));
-                user.setLandPhone(request.getParameter("landphone"));
-                user.setCellPhone(request.getParameter("cellphone"));
-                user.setAddressNumber(request.getParameter("addressNumber"));
-                
-                user.update();
-                break;
-                
-            case 2:
-                user.setName(request.getParameter("name"));
-                user.setCnpj(request.getParameter("cnpj"));
-                user.setFantasyName(request.getParameter("fantasyName"));
-                user.setZipCode(request.getParameter("zipCode"));
-                user.setCity(request.getParameter("city"));
-                user.setState(request.getParameter("state"));
-                user.setNeighborhood(request.getParameter("neighborhood"));
-                user.setStreet(request.getParameter("street"));
-                user.setComplement(request.getParameter("complement"));
-                user.setLandPhone(request.getParameter("landphone"));
-                user.setCellPhone(request.getParameter("cellphone"));
-                user.setAddressNumber(request.getParameter("addressNumber"));
-                
-                user.update();
-                break;
-                
-            default:
-                //error
+        if (user.getPassword() != null && user.getPassword().equals(password)) {
+            switch (user.getType()) {
+                case 1: {
+                    if (user.hasAllInformationPF()) {
+                        PersonalAccount account = new PersonalAccount();
+                        Agency agency = new Agency();
+                        agency.setNumber("12345");
+                        agency = agency.readByNumber();
+                        account.openAccount(user, agency);
+                        account = account.readByNumber();
+                        int number = Integer.parseInt(account.getNumber().replace("-",""));
+                        number =+ 3987 - 98 + 98765;
+                        String token = Integer.toString(number);
+                        try {
+                            Email.sendEmail(user.getEmail(), token);
+                        } catch (EmailException ex) {
+                            System.out.println("Error: enviar email OpenAccount");
+                        }
+                        System.out.println(account.getId());
+                        session.setAttribute("id", account.getId());
+                        response.sendRedirect("putTokenTemp.jsp");
+                    } else {
+                        this.redirectToRegistration(user, request, response);
+                    }
+                    break;
+                }
+            }
         }
-        
-       response.sendRedirect("index.jsp");
-     }
+
+    }
+
+    public void redirectToRegistration(User user, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        session.setAttribute("user", user);
+
+        response.sendRedirect("registration.jsp");
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

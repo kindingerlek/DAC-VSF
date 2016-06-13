@@ -12,7 +12,7 @@
     <property name="hibernate.hbm2ddl.auto">update</property>
     <mapping class="model.User"/>
     <mapping class="model.PersonalAccount"/>
-    <mapping class="model.Transaction"/>
     <mapping class="model.Agency"/>
+    <mapping class="model.AccountTransaction"/>
   </session-factory>
 </hibernate-configuration>

@@ -7,7 +7,7 @@ package dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import model.User;
+import model.Agency;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -17,15 +17,15 @@ import static utilities.HibernateUtils.getSessionFactory;
  *
  * @author Alisson
  */
-public class UserDAO {
+public class AgencyDAO {
 
-    public static boolean update(User user) {
+    public static boolean update(Agency agency) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = getSessionFactory().openSession();
             session.beginTransaction();
-            session.update(user);
+            session.update(agency);
             transaction = session.getTransaction();
             transaction.commit();
             session.close();
@@ -42,13 +42,13 @@ public class UserDAO {
         }
     }
 
-    public static boolean create(User user) {
+    public static boolean create(Agency agency) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = getSessionFactory().openSession();
             session.beginTransaction();
-            session.save(user);
+            session.save(agency);
             transaction = session.getTransaction();
             transaction.commit();
             session.close();
@@ -63,14 +63,14 @@ public class UserDAO {
         }
     }
 
-    public static List<User> readAll() {
+    public static List<Agency> readAll() {
         Session session = null;
-        List<User> list = new ArrayList();
+        List<Agency> list = new ArrayList();
         try {
             session = getSessionFactory().openSession();
-            list = session.createCriteria(User.class).list();
+            list = session.createCriteria(Agency.class).list();
         } catch (Exception e) {
-            System.out.println("readAll User");
+            System.out.println("readAll Agency");
             System.out.println(e.getMessage());
         } finally {
             session.close();
@@ -78,46 +78,29 @@ public class UserDAO {
         return list;
     }
 
-    public static User read(User user) {
+    public static Agency read(Agency agency) {
         Session session = null;
-        User userReturned = new User();
+        Agency agencyReturned = new Agency();
         try {
             session = getSessionFactory().openSession();
-            Query query = session.createQuery("from User where email = :email");
-            query.setParameter("email", user.getEmail());
-            userReturned = (User) query.uniqueResult();
+            Query query = session.createQuery("from Agency where number = :number");
+            query.setParameter("number", agency.getNumber());
+            agencyReturned = (Agency) query.uniqueResult();
         } catch (Exception e) {
-            System.out.println("read user");
+            System.out.println("read agency");
         } finally {
             session.close();
-            return userReturned;
+            return agencyReturned;
         }
     }
 
-    public static List<User> readAll(String type, String param) {
-        Transaction transaction = null;
-        Session session = null;
-        List<User> list = new ArrayList();
-        try {
-            session = getSessionFactory().openSession();
-            Query query = session.createQuery("from User where " + type + " like :param");
-            query.setParameter("param", "%" + param + "%");
-            list = query.list();
-        } catch (Exception e) {
-            System.out.println("Error readAll Users");
-        } finally {
-            session.close();
-        }
-        return list;
-    }
-
-    public static boolean delete(User user) {
+    public static boolean delete(Agency agency) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = getSessionFactory().openSession();
             session.beginTransaction();
-            session.delete(user);
+            session.delete(agency);
             transaction = session.getTransaction();
             transaction.commit();
             session.close();
