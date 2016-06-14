@@ -83,6 +83,18 @@ public class UserTest {
         System.out.println("deleteUser");
         result = user.delete();
         assertEquals(true, result);
+        
+        Agency ag = new Agency();
+        ag.setNumber("12345");
+        ag.create();
+        
+        ag = new Agency();
+        ag.setNumber("76543");
+        ag.create();
+        
+        ag = new Agency();
+        ag.setNumber("97865");
+        ag.create();
     }
     
 }
