@@ -115,6 +115,23 @@ public class PersonalAccountDAO {
         }
     }
     
+    public static PersonalAccount readByUserIdAndInativeStatus(PersonalAccount personalAccount) {
+        Session session = null;
+        PersonalAccount personalAccountReturned = new PersonalAccount();
+        try {
+            session = getSessionFactory().openSession();
+            Query query = session.createQuery("from PersonalAccount where user = :userId and status = 'inative'");
+            query.setParameter("userId", personalAccount.getUser());
+            System.out.println(personalAccount.getUser().getId());
+            personalAccountReturned = (PersonalAccount) query.uniqueResult();
+        } catch (Exception e) {
+            System.out.println("read personalAccount " + e);
+        } finally {
+            session.close();
+            return personalAccountReturned;
+        }
+    }
+    
     public static Collection<AccountTransaction> readInTransactions(PersonalAccount personalAccount) {
         Session session = null;
         Collection<AccountTransaction> transactionsToReturn = null;

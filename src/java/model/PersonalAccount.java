@@ -6,10 +6,15 @@
 package model;
 
 import dao.PersonalAccountDAO;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -44,10 +49,10 @@ public class PersonalAccount {
 
     @Column(name = "type")
     private int type;
-    
+
     @Column(name = "status")
     private String status;
-    
+
     @Column(name = "password")
     private String password;
 
@@ -101,7 +106,7 @@ public class PersonalAccount {
     public void setId(int id) {
         this.id = id;
     }
-    
+
     public String getStatus() {
         return status;
     }
@@ -139,7 +144,7 @@ public class PersonalAccount {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = hashString(password);
     }
 
     //Class structure
@@ -150,31 +155,71 @@ public class PersonalAccount {
         Random numero = new Random();
         int conta1 = 1 + numero.nextInt(99999);
         int conta2 = 1 + numero.nextInt(9);
-        this.setNumber(Integer.toString(conta1)+"-"+Integer.toString(conta2));
+        this.setNumber(Integer.toString(conta1) + "-" + Integer.toString(conta2));
         this.setType(user.getType());
         this.setUser(user);
-        
+
         return this.create();
     }
-    
+
     public boolean create() {
         return PersonalAccountDAO.create(this);
     }
-    
+
+    public PersonalAccount readByUserIdAndInativeStatus() {
+        PersonalAccount account = new PersonalAccount();
+        account = PersonalAccountDAO.readByUserIdAndInativeStatus(this);
+        if (account != null) {
+            return account;
+        } else {
+            return this;
+        }
+    }
+
     public PersonalAccount readByNumber() {
         PersonalAccount account = PersonalAccountDAO.readByNumber(this);
         this.setId(account.getId());
         return account;
     }
-    
+
     public boolean update() {
         return PersonalAccountDAO.update(this);
     }
-    
+
     public PersonalAccount readById() {
         return PersonalAccountDAO.readById(this);
     }
     
+    public boolean verifyPassword(String password) {
+        if(hashString(password).equals(this.getPassword())){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private String hashString(String message) {
+        
+        try {
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+            byte[] hashedBytes = digest.digest(message.getBytes("UTF-8"));
+
+            return convertByteArrayToHexString(hashedBytes);
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            Logger.getLogger(PersonalAccount.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    private static String convertByteArrayToHexString(byte[] arrayBytes) {
+        StringBuffer stringBuffer = new StringBuffer();
+        for (int i = 0; i < arrayBytes.length; i++) {
+            stringBuffer.append(Integer.toString((arrayBytes[i] & 0xff) + 0x100, 16)
+                    .substring(1));
+        }
+        return stringBuffer.toString();
+    }
+
 //    public PersonalAccount getAccountById(int id) {
 //        //TODO
 //        PersonalAccount account = new PersonalAccount();

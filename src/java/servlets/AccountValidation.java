@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.PersonalAccount;
+import model.User;
 
 /**
  *
@@ -42,9 +43,9 @@ public class AccountValidation extends HttpServlet {
         account.setId(id);
         account = account.readById();
         
-        int number = Integer.parseInt(account.getNumber().replace("-",""));
-        number =+ 3987 - 98 + 98765;
-        String rightToken = Integer.toString(number);
+        User user = account.getUser().read();
+        
+        String rightToken = user.getTokenForAccount();
         
         if(token.equals(rightToken)){
             account.setPassword(password);

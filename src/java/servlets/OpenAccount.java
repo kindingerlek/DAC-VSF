@@ -48,35 +48,47 @@ public class OpenAccount extends HttpServlet {
         user.setEmail(email);
 
         user = user.read();
-        if (user.getPassword() != null && user.getPassword().equals(password)) {
-            switch (user.getType()) {
-                case 1: {
-                    if (user.hasAllInformationPF()) {
-                        PersonalAccount account = new PersonalAccount();
-                        Agency agency = new Agency();
-                        agency.setNumber("12345");
-                        agency = agency.readByNumber();
-                        account.openAccount(user, agency);
-                        account = account.readByNumber();
-                        int number = Integer.parseInt(account.getNumber().replace("-",""));
-                        number =+ 3987 - 98 + 98765;
-                        String token = Integer.toString(number);
-                        try {
-                            Email.sendEmail(user.getEmail(), token);
-                        } catch (EmailException ex) {
-                            System.out.println("Error: enviar email OpenAccount");
-                        }
-                        System.out.println(account.getId());
-                        session.setAttribute("id", account.getId());
-                        response.sendRedirect("putTokenTemp.jsp");
-                    } else {
-                        this.redirectToRegistration(user, request, response);
-                    }
-                    break;
+        if (user.verifyPassword(password)) {
+
+            if (user.hasAllInformation()) {
+                PersonalAccount account = new PersonalAccount();
+                account.setUser(user);
+
+                account = account.readByUserIdAndInativeStatus();
+
+                if (account.getNumber() != null && !account.getNumber().isEmpty()) {
+                    createTokenAndRedirect(account, user, session, response);
+                } else {
+                    Agency agency = new Agency();
+                    agency.setNumber("12345");
+                    agency = agency.readByNumber();
+
+                    account.openAccount(user, agency);
+                    account = account.readByNumber();
+                    createTokenAndRedirect(account, user, session, response);
                 }
+            } else {
+                this.redirectToRegistration(user, request, response);
             }
         }
 
+    }
+
+    public void createTokenAndRedirect(PersonalAccount account, User user, HttpSession session, HttpServletResponse response) throws IOException {
+        int number = Integer.parseInt(account.getNumber().replace("-", ""));
+        number = (int) +System.currentTimeMillis();
+        String token = Integer.toString(number);
+        
+        user.setTokenForAccount(token);
+        user.update();
+        
+        try {
+            Email.sendEmail(user.getEmail(), token);
+        } catch (EmailException ex) {
+            System.out.println("Error: enviar email OpenAccount");
+        }
+        session.setAttribute("id", account.getId());
+        response.sendRedirect("putTokenTemp.jsp");
     }
 
     public void redirectToRegistration(User user, HttpServletRequest request, HttpServletResponse response) throws IOException {

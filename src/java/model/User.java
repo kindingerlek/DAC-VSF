@@ -6,9 +6,14 @@
 package model;
 
 import dao.UserDAO;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -60,6 +65,8 @@ public class User {
     private int type;
     @Column(name = "fantasy_name")
     private String fantasyName;
+    @Column(name = "token_for_account")
+    private String tokenForAccount;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, targetEntity = PersonalAccount.class, cascade = CascadeType.ALL)
     private List<PersonalAccount> accountList;
@@ -100,6 +107,14 @@ public class User {
     public void setStreet(String street) {
         this.street = street;
     }
+
+    public String getTokenForAccount() {
+        return tokenForAccount;
+    }
+
+    public void setTokenForAccount(String tokenForAccount) {
+        this.tokenForAccount = tokenForAccount;
+    }
     
     public int getId() {
         return id;
@@ -114,7 +129,7 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = hashString(password);
     }
 
     public String getEmail() {
@@ -243,6 +258,14 @@ public class User {
         return UserDAO.delete(this);
     }
     
+    public boolean hasAllInformation() {
+        if(this.getType() == 1) {
+            return hasAllInformationPF();
+        } else {
+            return hasAllInformationPJ();
+        }
+    }
+    
     public boolean hasAllInformationPF(){
         if(this.getCity() == null ||
             this.getState() == null ||
@@ -270,6 +293,65 @@ public class User {
         } else {
             return true;
         }
+    }
+    
+    public boolean hasAllInformationPJ(){
+        if(this.getCity() == null ||
+            this.getState() == null ||
+            this.getNeighborhood() == null ||
+            this.getStreet() == null ||
+            this.getAddressNumber() == null ||
+            this.getCellPhone() == null ||
+            this.getComplement() == null ||
+            this.getLandPhone() == null ||
+            this.getZipCode() == null ||
+            this.getFantasyName() == null ||
+            this.getCnpj()== null ||
+            (this.getCity().isEmpty()) ||
+            (this.getState().isEmpty()) ||
+            (this.getNeighborhood().isEmpty()) ||
+            (this.getStreet().isEmpty()) ||
+            (this.getAddressNumber().isEmpty()) ||
+            (this.getCellPhone().isEmpty()) ||
+            (this.getComplement().isEmpty()) ||
+            (this.getLandPhone().isEmpty()) ||
+            (this.getZipCode().isEmpty()) ||
+            (this.getFantasyName().isEmpty()) ||
+            (this.getCnpj().isEmpty())) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    public boolean verifyPassword(String password) {
+        if(password != null && hashString(password).equals(this.getPassword())){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private String hashString(String message) {
+        
+        try {
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+            byte[] hashedBytes = digest.digest(message.getBytes("UTF-8"));
+
+            return convertByteArrayToHexString(hashedBytes);
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            Logger.getLogger(PersonalAccount.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    private static String convertByteArrayToHexString(byte[] arrayBytes) {
+        StringBuffer stringBuffer = new StringBuffer();
+        for (int i = 0; i < arrayBytes.length; i++) {
+            stringBuffer.append(Integer.toString((arrayBytes[i] & 0xff) + 0x100, 16)
+                    .substring(1));
+        }
+        return stringBuffer.toString();
     }
 //    
 //    public static User auth(String email, String senha){
