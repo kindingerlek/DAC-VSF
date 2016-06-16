@@ -23,10 +23,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import utilities.Utils;
 
 @Entity
 @Table(name = "tbuser")
 public class User {
+
     @Id
     @GeneratedValue
     @Column(name = "user_id")
@@ -71,7 +73,6 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, targetEntity = PersonalAccount.class, cascade = CascadeType.ALL)
     private List<PersonalAccount> accountList;
 
-    
     // Beans Structure
     public User() {
     }
@@ -115,7 +116,7 @@ public class User {
     public void setTokenForAccount(String tokenForAccount) {
         this.tokenForAccount = tokenForAccount;
     }
-    
+
     public int getId() {
         return id;
     }
@@ -140,7 +141,6 @@ public class User {
         this.email = email;
     }
 
- 
     public String getLandPhone() {
         return landPhone;
     }
@@ -197,8 +197,12 @@ public class User {
         return cpf;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setCpf(String cpf) throws Exception {
+        if (Utils.isValidCPF(cpf)) {
+            this.cpf = cpf;
+        } else {
+            throw new Exception("CPF inválido.");
+        }
     }
 
     public String getRg() {
@@ -213,8 +217,13 @@ public class User {
         return cnpj;
     }
 
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
+    public void setCnpj(String cnpj) throws Exception {
+        if (Utils.isValidCNPJ(cnpj)) {
+            this.cnpj = cnpj;
+
+        } else {
+            throw new Exception("CNPJ inválido.");
+        }
     }
 
     public String getName() {
@@ -240,92 +249,125 @@ public class User {
     public void setFantasyName(String fantasyName) {
         this.fantasyName = fantasyName;
     }
-    
+
     //Class Structure
-    
     public boolean create() {
-        return UserDAO.create(this);
+        if (getType() == 1) {
+            if (hasNecessaryInformationPf()) {
+                return UserDAO.create(this);
+
+            } else {
+                return false;
+            }
+        } else if (hasNecessaryInformationPj()) {
+            return UserDAO.create(this);
+        } else {
+            return false;
+        }
     }
-    
+
     public User read() {
         return UserDAO.read(this);
     }
-    
-    public boolean update(){
+
+    public boolean update() {
         return UserDAO.update(this);
     }
-    public boolean delete(){
+
+    public boolean delete() {
         return UserDAO.delete(this);
     }
-    
+
     public boolean hasAllInformation() {
-        if(this.getType() == 1) {
+        if (this.getType() == 1) {
             return hasAllInformationPF();
         } else {
             return hasAllInformationPJ();
         }
     }
-    
-    public boolean hasAllInformationPF(){
-        if(this.getCity() == null ||
-            this.getState() == null ||
-            this.getNeighborhood() == null ||
-            this.getStreet() == null ||
-            this.getAddressNumber() == null ||
-            this.getCellPhone() == null ||
-            this.getComplement() == null ||
-            this.getLandPhone() == null ||
-            this.getZipCode() == null ||
-            this.getRg() == null ||
-            this.getCpf() == null ||
-            (this.getCity().isEmpty()) ||
-            (this.getState().isEmpty()) ||
-            (this.getNeighborhood().isEmpty()) ||
-            (this.getStreet().isEmpty()) ||
-            (this.getAddressNumber().isEmpty()) ||
-            (this.getCellPhone().isEmpty()) ||
-            (this.getComplement().isEmpty()) ||
-            (this.getLandPhone().isEmpty()) ||
-            (this.getZipCode().isEmpty()) ||
-            (this.getRg().isEmpty()) ||
-            (this.getCpf().isEmpty())) {
-            return false;
-        } else {
-            return true;
-        }
+
+    public boolean hasNecessaryInformationPj() {
+        return !(this.getEmail() == null
+                || this.getFantasyName() == null
+                || this.getCnpj() == null
+                || this.getPassword() == null
+                || this.getPassword().isEmpty()
+                || this.getEmail().isEmpty()
+                || this.getFantasyName().isEmpty()
+                || this.getCnpj().isEmpty());
     }
-    
-    public boolean hasAllInformationPJ(){
-        if(this.getCity() == null ||
-            this.getState() == null ||
-            this.getNeighborhood() == null ||
-            this.getStreet() == null ||
-            this.getAddressNumber() == null ||
-            this.getCellPhone() == null ||
-            this.getComplement() == null ||
-            this.getLandPhone() == null ||
-            this.getZipCode() == null ||
-            this.getFantasyName() == null ||
-            this.getCnpj()== null ||
-            (this.getCity().isEmpty()) ||
-            (this.getState().isEmpty()) ||
-            (this.getNeighborhood().isEmpty()) ||
-            (this.getStreet().isEmpty()) ||
-            (this.getAddressNumber().isEmpty()) ||
-            (this.getCellPhone().isEmpty()) ||
-            (this.getComplement().isEmpty()) ||
-            (this.getLandPhone().isEmpty()) ||
-            (this.getZipCode().isEmpty()) ||
-            (this.getFantasyName().isEmpty()) ||
-            (this.getCnpj().isEmpty())) {
-            return false;
-        } else {
-            return true;
-        }
+
+    public boolean hasNecessaryInformationPf() {
+        return !(this.getEmail() == null
+                || this.getRg() == null
+                || this.getCpf() == null
+                || this.getPassword() == null
+                || this.getPassword().isEmpty()
+                || this.getEmail().isEmpty()
+                || this.getRg().isEmpty()
+                || this.getCpf().isEmpty());
     }
-    
+
+    public boolean hasAllInformationPF() {
+        return !(this.getCity() == null
+                || this.getState() == null
+                || this.getNeighborhood() == null
+                || this.getStreet() == null
+                || this.getAddressNumber() == null
+                || this.getCellPhone() == null
+                || this.getComplement() == null
+                || this.getLandPhone() == null
+                || this.getZipCode() == null
+                || this.getRg() == null
+                || this.getCpf() == null
+                || this.getEmail() == null
+                || this.getPassword() == null
+                || this.getPassword().isEmpty()
+                || this.getEmail().isEmpty()
+                || (this.getCity().isEmpty())
+                || (this.getState().isEmpty())
+                || (this.getNeighborhood().isEmpty())
+                || (this.getStreet().isEmpty())
+                || (this.getAddressNumber().isEmpty())
+                || (this.getCellPhone().isEmpty())
+                || (this.getComplement().isEmpty())
+                || (this.getLandPhone().isEmpty())
+                || (this.getZipCode().isEmpty())
+                || (this.getRg().isEmpty())
+                || (this.getCpf().isEmpty()));
+    }
+
+    public boolean hasAllInformationPJ() {
+        return !(this.getCity() == null
+                || this.getState() == null
+                || this.getNeighborhood() == null
+                || this.getStreet() == null
+                || this.getAddressNumber() == null
+                || this.getCellPhone() == null
+                || this.getComplement() == null
+                || this.getLandPhone() == null
+                || this.getZipCode() == null
+                || this.getFantasyName() == null
+                || this.getCnpj() == null
+                || this.getEmail() == null
+                || this.getPassword() == null
+                || this.getPassword().isEmpty()
+                || this.getEmail().isEmpty()
+                || (this.getCity().isEmpty())
+                || (this.getState().isEmpty())
+                || (this.getNeighborhood().isEmpty())
+                || (this.getStreet().isEmpty())
+                || (this.getAddressNumber().isEmpty())
+                || (this.getCellPhone().isEmpty())
+                || (this.getComplement().isEmpty())
+                || (this.getLandPhone().isEmpty())
+                || (this.getZipCode().isEmpty())
+                || (this.getFantasyName().isEmpty())
+                || (this.getCnpj().isEmpty()));
+    }
+
     public boolean verifyPassword(String password) {
-        if(password != null && hashString(password).equals(this.getPassword())){
+        if (password != null && hashString(password).equals(this.getPassword())) {
             return true;
         } else {
             return false;
@@ -333,7 +375,7 @@ public class User {
     }
 
     private String hashString(String message) {
-        
+
         try {
             MessageDigest digest = MessageDigest.getInstance("MD5");
             byte[] hashedBytes = digest.digest(message.getBytes("UTF-8"));
@@ -378,12 +420,11 @@ public class User {
 //        Collection<Transaction> transactions = new Collection<>();
 //        return transactions;
 //    }
-    
-     /*
+
+    /*
     public static boolean auth(String email, String senha){
         User user = new User();
         user.setEmail(email);
         return true;
-    */
-    
+     */
 }

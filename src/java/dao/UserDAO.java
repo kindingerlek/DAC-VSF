@@ -83,11 +83,26 @@ public class UserDAO {
         User userReturned = new User();
         try {
             session = getSessionFactory().openSession();
-            Query query = session.createQuery("from User where email = :email");
-            query.setParameter("email", user.getEmail());
-            userReturned = (User) query.uniqueResult();
+
+            if (user.getEmail()!= null && !user.getEmail().isEmpty()) {
+                Query query = session.createQuery("from User where email = :email");
+                query.setParameter("email", user.getEmail());
+                userReturned = (User) query.uniqueResult();
+
+            } else if (user.getCnpj()!= null && !user.getCnpj().isEmpty()) {
+                Query query = session.createQuery("from User where cnpj = :cnpj");
+                query.setParameter("cnpj", user.getCnpj());
+                userReturned = (User) query.uniqueResult();
+
+            } else if (user.getCpf()!= null && !user.getCpf().isEmpty()) {
+                Query query = session.createQuery("from User where cpf = :cpf");
+                query.setParameter("cpf", user.getCpf());
+                userReturned = (User) query.uniqueResult();
+            } else {
+                System.out.println("User should has cpf, cnpj or email, but does not has neither");
+            }
         } catch (Exception e) {
-            System.out.println("read user");
+            System.out.println("read user " +e);
         } finally {
             session.close();
             return userReturned;
