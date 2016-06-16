@@ -39,27 +39,8 @@
     </div>
   </div>  
 
-  <script>
-    $(document).ready(function(){
-      $('input').iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'iradio_square-blue',
-      });
-
-      $("input[name=personType]:radio").on('ifChecked', function(event){
-        if (this.value == '1') {
-          $('#person-section').show();            
-          $('#enterprise-section').hide();
-        }
-        else {       
-          $('#person-section').hide();            
-          $('#enterprise-section').show();
-        }
-      });
-
-    });
-
-  </script>
+  <script src="./js/newPersonValidation.js"></script>
+  <script src="./js/indexBehavior.js"></script>
 
 </body>
 </html>

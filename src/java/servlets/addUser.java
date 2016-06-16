@@ -7,6 +7,8 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,30 +41,51 @@ public class addUser extends HttpServlet {
         User user = new User();
         user.setType(Integer.parseInt((String) request.getParameter("personType")));
         HttpSession session = request.getSession();
-        
+
         if (password.equals(confirmPassword)) {
             switch (user.getType()) {
                 case 1:
                     user.setName((String) request.getParameter("name"));
                     user.setEmail((String) request.getParameter("email"));
-                    user.setCpf((String) request.getParameter("cpf"));
+
+                    try {
+                        user.setCpf((String) request.getParameter("cpf"));
+                    } catch (Exception ex) {
+                        System.out.println("error cpf invalido");
+                    }
+
                     user.setRg((String) request.getParameter("rg"));
                     user.setPassword(password);
-                    user.create();
+                    if (user.create()) {
+                        session.setAttribute("user", user);
+                        response.sendRedirect("registration.jsp");
+                    } else {
+                        System.out.println("error create user");
+                    }
                     break;
                 case 2:
                     user.setName((String) request.getParameter("name"));
                     user.setFantasyName((String) request.getParameter("fantasyName"));
                     user.setEmail((String) request.getParameter("email"));
-                    user.setCnpj((String) request.getParameter("cnpj"));
+
+                    try {
+                        user.setCnpj((String) request.getParameter("cnpj"));
+                    } catch (Exception ex) {
+                        System.out.println("error cnpj invalido");
+                    }
+
                     user.setPassword(password);
-                    user.create();
+                    if (user.create()) {
+                        session.setAttribute("user", user);
+                        response.sendRedirect("registration.jsp");
+                    } else {
+                        System.out.println("error create user");
+                    }
                     break;
                 default:
-                    //error
+                //error
             }
-            session.setAttribute("user", user);
-            response.sendRedirect("registration.jsp");
+
         } else {
             //error
         }
