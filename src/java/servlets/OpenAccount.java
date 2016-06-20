@@ -6,6 +6,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -19,6 +20,7 @@ import model.Email;
 import model.PersonalAccount;
 import model.User;
 import org.apache.commons.mail.EmailException;
+import utilities.PageMessage;
 
 /**
  *
@@ -70,6 +72,16 @@ public class OpenAccount extends HttpServlet {
             } else {
                 this.redirectToRegistration(user, request, response);
             }
+        } else {
+            System.out.println("euhauehaueh");
+//            ArrayList<PageMessage> errors = new ArrayList();
+//            PageMessage e1 = new PageMessage();
+//            e1.setText("A senha que você digitou está incorreta.");
+//            e1.setTitle("Senha inválda.");
+//            e1.setType("danger");
+//            errors.add(e1);
+//            session.setAttribute("messages", errors);
+            response.sendRedirect("index.jsp");
         }
 
     }

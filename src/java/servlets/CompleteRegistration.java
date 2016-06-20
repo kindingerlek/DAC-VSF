@@ -14,10 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Agency;
 import model.User;
-import org.hibernate.Session;
-import static utilities.HibernateUtils.getSessionFactory;
 
 /**
  *
@@ -39,7 +36,6 @@ public class CompleteRegistration extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        String address;;
         String email = request.getParameter("email");
         User user = new User();
         user.setEmail(email);
@@ -59,6 +55,7 @@ public class CompleteRegistration extends HttpServlet {
                 user.setLandPhone(request.getParameter("landphone"));
                 user.setCellPhone(request.getParameter("cellphone"));
                 user.setAddressNumber(request.getParameter("addressNumber"));
+                user.setIncome(Double.parseDouble(request.getParameter("income")));
                 
                 user.update();
                 break;
@@ -76,6 +73,7 @@ public class CompleteRegistration extends HttpServlet {
                 user.setLandPhone(request.getParameter("landphone"));
                 user.setCellPhone(request.getParameter("cellphone"));
                 user.setAddressNumber(request.getParameter("addressNumber"));
+                user.setIncome(Double.parseDouble(request.getParameter("income")));
                 
                 user.update();
                 break;
