@@ -6,9 +6,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,16 +32,19 @@ public class CompleteRegistration extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
         String email = request.getParameter("email");
         User user = new User();
         user.setEmail(email);
         user = user.read();
         int type = user.getType();
-        switch(type) {
+        switch (type) {
             case 1:
                 user.setName(request.getParameter("name"));
-                user.setCpf(request.getParameter("cpf"));
+                try {
+                    user.setCpf(request.getParameter("cpf"));
+                } catch (Exception ex) {
+                    System.out.println("error cpf invalido");
+                }
                 user.setRg(request.getParameter("rg"));
                 user.setZipCode(request.getParameter("zipCode"));
                 user.setCity(request.getParameter("city"));
@@ -56,13 +56,16 @@ public class CompleteRegistration extends HttpServlet {
                 user.setCellPhone(request.getParameter("cellphone"));
                 user.setAddressNumber(request.getParameter("addressNumber"));
                 user.setIncome(Double.parseDouble(request.getParameter("income")));
-                
                 user.update();
                 break;
-                
+
             case 2:
                 user.setName(request.getParameter("name"));
-                user.setCnpj(request.getParameter("cnpj"));
+                try {
+                    user.setCnpj(request.getParameter("cnpj"));
+                } catch (Exception ex) {
+                    System.out.println("error cnjp invalido");
+                }
                 user.setFantasyName(request.getParameter("fantasyName"));
                 user.setZipCode(request.getParameter("zipCode"));
                 user.setCity(request.getParameter("city"));
@@ -77,13 +80,13 @@ public class CompleteRegistration extends HttpServlet {
                 
                 user.update();
                 break;
-                
+
             default:
-                //error
+            //error
         }
-        
-       response.sendRedirect("index.jsp");
-     }
+
+        response.sendRedirect("index.jsp");
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
