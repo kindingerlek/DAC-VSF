@@ -32,8 +32,6 @@ public class CompleteRegistration extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        String address;
         String email = request.getParameter("email");
         User user = new User();
         user.setEmail(email);
@@ -57,7 +55,7 @@ public class CompleteRegistration extends HttpServlet {
                 user.setLandPhone(request.getParameter("landphone"));
                 user.setCellPhone(request.getParameter("cellphone"));
                 user.setAddressNumber(request.getParameter("addressNumber"));
-
+                user.setIncome(Double.parseDouble(request.getParameter("income")));
                 user.update();
                 break;
 
@@ -78,7 +76,8 @@ public class CompleteRegistration extends HttpServlet {
                 user.setLandPhone(request.getParameter("landphone"));
                 user.setCellPhone(request.getParameter("cellphone"));
                 user.setAddressNumber(request.getParameter("addressNumber"));
-
+                user.setIncome(Double.parseDouble(request.getParameter("income")));
+                
                 user.update();
                 break;
 
