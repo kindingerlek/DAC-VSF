@@ -15,12 +15,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import model.Agency;
 import model.Email;
 import model.PersonalAccount;
 import model.User;
 import org.apache.commons.mail.EmailException;
 import utilities.PageMessage;
+import webService.DebtorActualSituation;
 
 /**
  *
@@ -42,6 +47,9 @@ public class OpenAccount extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
+        Client client = ClientBuilder.newClient();
+        String uri = "http://172.31.41.180:8084/DAC-DOR/webresources/debtorSituation?debtorIdentifier=";
+
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         HttpSession session = request.getSession();
@@ -50,30 +58,42 @@ public class OpenAccount extends HttpServlet {
         user.setEmail(email);
 
         user = user.read();
-        if (user.verifyPassword(password)) {
+        if (user != null) {
+            if (user.verifyPassword(password)) {
+                uri += user.getIdentifier();
 
-            if (user.hasAllInformation()) {
-                PersonalAccount account = new PersonalAccount();
-                account.setUser(user);
+                Response res = client
+                        .target(uri)
+                        .request(MediaType.APPLICATION_JSON)
+                        .get();
 
-                account = account.readByUserIdAndInativeStatus();
+                DebtorActualSituation debtor = res.readEntity(DebtorActualSituation.class);
+                if (!debtor.isIndebt()) {
+                    if (user.hasAllInformation()) {
+                        PersonalAccount account = new PersonalAccount();
+                        account.setUser(user);
 
-                if (account.getNumber() != null && !account.getNumber().isEmpty()) {
-                    createTokenAndRedirect(account, user, session, response);
+                        account = account.readByUserIdAndInativeStatus();
+
+                        if (account.getNumber() != null && !account.getNumber().isEmpty()) {
+                            createTokenAndRedirect(account, user, session, response);
+                        } else {
+                            Agency agency = new Agency();
+                            agency.setNumber("12345");
+                            agency = agency.readByNumber();
+
+                            account.openAccount(user, agency);
+                            account = account.readByNumber();
+                            createTokenAndRedirect(account, user, session, response);
+                        }
+                    } else {
+                        this.redirectToRegistration(user, request, response);
+                    }
                 } else {
-                    Agency agency = new Agency();
-                    agency.setNumber("12345");
-                    agency = agency.readByNumber();
-
-                    account.openAccount(user, agency);
-                    account = account.readByNumber();
-                    createTokenAndRedirect(account, user, session, response);
+                    //TA DEVENDO MALANDRO
                 }
             } else {
-                this.redirectToRegistration(user, request, response);
-            }
-        } else {
-            System.out.println("euhauehaueh");
+//            System.out.println("euhauehaueh");
 //            ArrayList<PageMessage> errors = new ArrayList();
 //            PageMessage e1 = new PageMessage();
 //            e1.setText("A senha que você digitou está incorreta.");
@@ -81,7 +101,9 @@ public class OpenAccount extends HttpServlet {
 //            e1.setType("danger");
 //            errors.add(e1);
 //            session.setAttribute("messages", errors);
-            response.sendRedirect("index.jsp");
+                response.sendRedirect("index.jsp");
+            }
+            //error usuario nao existe
         }
 
     }
@@ -90,10 +112,10 @@ public class OpenAccount extends HttpServlet {
         int number = Integer.parseInt(account.getNumber().replace("-", ""));
         number = (int) +System.currentTimeMillis();
         String token = Integer.toString(number);
-        
+
         user.setTokenForAccount(token);
         user.update();
-        
+
         try {
             Email.sendEmail(user.getEmail(), token);
         } catch (EmailException ex) {

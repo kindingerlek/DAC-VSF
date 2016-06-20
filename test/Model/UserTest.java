@@ -47,12 +47,12 @@ public class UserTest {
      * Test of getId method, of class User.
      */
     @Test
-    public void testCreateAndUpdateUser() {
+    public void testCreateAndUpdateUser() throws Exception {
         System.out.println("createUser");
         
         User user = new User();
         
-        user.setCpf("cpfTest");
+        user.setCpf("11111111111");
         user.setRg("rgTest");
         user.setEmail("test@email");
         user.setName("nameTest");

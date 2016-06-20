@@ -203,6 +203,14 @@ public class User {
         return accountList.get(indexPersonalAccount);
     }
 
+    public String getIdentifier() {
+        if(getType() == 1) {
+            return getCpf();
+        } else {
+            return getCnpj();
+        }
+    }
+    
     public String getCpf() {
         return cpf;
     }
