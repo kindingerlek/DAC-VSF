@@ -65,7 +65,10 @@ public class PersonalAccount {
 
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, targetEntity = AccountTransaction.class, cascade = CascadeType.ALL)
     private Collection<AccountTransaction> transactionsOut;
-
+    
+    @Column(name = "limit")
+    private Double limit;
+    
     //Bean structure / getters & setters
     public User getUser() {
         return user;
@@ -73,6 +76,14 @@ public class PersonalAccount {
 
     public void setUser(User user) {
         this.user = user;
+    }
+    
+    public Double getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Double limit) {
+        this.limit = limit;
     }
 
     public int getType() {
@@ -158,6 +169,10 @@ public class PersonalAccount {
         this.setNumber(Integer.toString(conta1) + "-" + Integer.toString(conta2));
         this.setType(user.getType());
         this.setUser(user);
+        
+        if(user.getIncome() > 1000) {
+            this.setLimit(user.getIncome() * 0.5);
+        }
 
         return this.create();
     }
