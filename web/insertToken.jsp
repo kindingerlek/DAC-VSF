@@ -24,15 +24,22 @@
                         <hr>
 
                         <p>
-                            Para ativar sua conta, é necessário verificar sua 
-                            autenticidade! Por favor verifique seu e-mail, e 
-                            insira o código enviado no campo abaixo.
-                        </p>     
+                            Para sua proteção, este sistema possui uma interface
+                            de segurança chamada token. Assim, você não precisa se
+                            preocupar caso alguém descubra sua senha, pois ela 
+                            precisará do seu código token!</p>
+
+                        <div class="text-center" id="insert-token">
+                            <p>
+                                Insira este código no app do token:
+                            </p>
+                            <h2 id="code">1234</h2>
+                        </div>                        
 
                         <form action="AccountValidation?id=${sessionScope.id}" method="POST" class="form">                            
                             <div class="col-md-12">                                    
                                 <div class="form-group">
-                                    <label for="">Código token enviado no seu e-mail:</label>
+                                    <label for="">Código token gerado:</label>
                                     <input type="text" name="token" class="form-control">
                                 </div>
                             </div>
