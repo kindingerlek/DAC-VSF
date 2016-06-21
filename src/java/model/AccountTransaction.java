@@ -5,6 +5,7 @@
  */
 package model;
 
+import dao.AccountTransactionDAO;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -97,4 +98,10 @@ public class AccountTransaction {
         Collection<AccountTransaction> transactions = null;
         return transactions;
     }
+    
+    public boolean create() {
+        return AccountTransactionDAO.create(this);
+    }
+    
+    
 }

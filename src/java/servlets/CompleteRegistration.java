@@ -37,6 +37,14 @@ public class CompleteRegistration extends HttpServlet {
         user.setEmail(email);
         user = user.read();
         int type = user.getType();
+        Double income = null;
+        
+        if(request.getParameter("income").equals("")) {
+            income = 0.0;
+        } else {
+            Double.parseDouble(request.getParameter("income"));
+        }
+        
         switch (type) {
             case 1:
                 user.setName(request.getParameter("name"));
@@ -55,7 +63,7 @@ public class CompleteRegistration extends HttpServlet {
                 user.setLandPhone(request.getParameter("landphone"));
                 user.setCellPhone(request.getParameter("cellphone"));
                 user.setAddressNumber(request.getParameter("addressNumber"));
-                user.setIncome(Double.parseDouble(request.getParameter("income")));
+                user.setIncome(income);
                 user.update();
                 break;
 
@@ -76,7 +84,7 @@ public class CompleteRegistration extends HttpServlet {
                 user.setLandPhone(request.getParameter("landphone"));
                 user.setCellPhone(request.getParameter("cellphone"));
                 user.setAddressNumber(request.getParameter("addressNumber"));
-                user.setIncome(Double.parseDouble(request.getParameter("income")));
+                user.setIncome(income);
                 
                 user.update();
                 break;
