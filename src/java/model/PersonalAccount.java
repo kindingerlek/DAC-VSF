@@ -216,7 +216,7 @@ public class PersonalAccount {
     }
 
     public PersonalAccount readByUser() {
-        PersonalAccount account = new PersonalAccount();
+        PersonalAccount account;
         account = PersonalAccountDAO.readByUser(this);
         return account;
     }
@@ -235,11 +235,7 @@ public class PersonalAccount {
     }
 
     public boolean verifyPassword(String password) {
-        if (hashString(password).equals(this.getPassword())) {
-            return true;
-        } else {
-            return false;
-        }
+        return hashString(password).equals(this.getPassword());
     }
 
     private String hashString(String message) {
