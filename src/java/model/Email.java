@@ -15,9 +15,16 @@ import org.apache.commons.mail.SimpleEmail;
  */
 public class Email {
 
-    public static void sendEmail(String receiver, String message) throws EmailException {
+    public static void sendConfirmation(String receiver, String token, PersonalAccount account) throws EmailException {
 
         SimpleEmail email = new SimpleEmail();
+        String message = "Sua conta foi criada com sucesso, porém ainda está inativa.\n";
+        message += "Número da conta: " + account.getNumber() + "\n";
+        message += "Agência: " + account.getAgency().getNumber() + "\n";
+        message += "Token de autentificação: " + token + "\n";
+        message += "Com este token você é capaz de definir uma senha para sua conta para então, utilizá-la.\n";
+        message += "\nCaso você perca este token, entre novamente com as informações para abrir conta,";
+        message +=" e um novo token será gerado e reenviado à você.";
 
         try {
             email.setHostName("smtp.googlemail.com");
@@ -31,9 +38,7 @@ public class Email {
             email.send();
 
         } catch (EmailException e) {
-            System.out.println("euaheuahueahuaeh");
             System.out.println(e.getMessage());
-
         }
 
     }

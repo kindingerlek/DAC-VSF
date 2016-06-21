@@ -69,6 +69,8 @@ public class User {
     private String fantasyName;
     @Column(name = "token_for_account")
     private String tokenForAccount;
+    @Column(name = "income")
+    private Double income;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, targetEntity = PersonalAccount.class, cascade = CascadeType.ALL)
     private List<PersonalAccount> accountList;
@@ -107,6 +109,14 @@ public class User {
 
     public void setStreet(String street) {
         this.street = street;
+    }
+    
+    public Double getIncome() {
+        return income;
+    }
+
+    public void setIncome(Double income) {
+        this.income = income;
     }
 
     public String getTokenForAccount() {
@@ -193,6 +203,14 @@ public class User {
         return accountList.get(indexPersonalAccount);
     }
 
+    public String getIdentifier() {
+        if(getType() == 1) {
+            return getCpf();
+        } else {
+            return getCnpj();
+        }
+    }
+    
     public String getCpf() {
         return cpf;
     }

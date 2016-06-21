@@ -36,7 +36,6 @@ public class UserDAO {
                 throw e;
             }
             System.out.println(e.getMessage());
-            System.out.println("EUAHEUAHUEHAUEAHUHEAU");
             session.close();
             return false;
         }

@@ -21,14 +21,14 @@
 	<div class="col-md-12">                                    
 		<div class="form-group">
 			<label>Email:</label>
-			<input type="text" class="form-control" name="email" id="email" placeholder="example@domain.com" value="${fn:escapeXml(user.email)}">
+			<input type="text" class="form-control" name="email" id="email" placeholder="example@domain.com" value="${fn:escapeXml(user.email)}" readonly>
 		</div>
 	</div>
 
 	<div class="col-md-6">                                    
 		<div class="form-group">
 			<label>CPF:</label>
-			<input type="text" class="form-control" name="cpf" id="cpf" value="${fn:escapeXml(user.cpf)}">
+			<input type="text" class="form-control" name="cpf" id="cpf" value="${fn:escapeXml(user.cpf)}" readonly>
 
 		</div>
 	</div>
@@ -36,7 +36,7 @@
 	<div class="col-md-6">                                    
 		<div class="form-group">
 			<label>RG:</label>
-			<input type="text" class="form-control" name="rg" id="rg" placeholder="999.999.999-99" value="${fn:escapeXml(user.rg)}">
+			<input type="text" class="form-control" name="rg" id="rg" placeholder="999.999.999-99" value="${fn:escapeXml(user.rg)}" readonly>
 		</div>
 	</div>
 
@@ -50,7 +50,7 @@
 	<div class="col-md-6">                                    
 		<div class="form-group">
 			<label>CNPJ:</label>
-			<input type="text" class="form-control" name="cnpj" id="cnpj" value="${fn:escapeXml(user.cnpj)}">
+			<input type="text" class="form-control" name="cnpj" id="cnpj" value="${fn:escapeXml(user.cnpj)}" readonly>
 			
 		</div>
 	</div>
