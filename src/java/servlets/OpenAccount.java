@@ -117,7 +117,7 @@ public class OpenAccount extends HttpServlet {
         user.update();
 
         try {
-            Email.sendEmail(user.getEmail(), token);
+            Email.sendConfirmation(user.getEmail(), token, account);
         } catch (EmailException ex) {
             System.out.println("Error: enviar email OpenAccount");
         }

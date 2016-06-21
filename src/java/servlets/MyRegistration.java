@@ -36,8 +36,7 @@ public class MyRegistration extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         PersonalAccount account = new PersonalAccount();
-        account.setNumber("19655-2");
-//account.setId(6);
+        account.setNumber("81033-9");
         account = account.readByNumber();
 
         request.setAttribute("account", account);

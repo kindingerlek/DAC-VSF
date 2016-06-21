@@ -21,7 +21,7 @@ public class Agency {
     @Column(name = "agency_id")
     private int id;
 
-    @Column(name = "agency_number", length = 5)
+    @Column(name = "agency_number", nullable = false, length = 5)
     private String number;
 
     public Agency(String number) {
@@ -31,7 +31,6 @@ public class Agency {
     public Agency() {
     }
 
-    
     public int getId() {
         return id;
     }
@@ -47,11 +46,11 @@ public class Agency {
     public void setNumber(String number) {
         this.number = number;
     }
-    
+
     public boolean create() {
         return AgencyDAO.create(this);
     }
-    
+
     public Agency readByNumber() {
         return AgencyDAO.read(this);
     }

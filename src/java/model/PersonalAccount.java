@@ -57,7 +57,7 @@ public class PersonalAccount {
     @Column(name = "balance")
     private Double balance;
 
-    @Column(name = "limit")
+    @Column(name = "account_limit")
     private Double limit;
     @OneToMany(mappedBy = "transactionAccount", fetch = FetchType.LAZY, targetEntity = AccountTransaction.class, cascade = CascadeType.ALL)
     private Collection<AccountTransaction> transactionsIn;

@@ -4,7 +4,7 @@
 <h1>Meu Cadastro</h1>
 <hr>
 
-<form class="form">
+<form class="form" action="EditUser" method="POST">
 	<input type="hidden" class="form-control" name="personType" value="${fn:escapeXml(user.type)}">
 
 	<div class="col-md-12">                                    
@@ -117,7 +117,7 @@
 	<div class="col-md-6">                                    
 		<div class="form-group">
 			<label>Renda Declarada:</label>
-			<input type="text" class="form-control" name="income" id="income" placeholder="R$1000,00">
+			<input type="text" class="form-control" name="income" id="income" value="${fn:escapeXml(user.income)}" placeholder="R$1000,00">
 		</div>
 	</div>
 
