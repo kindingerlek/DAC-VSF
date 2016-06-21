@@ -7,12 +7,15 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.User;
+import utilities.PageMessage;
 
 /**
  *
@@ -34,6 +37,8 @@ public class EditUser extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
+        HttpSession session = request.getSession();
+        
         String email = request.getParameter("email");
         User user = new User();
         user.setEmail(email);
@@ -45,7 +50,14 @@ public class EditUser extends HttpServlet {
                 try {
                     user.setCpf(request.getParameter("cpf"));
                 } catch (Exception ex) {
-                    System.out.println("error cpf invalido");
+                    ArrayList<PageMessage> errors = new ArrayList();
+                    PageMessage e1 = new PageMessage();
+                    e1.setTitle("CPF incorreto.");
+                    e1.setText(" O CPF está incorreto.");
+                    e1.setType("danger");
+                    errors.add(e1);
+                    session.setAttribute("messages", errors);
+                    response.sendRedirect("MyRegistration");
                 }
                 user.setRg(request.getParameter("rg"));
                 user.setZipCode(request.getParameter("zipCode"));
@@ -66,7 +78,14 @@ public class EditUser extends HttpServlet {
                 try {
                     user.setCnpj(request.getParameter("cnpj"));
                 } catch (Exception ex) {
-                    System.out.println("error cnjp invalido");
+                    ArrayList<PageMessage> errors = new ArrayList();
+                    PageMessage e1 = new PageMessage();
+                    e1.setTitle("CNPJ incorreto.");
+                    e1.setText(" O CNPJ está incorreto.");
+                    e1.setType("danger");
+                    errors.add(e1);
+                    session.setAttribute("messages", errors);
+                    response.sendRedirect("MyRegistration");
                 }
                 user.setFantasyName(request.getParameter("fantasyName"));
                 user.setZipCode(request.getParameter("zipCode"));
@@ -84,12 +103,29 @@ public class EditUser extends HttpServlet {
                 break;
 
             default:
-            //error
+                internalError(session, response);
         }
 
+        ArrayList<PageMessage> errors = new ArrayList();
+        PageMessage e1 = new PageMessage();
+        e1.setTitle("Cadastro atualizado.");
+        e1.setType("sucess");
+        errors.add(e1);
+        session.setAttribute("messages", errors);
+        
         response.sendRedirect("MyRegistration");
     }
 
+    public void internalError(HttpSession session, HttpServletResponse response) throws IOException {
+        ArrayList<PageMessage> errors = new ArrayList();
+        PageMessage e1 = new PageMessage();
+        e1.setTitle("Erro interno.");
+        e1.setText(" Aconteceu algum erro interno, estaremos solucionando o problema assim que possível.");
+        e1.setType("danger");
+        errors.add(e1);
+        session.setAttribute("messages", errors);
+        response.sendRedirect("MyRegistration");
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
