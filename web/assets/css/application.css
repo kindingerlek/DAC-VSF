@@ -103,5 +103,15 @@ hr {
 	border-top: 1px solid #c0c0c0;
 }
 
+#insert-token
+{
+    margin-top: 25pt;
+    margin-bottom: 25pt;
+}
 
+#insert-token #code
+{
+    color:#264348;
+    font-size: 32pt;
+}
 
