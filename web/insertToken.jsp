@@ -31,15 +31,16 @@
 
                         <div class="text-center" id="insert-token">
                             <p>
-                                Insira este código no app do token:
+                                Para resgatar o token, acesse seu email ou insira este código no app do token:
                             </p>
-                            <h2 id="code">1234</h2>
+                            <h2 id="code">${fn:escapeXml(code)}</h2>
                         </div>                        
 
-                        <form action="AccountValidation?id=${sessionScope.id}" method="POST" class="form">                            
+                        <form action="${fn:escapeXml(action)}" method="POST" class="form">      
+                            <input type="hidden" name="amount" value="${fn:escapeXml(amount)}" />
                             <div class="col-md-12">                                    
                                 <div class="form-group">
-                                    <label for="">Código token gerado:</label>
+                                    <label for="">Código token:</label>
                                     <input type="text" name="token" class="form-control">
                                 </div>
                             </div>

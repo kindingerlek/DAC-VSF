@@ -42,4 +42,29 @@ public class Email {
         }
 
     }
+    
+    public static void sendToken(String receiver, String token) throws EmailException {
+
+        SimpleEmail email = new SimpleEmail();
+        String message = "Para sua segurança, você precisa colocar o código abaixo para continar a transação.\n";
+        message += "Token: " + token + "\n";
+        message += "\nO sistema de token é para sua segurança, sempre ao realizar uma transação, um novo token é gerado ";
+        message +=" e enviado à você.";
+
+        try {
+            email.setHostName("smtp.googlemail.com");
+            email.setSmtpPort(465);
+            email.setAuthenticator(new DefaultAuthenticator("brunofaczz2@gmail.com", "misterios"));
+            email.setSSLOnConnect(true);
+            email.setFrom("brunofaczz2@gmail.com");
+            email.setSubject("Token para realizar transação");
+            email.setMsg(message);
+            email.addTo("bruno.braga@tuntscorp.com");
+            email.send();
+
+        } catch (EmailException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
 }

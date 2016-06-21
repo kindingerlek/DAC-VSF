@@ -10,6 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,13 +60,13 @@ public class PersonalAccount {
 
     @Column(name = "account_limit")
     private Double limit;
+
     @OneToMany(mappedBy = "transactionAccount", fetch = FetchType.LAZY, targetEntity = AccountTransaction.class, cascade = CascadeType.ALL)
     private Collection<AccountTransaction> transactionsIn;
 
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, targetEntity = AccountTransaction.class, cascade = CascadeType.ALL)
     private Collection<AccountTransaction> transactionsOut;
-    
-    
+
     //Bean structure / getters & setters
     public User getUser() {
         return user;
@@ -74,7 +75,7 @@ public class PersonalAccount {
     public void setUser(User user) {
         this.user = user;
     }
-    
+
     public Double getLimit() {
         return limit;
     }
@@ -156,6 +157,32 @@ public class PersonalAccount {
     }
 
     //Class structure
+    public void withdraw(Double amount) throws Exception {
+        if (this.getType() == 2) {
+            if (this.getBalance() - amount < 0) {
+                if ((this.getBalance() - amount) < (-this.getLimit())) {
+                    throw new Exception("inadequate limit");
+                }
+                this.setStatus("Em cheque especial");
+            } else {
+                this.setStatus("Regular");
+            }
+            AccountTransaction at = new AccountTransaction();
+            at.setAccount(this);
+            at.setAmount(amount);
+            at.setTransactionType(1);
+            at.setDate(new Date());
+
+            at.create();
+
+            this.setBalance(getBalance() - amount);
+            this.update();
+
+        } else {
+            throw new Exception("user unsupported");
+        }
+    }
+
     public boolean openAccount(User user, Agency agency) {
         this.setAgency(agency);
         this.setBalance(0.0);
@@ -166,8 +193,8 @@ public class PersonalAccount {
         this.setNumber(Integer.toString(conta1) + "-" + Integer.toString(conta2));
         this.setType(user.getType());
         this.setUser(user);
-        
-        if(user.getIncome() > 1000) {
+
+        if (user.getIncome() > 1000) {
             this.setLimit(user.getIncome() * 0.5);
         }
 
@@ -187,7 +214,7 @@ public class PersonalAccount {
             return this;
         }
     }
-    
+
     public PersonalAccount readByUser() {
         PersonalAccount account = new PersonalAccount();
         account = PersonalAccountDAO.readByUser(this);
@@ -206,9 +233,9 @@ public class PersonalAccount {
     public PersonalAccount readById() {
         return PersonalAccountDAO.readById(this);
     }
-    
+
     public boolean verifyPassword(String password) {
-        if(hashString(password).equals(this.getPassword())){
+        if (hashString(password).equals(this.getPassword())) {
             return true;
         } else {
             return false;
@@ -216,7 +243,7 @@ public class PersonalAccount {
     }
 
     private String hashString(String message) {
-        
+
         try {
             MessageDigest digest = MessageDigest.getInstance("MD5");
             byte[] hashedBytes = digest.digest(message.getBytes("UTF-8"));
