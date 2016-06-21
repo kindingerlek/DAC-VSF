@@ -5,9 +5,12 @@
 </div>
 
 <div class="pull-right">
-	Bem vindo, Usuário!
-
+        <form action="Logout">
+	Bem vindo(a), ${user.name}!
+        
+        
 	<button type="submit" class="btn btn-lg btn-primary">
 		<i class="fa fa-sign-out fa-fw" aria-hidden="true"></i>&nbsp; Sair
 	</button>
+        </form>
 </div>

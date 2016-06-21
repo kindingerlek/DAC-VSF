@@ -61,10 +61,10 @@ public class PersonalAccount {
     @Column(name = "account_limit")
     private Double limit;
 
-    @OneToMany(mappedBy = "transactionAccount", fetch = FetchType.LAZY, targetEntity = AccountTransaction.class, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "transactionAccount", fetch = FetchType.EAGER, targetEntity = AccountTransaction.class, cascade = CascadeType.ALL)
     private Collection<AccountTransaction> transactionsIn;
 
-    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, targetEntity = AccountTransaction.class, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER, targetEntity = AccountTransaction.class, cascade = CascadeType.ALL)
     private Collection<AccountTransaction> transactionsOut;
 
     //Bean structure / getters & setters
@@ -196,6 +196,8 @@ public class PersonalAccount {
 
         if (user.getIncome() > 1000) {
             this.setLimit(user.getIncome() * 0.5);
+        } else {
+            this.setLimit(0.0);
         }
 
         return this.create();
@@ -232,6 +234,17 @@ public class PersonalAccount {
 
     public PersonalAccount readById() {
         return PersonalAccountDAO.readById(this);
+    }
+    
+    public Double getMonthMovement(){
+        Double amount = 0.0;
+        for (AccountTransaction transaction : transactionsIn){
+            amount += transaction.getAmount();
+        }
+        for (AccountTransaction transaction : transactionsOut){
+            amount -= transaction.getAmount();
+        }
+        return amount;
     }
 
     public boolean verifyPassword(String password) {

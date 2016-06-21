@@ -72,7 +72,7 @@ public class User {
     @Column(name = "income")
     private Double income;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, targetEntity = PersonalAccount.class, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, targetEntity = PersonalAccount.class, cascade = CascadeType.ALL)
     private List<PersonalAccount> accountList;
 
     // Beans Structure
