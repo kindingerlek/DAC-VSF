@@ -60,15 +60,15 @@ public class OpenAccount extends HttpServlet {
         user = user.read();
         if (user != null) {
             if (user.verifyPassword(password)) {
-                uri += user.getIdentifier();
-
-                Response res = client
-                        .target(uri)
-                        .request(MediaType.APPLICATION_JSON)
-                        .get();
-
-                DebtorActualSituation debtor = res.readEntity(DebtorActualSituation.class);
-                if (!debtor.isIndebt()) {
+//                uri += user.getIdentifier();
+//
+//                Response res = client
+//                        .target(uri)
+//                        .request(MediaType.APPLICATION_JSON)
+//                        .get();
+//
+//                DebtorActualSituation debtor = res.readEntity(DebtorActualSituation.class);
+//                if (!debtor.isIndebt()) {
                     if (user.hasAllInformation()) {
                         PersonalAccount account = new PersonalAccount();
                         account.setUser(user);
@@ -89,9 +89,9 @@ public class OpenAccount extends HttpServlet {
                     } else {
                         this.redirectToRegistration(user, request, response);
                     }
-                } else {
+//                } else {
                     //TA DEVENDO MALANDRO
-                }
+//                }
             } else {
 //            System.out.println("euhauehaueh");
 //            ArrayList<PageMessage> errors = new ArrayList();
@@ -117,7 +117,7 @@ public class OpenAccount extends HttpServlet {
         user.update();
 
         try {
-            Email.sendEmail(user.getEmail(), token);
+            Email.sendConfirmation(user.getEmail(), token, account);
         } catch (EmailException ex) {
             System.out.println("Error: enviar email OpenAccount");
         }
