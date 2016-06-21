@@ -6,7 +6,7 @@
 
 <p>
     Pensando na sua comodidade, o Banco Virtude Financeira disponibiliza para seus
-    clientes o depósito virtual. Assim, você pode depositar dinheiro  em sua conta,
+    clientes o depósito virtual. Assim, você pode sacar dinheiro da sua conta,
     <b>sem precisar</b> sair de casa.
     
     <br>
@@ -18,11 +18,11 @@
 </p>
 
 
-<form class="form" action="withDraw" method="POST">
+<form class="form" action="InsertToken" method="POST">
 	<div class="col-md-12">                                    
 		<div class="form-group">
 			<label>Valor do saque:</label>
-			<input type="number" class="form-control" id="value" name="value" value="R$0000,00">
+			<input type="number" class="form-control" id="value" name="amount" value="R$0000,00">
 		</div>
 	</div>
     
