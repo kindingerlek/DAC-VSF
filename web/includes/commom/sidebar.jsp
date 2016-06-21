@@ -23,7 +23,7 @@
 		</div>
 	</a>
 
-	<a href="#">
+	<a href="deposit.jsp">
 		<div class="sidebar-item">
 			<div class="item-icon">
 				<i class="fa fa-credit-card-alt fa-2x" aria-hidden="true"></i>					
@@ -34,7 +34,7 @@
 		</div>
 	</a>
 
-	<a href="#">
+	<a href="withdraw.jsp">
 		<div class="sidebar-item">
 			<div class="item-icon">
 				<i class="fa fa-money fa-2x" aria-hidden="true"></i>					
@@ -45,7 +45,7 @@
 		</div>
 	</a>
 
-	<a href="#">
+	<a href="transaction.jsp">
 		<div class="sidebar-item">
 			<div class="item-icon">
 				<i class="fa fa-exchange fa-2x" aria-hidden="true"></i>					
