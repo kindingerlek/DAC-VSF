@@ -40,10 +40,10 @@ public class testAlerts extends HttpServlet {
 
             ArrayList<PageMessage> messages = new ArrayList();
 
-            messages.add(new PageMessage( "danger",     "Perigo!", "Mensagem de perigo"));
-            messages.add(new PageMessage("success",    "Sucesso!", "Mensagem de sucesso"));
-            messages.add(new PageMessage(   "info", "Informação!", "Mensagem de informação"));
-            messages.add(new PageMessage("warning",    "Atenção!", "Mensagem de atenção"));
+            messages.add(new PageMessage("danger", "Perigo!", "Mensagem de perigo"));
+            messages.add(new PageMessage("success", "Sucesso!", "Mensagem de sucesso"));
+            messages.add(new PageMessage("info", "Informação!", "Mensagem de informação"));
+            messages.add(new PageMessage("warning", "Atenção!", "Mensagem de atenção"));
 
             HttpSession session = request.getSession();
 
