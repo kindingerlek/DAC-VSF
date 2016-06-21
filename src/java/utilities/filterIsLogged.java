@@ -85,7 +85,7 @@ public class filterIsLogged implements Filter {
             HttpSession session = req.getSession();
             User user = (User) session.getAttribute("user");
 
-            if (user == null) {
+            if (user == null && active) {
                 ArrayList<PageMessage> messages = new ArrayList();
                 messages.add(
                         new PageMessage(
