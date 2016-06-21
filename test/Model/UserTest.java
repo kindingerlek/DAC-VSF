@@ -45,6 +45,7 @@ public class UserTest {
 
     /**
      * Test of getId method, of class User.
+     * @throws java.lang.Exception
      */
     @Test
     public void testCreateAndUpdateUser() throws Exception {

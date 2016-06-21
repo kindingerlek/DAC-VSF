@@ -36,7 +36,6 @@ public class AgencyDAO {
                 throw e;
             }
             System.out.println(e.getMessage());
-            System.out.println("EUAHEUAHUEHAUEAHUHEAU");
             session.close();
             return false;
         }
@@ -87,7 +86,7 @@ public class AgencyDAO {
             query.setParameter("number", agency.getNumber());
             agencyReturned = (Agency) query.uniqueResult();
         } catch (Exception e) {
-            System.out.println("read agency");
+            System.out.println("read agency " + e);
         } finally {
             session.close();
             return agencyReturned;

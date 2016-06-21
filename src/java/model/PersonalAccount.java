@@ -10,8 +10,6 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
-import java.util.Date;
-import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +23,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "account")
@@ -44,7 +41,7 @@ public class PersonalAccount {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "number", unique = true, nullable = false)
+    @Column(name = "number", unique = true)
     private String number;
 
     @Column(name = "type")
@@ -60,14 +57,14 @@ public class PersonalAccount {
     @Column(name = "balance")
     private Double balance;
 
+    @Column(name = "limit")
+    private Double limit;
     @OneToMany(mappedBy = "transactionAccount", fetch = FetchType.LAZY, targetEntity = AccountTransaction.class, cascade = CascadeType.ALL)
     private Collection<AccountTransaction> transactionsIn;
 
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, targetEntity = AccountTransaction.class, cascade = CascadeType.ALL)
     private Collection<AccountTransaction> transactionsOut;
     
-    @Column(name = "limit")
-    private Double limit;
     
     //Bean structure / getters & setters
     public User getUser() {
@@ -82,8 +79,8 @@ public class PersonalAccount {
         return limit;
     }
 
-    public void setLimit(Double limit) {
-        this.limit = limit;
+    public void setLimit(Double balanceLimit) {
+        this.limit = balanceLimit;
     }
 
     public int getType() {
@@ -190,10 +187,15 @@ public class PersonalAccount {
             return this;
         }
     }
+    
+    public PersonalAccount readByUser() {
+        PersonalAccount account = new PersonalAccount();
+        account = PersonalAccountDAO.readByUser(this);
+        return account;
+    }
 
     public PersonalAccount readByNumber() {
         PersonalAccount account = PersonalAccountDAO.readByNumber(this);
-        this.setId(account.getId());
         return account;
     }
 
