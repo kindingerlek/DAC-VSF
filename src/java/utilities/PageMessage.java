@@ -17,6 +17,14 @@ public class PageMessage {
     private String title;
     private String type;
     private String text;
+    
+    
+    public PageMessage(String type, String title, String text)
+    {
+        this.setTitle(title);
+        this.setType(type);
+        this.setText(text);
+    }
 
     /**
      * @return the title
@@ -29,14 +37,14 @@ public class PageMessage {
      * @param title the title to set
      */
     public void setTitle(String title) {
-        this.title = title;
+        this.title = title.trim();
     }
 
     /**
      * @return the type
      */
     public String getType() {
-        return type;
+        return type.trim();
     }
 
     /**
@@ -59,7 +67,7 @@ public class PageMessage {
      * @param text the text to set
      */
     public void setText(String text) {
-        this.text = text;
+        this.text = text.trim();
     }
     
     

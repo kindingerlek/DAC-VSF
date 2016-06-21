@@ -15,7 +15,7 @@
 
         <div class="section col-md-6 col-md-offset-3">
 
-            <div id="alerts"></div>
+            <jsp:include page="includes/commom/alerts.jsp" />
 
             <div class="panel panel-default">
                 <div class="panel-body">
