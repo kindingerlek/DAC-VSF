@@ -18,7 +18,7 @@
 </p>
 
 
-<form class="form" action="InsertToken" method="POST">
+<form class="form" action="InsertToken?action=withdraw" method="POST">
 	<div class="col-md-12">                                    
 		<div class="form-group">
 			<label>Valor do saque:</label>

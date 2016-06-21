@@ -6,6 +6,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,8 +16,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.Email;
 import org.apache.commons.mail.EmailException;
+import utilities.PageMessage;
 
 /**
  *
@@ -38,8 +41,11 @@ public class InsertToken extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
+        HttpSession session = request.getSession();
+        
         String amount = request.getParameter("amount");
         String email = "bruno.braga@tuntscorp.com";
+        String action = request.getParameter("action");
         
         Calendar cal = Calendar.getInstance();
         int mi = cal.get(Calendar.MILLISECOND);
@@ -53,17 +59,27 @@ public class InsertToken extends HttpServlet {
         try {
             Email.sendToken(email, Integer.toString(token));
         } catch (EmailException ex) {
-            //error
-            System.out.println(ex.getMessage());
+            internalError(session, response);
         }
         
         request.setAttribute("code", code);
         request.setAttribute("amount", amount);
-        request.setAttribute("action", "Withdraw");
+        request.setAttribute("action", action);
         
         RequestDispatcher rd = request.getServletContext().getRequestDispatcher("/insertToken.jsp");
         rd.forward(request, response);
         
+    }
+    
+    public void internalError(HttpSession session, HttpServletResponse response) throws IOException {
+        ArrayList<PageMessage> errors = new ArrayList();
+        PageMessage e1 = new PageMessage();
+        e1.setTitle("Erro interno.");
+        e1.setText(" Aconteceu algum erro interno, estaremos solucionando o problema assim que possível.");
+        e1.setType("danger");
+        errors.add(e1);
+        session.setAttribute("messages", errors);
+        response.sendRedirect("Withdraw");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

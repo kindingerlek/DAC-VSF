@@ -6,6 +6,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,7 +15,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.PersonalAccount;
+import utilities.PageMessage;
 
 /**
  *
@@ -35,6 +38,9 @@ public class Withdraw extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
+        HttpSession session = request.getSession();
+
         Integer code = Integer.parseInt(request.getParameter("code"));
         Integer token = Integer.parseInt(request.getParameter("token"));
         String password = request.getParameter("password");
@@ -56,16 +62,52 @@ public class Withdraw extends HttpServlet {
                     account.withdraw(amount);
                     response.sendRedirect("withdraw.jsp");
                 } catch (Exception ex) {
-                    //Tratar errors
-                    System.out.println(ex.getMessage());
+                    ArrayList<PageMessage> errors = new ArrayList();
+                            PageMessage e1 = new PageMessage();
+                    switch (ex.getMessage()) {
+                        case "inadequate limit":
+                            e1.setText("Você não tem limite o suficiente para esta transação.");
+                            e1.setTitle(" Limite insuficiente.");
+                            e1.setType("danger");
+                            errors.add(e1);
+                            session.setAttribute("messages", errors);
+                            response.sendRedirect("withdraw.jsp");
+                            break;
+
+                        case "user unsupported":
+                            e1.setText("Pessoa Física.");
+                            e1.setTitle(" Somente Pessoa Jurídica tem acesso a este recurso.");
+                            e1.setType("danger");
+                            errors.add(e1);
+                            session.setAttribute("messages", errors);
+                            response.sendRedirect("index.jsp");
+                            break;
+
+                        default:
+
+                            break;
+                    }
                 }
             } else {
-                //password errado
-                System.out.println("wrong pass");
+                ArrayList<PageMessage> errors = new ArrayList();
+                PageMessage e1 = new PageMessage();
+                e1.setText("A senha que você digitou está incorreta.");
+                e1.setTitle(" Senha inválda.");
+                e1.setType("danger");
+                errors.add(e1);
+                session.setAttribute("messages", errors);
+                response.sendRedirect("withdraw.jsp");
             }
 
         } else {
-            //token incorreto
+            ArrayList<PageMessage> errors = new ArrayList();
+            PageMessage e1 = new PageMessage();
+            e1.setText("O token que você digitou está incorreto.");
+            e1.setTitle(" Token inváldo.");
+            e1.setType("danger");
+            errors.add(e1);
+            session.setAttribute("messages", errors);
+            response.sendRedirect("withdraw.jsp");
         }
 
     }

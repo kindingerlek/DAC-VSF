@@ -7,6 +7,7 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.User;
+import utilities.PageMessage;
 
 /**
  *
@@ -51,16 +53,31 @@ public class addUser extends HttpServlet {
                     try {
                         user.setCpf((String) request.getParameter("cpf"));
                     } catch (Exception ex) {
-                        System.out.println("error cpf invalido");
+                        ArrayList<PageMessage> errors = new ArrayList();
+                        PageMessage e1 = new PageMessage();
+                        e1.setTitle("CPF incorreto.");
+                        e1.setText(" O CPF está incorreto.");
+                        e1.setType("danger");
+                        errors.add(e1);
+                        session.setAttribute("messages", errors);
+                        response.sendRedirect("index.jsp");
                     }
 
                     user.setRg((String) request.getParameter("rg"));
                     user.setPassword(password);
                     if (user.create()) {
+                        ArrayList<PageMessage> errors = new ArrayList();
+                        PageMessage e1 = new PageMessage();
+                        e1.setTitle("Parabéns!");
+                        e1.setText(" O primeiro passo já foi, agora você precisa completar seu cadastro.");
+                        e1.setType("success");
+                        errors.add(e1);
+                        session.setAttribute("messages", errors);
+
                         session.setAttribute("user", user);
                         response.sendRedirect("registration.jsp");
                     } else {
-                        System.out.println("error create user");
+                        internalError(session, response);
                     }
                     break;
                 case 2:
@@ -71,25 +88,58 @@ public class addUser extends HttpServlet {
                     try {
                         user.setCnpj((String) request.getParameter("cnpj"));
                     } catch (Exception ex) {
-                        System.out.println("error cnpj invalido");
+                        ArrayList<PageMessage> errors = new ArrayList();
+                        PageMessage e1 = new PageMessage();
+                        e1.setTitle("CNPJ incorreto.");
+                        e1.setText(" O CNPJ está incorreto.");
+                        e1.setType("danger");
+                        errors.add(e1);
+                        session.setAttribute("messages", errors);
+                        response.sendRedirect("index.jsp");
                     }
 
                     user.setPassword(password);
                     if (user.create()) {
+                        ArrayList<PageMessage> errors = new ArrayList();
+                        PageMessage e1 = new PageMessage();
+                        e1.setTitle("Parabéns!");
+                        e1.setText(" O primeiro passo já foi, agora você precisa completar seu cadastro.");
+                        e1.setType("success");
+                        errors.add(e1);
+                        session.setAttribute("messages", errors);
+
                         session.setAttribute("user", user);
                         response.sendRedirect("registration.jsp");
                     } else {
-                        System.out.println("error create user");
+                        internalError(session, response);
                     }
                     break;
                 default:
-                //error
+                    internalError(session, response);
             }
 
         } else {
-            //error
+            ArrayList<PageMessage> errors = new ArrayList();
+            PageMessage e1 = new PageMessage();
+            e1.setTitle("Senha incorreta.");
+            e1.setText(" As senhas não coincídem.");
+            e1.setType("danger");
+            errors.add(e1);
+            session.setAttribute("messages", errors);
+            response.sendRedirect("index.jsp");
         }
 
+    }
+
+    public void internalError(HttpSession session, HttpServletResponse response) throws IOException {
+        ArrayList<PageMessage> errors = new ArrayList();
+        PageMessage e1 = new PageMessage();
+        e1.setTitle("Erro interno.");
+        e1.setText(" Aconteceu algum erro interno, estaremos solucionando o problema assim que possível.");
+        e1.setType("danger");
+        errors.add(e1);
+        session.setAttribute("messages", errors);
+        response.sendRedirect("index.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

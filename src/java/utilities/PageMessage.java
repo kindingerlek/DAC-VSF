@@ -26,6 +26,9 @@ public class PageMessage {
         this.setText(text);
     }
 
+    public PageMessage() {
+        
+    }
     /**
      * @return the title
      */

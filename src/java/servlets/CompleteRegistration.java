@@ -6,12 +6,15 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.User;
+import utilities.PageMessage;
 
 /**
  *
@@ -32,26 +35,35 @@ public class CompleteRegistration extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+
         String email = request.getParameter("email");
         User user = new User();
         user.setEmail(email);
         user = user.read();
         int type = user.getType();
         Double income = null;
-        
-        if(request.getParameter("income").equals("")) {
+
+        if (request.getParameter("income").equals("")) {
             income = 0.0;
         } else {
             Double.parseDouble(request.getParameter("income"));
         }
-        
+
         switch (type) {
             case 1:
                 user.setName(request.getParameter("name"));
                 try {
                     user.setCpf(request.getParameter("cpf"));
                 } catch (Exception ex) {
-                    System.out.println("error cpf invalido");
+                    ArrayList<PageMessage> errors = new ArrayList();
+                    PageMessage e1 = new PageMessage();
+                    e1.setTitle("CPF incorreto.");
+                    e1.setText(" O CPF está incorreto.");
+                    e1.setType("danger");
+                    errors.add(e1);
+                    session.setAttribute("messages", errors);
+                    response.sendRedirect("index.jsp");
                 }
                 user.setRg(request.getParameter("rg"));
                 user.setZipCode(request.getParameter("zipCode"));
@@ -72,7 +84,14 @@ public class CompleteRegistration extends HttpServlet {
                 try {
                     user.setCnpj(request.getParameter("cnpj"));
                 } catch (Exception ex) {
-                    System.out.println("error cnjp invalido");
+                    ArrayList<PageMessage> errors = new ArrayList();
+                    PageMessage e1 = new PageMessage();
+                    e1.setTitle("CNPJ incorreto.");
+                    e1.setText(" O CNPJ está incorreto.");
+                    e1.setType("danger");
+                    errors.add(e1);
+                    session.setAttribute("messages", errors);
+                    response.sendRedirect("index.jsp");
                 }
                 user.setFantasyName(request.getParameter("fantasyName"));
                 user.setZipCode(request.getParameter("zipCode"));
@@ -85,14 +104,32 @@ public class CompleteRegistration extends HttpServlet {
                 user.setCellPhone(request.getParameter("cellphone"));
                 user.setAddressNumber(request.getParameter("addressNumber"));
                 user.setIncome(income);
-                
+
                 user.update();
                 break;
 
             default:
-            //error
+                internalError(session, response);
         }
+        
+        ArrayList<PageMessage> errors = new ArrayList();
+        PageMessage e1 = new PageMessage();
+        e1.setTitle("Cadastro completo.");
+        e1.setType("sucess");
+        errors.add(e1);
+        session.setAttribute("messages", errors);
 
+        response.sendRedirect("index.jsp");
+    }
+
+    public void internalError(HttpSession session, HttpServletResponse response) throws IOException {
+        ArrayList<PageMessage> errors = new ArrayList();
+        PageMessage e1 = new PageMessage();
+        e1.setTitle("Erro interno.");
+        e1.setText(" Aconteceu algum erro interno, estaremos solucionando o problema assim que possível.");
+        e1.setType("danger");
+        errors.add(e1);
+        session.setAttribute("messages", errors);
         response.sendRedirect("index.jsp");
     }
 
