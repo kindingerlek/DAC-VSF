@@ -20,16 +20,25 @@
 }
 
 .page-header .form-control {	
-	height: 30px;
+	height: 26px;
 	font-size: 10pt;
 }
 
-.page-header label {
+.page-header #agency_input{
+	width: 60px;
 }
 
-.page-header button {
-	height: 30px;
-	width: 140px;
+.page-header #account_input{
+	width: 80px;
+}
+
+.page-header #password_input{
+	width: 70px;
+}
+
+.page-header .btn {
+	height: 26px;
+	width: 120px;
 
 	font-size: 12pt;
 	font-style: bold;
