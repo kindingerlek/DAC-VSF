@@ -8,8 +8,6 @@ package servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,8 +21,8 @@ import utilities.PageMessage;
  *
  * @author Bruno
  */
-@WebServlet(name = "Withdraw", urlPatterns = {"/Withdraw"})
-public class Withdraw extends HttpServlet {
+@WebServlet(name = "Deposit", urlPatterns = {"/Deposit"})
+public class Deposit extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -54,39 +52,14 @@ public class Withdraw extends HttpServlet {
         if (token == rightToken) {
             if (account.verifyPassword(password)) {
                 Double amount = Double.parseDouble(request.getParameter("amount"));
-
-                try {
-                    account.withdraw(amount);
-                    ArrayList<PageMessage> errors = new ArrayList();
-                    PageMessage e1 = new PageMessage();
-                    e1.setTitle("Saque realizado com sucesso.");
-                    e1.setType("success");
-                    errors.add(e1);
-                    session.setAttribute("messages", errors);
-                    response.sendRedirect("withdraw.jsp");
-                } catch (Exception ex) {
-                    ArrayList<PageMessage> errors = new ArrayList();
-                    PageMessage e1 = new PageMessage();
-                    switch (ex.getMessage()) {
-                        case "inadequate limit":
-                            e1.setText("Você não tem limite o suficiente para esta transação.");
-                            e1.setTitle(" Limite insuficiente.");
-                            e1.setType("danger");
-                            errors.add(e1);
-                            session.setAttribute("messages", errors);
-                            response.sendRedirect("withdraw.jsp");
-                            break;
-
-                        case "user unsupported":
-                            e1.setText("Pessoa Física.");
-                            e1.setTitle(" Somente Pessoa Jurídica tem acesso a este recurso.");
-                            e1.setType("danger");
-                            errors.add(e1);
-                            session.setAttribute("messages", errors);
-                            response.sendRedirect("index.jsp");
-                            break;
-                    }
-                }
+                account.deposit(amount);
+                ArrayList<PageMessage> errors = new ArrayList();
+                PageMessage e1 = new PageMessage();
+                e1.setTitle("Deposito realizado com sucesso.");
+                e1.setType("success");
+                errors.add(e1);
+                session.setAttribute("messages", errors);
+                response.sendRedirect("deposit.jsp");
             } else {
                 ArrayList<PageMessage> errors = new ArrayList();
                 PageMessage e1 = new PageMessage();
@@ -95,9 +68,8 @@ public class Withdraw extends HttpServlet {
                 e1.setType("danger");
                 errors.add(e1);
                 session.setAttribute("messages", errors);
-                response.sendRedirect("withdraw.jsp");
+                response.sendRedirect("deposit.jsp");
             }
-
         } else {
             ArrayList<PageMessage> errors = new ArrayList();
             PageMessage e1 = new PageMessage();
@@ -106,9 +78,8 @@ public class Withdraw extends HttpServlet {
             e1.setType("danger");
             errors.add(e1);
             session.setAttribute("messages", errors);
-            response.sendRedirect("withdraw.jsp");
+            response.sendRedirect("deposit.jsp");
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

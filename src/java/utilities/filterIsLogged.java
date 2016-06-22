@@ -29,7 +29,10 @@ import model.User;
     "/putTokenTemp.jsp",
     "/template.jsp",
     "/registration.jsp",
-    "/withdraw.jsp"
+    "/withdraw.jsp",
+    "/EditUser",
+    "/InsertToken",
+    "/Withdraw"
 }, dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD})
 
 public class filterIsLogged implements Filter {

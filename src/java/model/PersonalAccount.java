@@ -157,6 +157,25 @@ public class PersonalAccount {
     }
 
     //Class structure
+    public void deposit(Double amount) {
+            if (this.getBalance() + amount > 0) {
+                this.setStatus("Regular");
+            } else {
+                this.setStatus("Em cheque especial");
+            }
+            AccountTransaction at = new AccountTransaction();
+            at.setAccount(this);
+            at.setAmount(amount);
+            at.setTransactionType(2);
+            at.setDate(new Date());
+
+            at.create();
+
+            this.setBalance(getBalance() + amount);
+            this.update();
+
+    }
+    
     public void withdraw(Double amount) throws Exception {
         if (this.getType() == 2) {
             if (this.getBalance() - amount < 0) {
