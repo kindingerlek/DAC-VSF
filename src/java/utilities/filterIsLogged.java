@@ -35,7 +35,7 @@ import model.User;
 public class filterIsLogged implements Filter {
 
     private static final boolean debug = true;
-    private static final boolean active = false;
+    private static final boolean active = true;
     
 
     // The filter configuration object we are associated with.  If
