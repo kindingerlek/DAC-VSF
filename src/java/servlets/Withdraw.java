@@ -40,10 +40,11 @@ public class Withdraw extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         HttpSession session = request.getSession();
-
+        
         Integer code = Integer.parseInt(request.getParameter("code"));
         Integer token = Integer.parseInt(request.getParameter("token"));
         String password = request.getParameter("password");
+        PersonalAccount account = (PersonalAccount) session.getAttribute("account");
 
         Calendar cal2 = Calendar.getInstance();
         int h = cal2.get(Calendar.HOUR_OF_DAY);
@@ -51,10 +52,6 @@ public class Withdraw extends HttpServlet {
         int rightToken = Math.abs((code * code * h) / (d));
 
         if (token == rightToken) {
-            PersonalAccount account = new PersonalAccount();
-            account.setNumber("81033-9");
-            account = account.readByNumber();
-
             if (account.verifyPassword(password)) {
                 Double amount = Double.parseDouble(request.getParameter("amount"));
 

@@ -186,7 +186,7 @@ public class PersonalAccount {
     public boolean openAccount(User user, Agency agency) {
         this.setAgency(agency);
         this.setBalance(0.0);
-        this.setStatus("inative");
+        this.setStatus("Inativa");
         Random numero = new Random();
         int conta1 = 1 + numero.nextInt(99999);
         int conta2 = 1 + numero.nextInt(9);

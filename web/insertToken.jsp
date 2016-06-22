@@ -38,6 +38,7 @@
 
                         <form action="${fn:escapeXml(action)}" method="POST" class="form">      
                             <input type="hidden" name="amount" value="${fn:escapeXml(amount)}" />
+                            <input type="hidden" name="code" value="${fn:escapeXml(code)}" />
                             <div class="col-md-12">                                    
                                 <div class="form-group">
                                     <label for="">Código token:</label>
