@@ -133,7 +133,7 @@ public class PersonalAccountDAO {
         PersonalAccount personalAccountReturned = new PersonalAccount();
         try {
             session = getSessionFactory().openSession();
-            Query query = session.createQuery("from PersonalAccount where user = :userId and status = 'inative'");
+            Query query = session.createQuery("from PersonalAccount where user = :userId and status = 'Inativa'");
             query.setParameter("userId", personalAccount.getUser());
             personalAccountReturned = (PersonalAccount) query.uniqueResult();
         } catch (Exception e) {

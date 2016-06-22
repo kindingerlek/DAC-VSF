@@ -8,8 +8,6 @@ package servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Email;
+import model.User;
 import org.apache.commons.mail.EmailException;
 import utilities.PageMessage;
 
@@ -42,9 +41,11 @@ public class InsertToken extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        System.out.println(((User) session.getAttribute("user")).getEmail() == null);
         
         String amount = request.getParameter("amount");
-        String email = "bruno.braga@tuntscorp.com";
+        String email = user.getEmail();
         String action = request.getParameter("action");
         
         Calendar cal = Calendar.getInstance();

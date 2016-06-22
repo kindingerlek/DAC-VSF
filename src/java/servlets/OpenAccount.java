@@ -97,7 +97,10 @@ public class OpenAccount extends HttpServlet {
 //                e1.setType("danger");
 //                errors.add(e1);
 //                session.setAttribute("messages", errors);
-//                response.sendRedirect("index.jsp");
+//                if (((PersonalAccount) session.getAttribute("account")).getNumber().equals("")) {
+//                    response.sendRedirect("index.jsp");
+//                }
+//                response.sendRedirect("accounts.jsp");
 //                }
             } else {
                 ArrayList<PageMessage> errors = new ArrayList();
@@ -107,9 +110,11 @@ public class OpenAccount extends HttpServlet {
                 e1.setType("danger");
                 errors.add(e1);
                 session.setAttribute("messages", errors);
-                response.sendRedirect("index.jsp");
+                if (((PersonalAccount) session.getAttribute("account")).getNumber().equals("")) {
+                    response.sendRedirect("index.jsp");
+                }
+                response.sendRedirect("accounts.jsp");
             }
-            //error usuario nao existe
         } else {
             ArrayList<PageMessage> errors = new ArrayList();
             PageMessage e1 = new PageMessage();
@@ -118,7 +123,10 @@ public class OpenAccount extends HttpServlet {
             e1.setType("danger");
             errors.add(e1);
             session.setAttribute("messages", errors);
-            response.sendRedirect("index.jsp");
+            if (((PersonalAccount) session.getAttribute("account")).getNumber().equals("")) {
+                response.sendRedirect("index.jsp");
+            }
+            response.sendRedirect("accounts.jsp");
         }
 
     }
@@ -139,7 +147,7 @@ public class OpenAccount extends HttpServlet {
         session.setAttribute("id", account.getId());
         response.sendRedirect("putTokenTemp.jsp");
     }
-    
+
     public void internalError(HttpSession session, HttpServletResponse response) throws IOException {
         ArrayList<PageMessage> errors = new ArrayList();
         PageMessage e1 = new PageMessage();
@@ -148,13 +156,16 @@ public class OpenAccount extends HttpServlet {
         e1.setType("danger");
         errors.add(e1);
         session.setAttribute("messages", errors);
-        response.sendRedirect("index.jsp");
+        if (((PersonalAccount) session.getAttribute("account")).getNumber().equals("")) {
+            response.sendRedirect("index.jsp");
+        }
+        response.sendRedirect("accounts.jsp");
     }
 
     public void redirectToRegistration(User user, HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
-        
+
         ArrayList<PageMessage> errors = new ArrayList();
         PageMessage e1 = new PageMessage();
         e1.setTitle("Completar cadastro.");
@@ -162,8 +173,6 @@ public class OpenAccount extends HttpServlet {
         e1.setType("info");
         errors.add(e1);
         session.setAttribute("messages", errors);
-        response.sendRedirect("index.jsp");
-
         response.sendRedirect("registration.jsp");
     }
 

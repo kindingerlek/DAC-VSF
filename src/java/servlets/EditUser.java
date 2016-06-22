@@ -36,13 +36,10 @@ public class EditUser extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         HttpSession session = request.getSession();
-        
-        String email = request.getParameter("email");
-        User user = new User();
-        user.setEmail(email);
-        user = user.read();
+
+        User user = (User) session.getAttribute("user");
         int type = user.getType();
         switch (type) {
             case 1:
@@ -57,7 +54,7 @@ public class EditUser extends HttpServlet {
                     e1.setType("danger");
                     errors.add(e1);
                     session.setAttribute("messages", errors);
-                    response.sendRedirect("MyRegistration");
+                    response.sendRedirect("myregister.jsp");
                 }
                 user.setRg(request.getParameter("rg"));
                 user.setZipCode(request.getParameter("zipCode"));
@@ -70,7 +67,8 @@ public class EditUser extends HttpServlet {
                 user.setCellPhone(request.getParameter("cellphone"));
                 user.setAddressNumber(request.getParameter("addressNumber"));
                 user.setIncome(Double.parseDouble(request.getParameter("income")));
-                user.update();
+
+                updateUser(session, response, user);
                 break;
 
             case 2:
@@ -85,7 +83,7 @@ public class EditUser extends HttpServlet {
                     e1.setType("danger");
                     errors.add(e1);
                     session.setAttribute("messages", errors);
-                    response.sendRedirect("MyRegistration");
+                    response.sendRedirect("myregister.jsp");
                 }
                 user.setFantasyName(request.getParameter("fantasyName"));
                 user.setZipCode(request.getParameter("zipCode"));
@@ -98,22 +96,36 @@ public class EditUser extends HttpServlet {
                 user.setCellPhone(request.getParameter("cellphone"));
                 user.setAddressNumber(request.getParameter("addressNumber"));
                 user.setIncome(Double.parseDouble(request.getParameter("income")));
-                
-                user.update();
+
+                updateUser(session, response, user);
                 break;
 
             default:
                 internalError(session, response);
         }
 
-        ArrayList<PageMessage> errors = new ArrayList();
-        PageMessage e1 = new PageMessage();
-        e1.setTitle("Cadastro atualizado.");
-        e1.setType("sucess");
-        errors.add(e1);
-        session.setAttribute("messages", errors);
-        
-        response.sendRedirect("MyRegistration");
+    }
+
+    public void updateUser(HttpSession session, HttpServletResponse response, User user) throws IOException {
+        if (user.hasAllInformation()) {
+            user.update();
+            ArrayList<PageMessage> errors = new ArrayList();
+            PageMessage e1 = new PageMessage();
+            e1.setTitle("Cadastro atualizado.");
+            e1.setType("sucess");
+            errors.add(e1);
+            session.setAttribute("messages", errors);
+        } else {
+            ArrayList<PageMessage> errors = new ArrayList();
+            PageMessage e1 = new PageMessage();
+            e1.setTitle("Cadastro incompleto.");
+            e1.setType("danger");
+            errors.add(e1);
+            session.setAttribute("messages", errors);
+
+        }
+        response.sendRedirect("myregister.jsp");
+
     }
 
     public void internalError(HttpSession session, HttpServletResponse response) throws IOException {
@@ -124,8 +136,9 @@ public class EditUser extends HttpServlet {
         e1.setType("danger");
         errors.add(e1);
         session.setAttribute("messages", errors);
-        response.sendRedirect("MyRegistration");
+        response.sendRedirect("myregister.jsp");
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
