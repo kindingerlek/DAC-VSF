@@ -29,5 +29,7 @@
                 </div>
             </div>
         </div>
+                        
+    <script src="js/transactionBehaviour.js"></script>
     </body>
 </html>

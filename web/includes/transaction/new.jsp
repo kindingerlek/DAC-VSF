@@ -15,8 +15,10 @@
             <div class="form-group">
 
                 <label>Destino da tranferência:</label><br>
-                <input type="radio" name="personType" id="" value="1">&nbsp; Para uma de minhas contas.<br>
-                <input type="radio" name="personType" id="" value="2">&nbsp; Para uma conta de Terceiros.<br>
+                <input type="radio" name="destinationType" id="" value="1">&nbsp; Para uma de minhas contas.<br>
+                
+                <br>
+                <input type="radio" name="destinationType" id="" value="2">&nbsp; Para uma conta de Terceiros.<br>
 
             </div>
         </div>
@@ -30,7 +32,7 @@
     </div>
 
 
-    <div id="my_accounts" class="row">
+    <div id="myAccounts" class="row">
         <h4> Para uma de minhas contas</h4>
         <div class="col-md-6">
             <div class="form-group">
@@ -47,7 +49,7 @@
         </div>
     </div>
 
-    <div id="other_accounts" class="row">
+    <div id="otherAccounts" class="row">
         <h4> Para conta de terceiros</h4>
 
         <div class="col-md-6">                                    
