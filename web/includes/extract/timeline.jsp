@@ -1,99 +1,69 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 
 <h1>Extrato</h1>
 <hr>
 
 <div class="row">						
-	<div class="pull-right">
-		<a href="./extract_details.jsp" class="btn btn-primary">
-			Ver detalhes
-		</a>			
-	</div>
+    <div class="pull-right">
+        <a href="./extract_details.jsp" class="btn btn-primary">
+            Ver detalhes
+        </a>			
+    </div>
 </div>	
 
 
-<div class="row">
-	<div class="col-md-2">
-	</div>
+<div class="row" >
+    <br>
 
+    <div class="timeline container-fluid">
 
-	<div class="timeline">
-		<dl>
-			<dt>Abril de 2016</dt>
-			<dd class="pos-right clearfix withdrawal">
-				<div class="circ"></div>
-				<div class="time">14 de Abril</div>
-				<div class="events">
-					<div class="events-body text-center">
-						<h4 class="events-heading">Saque</h4>
-						<p class="value">Valor: -R$1200,00</p>
-						<p>Saldo: R$30000,00</p>
-					</div>
-				</div>
-			</dd>
+        <%-- Armazena o valor do saldo atual --%>
+        <c:set var="balance" value="${extract.balance}" />
 
-			<dd class="pos-right clearfix withdrawal">
-				<div class="circ"></div>
-				<div class="time">10 de Abril</div>
-				<div class="events">
-					<div class="events-body text-center">
-						<h4 class="events-heading">Saque</h4>
-						<p class="value">Valor: -R$200,00</p>
-						<p>Saldo: R$31400,00</p>
-					</div>
-				</div>
-			</dd>						
+        <%-- Percorre os meses --%>
+        <c:forEach items="${extract.transactions}" var="transaction">
+            <dl>
 
-			<dd class="pos-left clearfix deposit">
-				<div class="circ"></div>
-				<div class="time">2 de Abril</div>
-				<div class="events">
-					<div class="events-body text-center">
-						<h4 class="events-heading">Depósito</h4>
-						<p class="value">Valor: +R$1800,00</p>
-						<p>Saldo: R$30000,00</p>
-					</div>
-				</div>
-			</dd>
-		</dl>
+                <%-- Imprime o mês. (Ex: Junho de 2016) --%>
+                <dt><fmt:formatDate pattern="M de a" value="${extract}" /></dt>
 
-		<dl>
-			<dt>Maio de 2016</dt>
-			<dd class="pos-left clearfix deposit">
-				<div class="circ"></div>
-				<div class="time">24 de Maio</div>
-				<div class="events">
-					<div class="events-body text-center">
-						<h4 class="events-heading">Transferência</h4>
-						<p class="value">Valor: +R$10000,00</p>
-						<p>Saldo: R$30000,00</p>
-					</div>
-				</div>
-			</dd>
+                <%-- Percorre as transações do mês --%>
+                <c:forEach items="${extract.transactions}" var="transaction">
 
-			<dd class="pos-right clearfix withdrawal">
-				<div class="circ"></div>
-				<div class="time">18 de Maio</div>
-				<div class="events">
-					<div class="events-body text-center">
-						<h4 class="events-heading">Saque</h4>
-						<p class="value">Valor: -R$200,00</p>
-						<p>Saldo: R$31400,00</p>
-					</div>
-				</div>
-			</dd>						
+                    <%-- Define a classe CSS com base no valor da transação --%>
+                    <c:set var="transactionClass" value="${transaction.ammount < 0 ? 'pos-right clearfix withdrawal' : 'pos-left clearfix deposit'}" />
+                    <dd class="${transactionClass}">
+                    
+                        <div class="circ"></div>
 
-			<dd class="pos-left clearfix deposit">
-				<div class="circ"></div>
-				<div class="time">12 de Maio</div>
-				<div class="events">
-					<div class="events-body text-center">
-						<h4 class="events-heading">Depósito</h4>
-						<p class="value">Valor: +R$1800,00</p>
-						<p>Saldo: R$30000,00</p>
-					</div>
-				</div>
-			</dd>
-		</dl>
-	</div>
+                        <%-- Imprime a data (Ex:23 de Junho)  --%>
+                        <div class="time">
+                            <fmt:formatDate pattern="d - M" value="${transaction.date}"/>
+                        </div>
+                        
+                        <div class="events">
+                            <div class="events-body text-center">
+                                <h4 class="events-heading">${transaction.type}</h4>
+                                <p class="value">
+                                    Valor: 
+                                    <fmt:formatNumber type="CURRENCY " currencyCode="BRL" value="${transaction.ammount}"/>
+                                </p>
+
+                                <%-- Armazena o valor do saldo com o valor da transação --%>
+                                <c:set var="balance" value="${balance-ammount}" />                            
+                                <p>
+                                    Saldo: ${balance}
+                                    <fmt:formatNumber type="CURRENCY " currencyCode="BRL" value="${balance}"/>
+                                </p>
+                            </div>
+                        </div>
+                    </dd>
+                </c:forEach>
+
+            </dl>
+        </c:forEach>
+    </div>
 </div>
