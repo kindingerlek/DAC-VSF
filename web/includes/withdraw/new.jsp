@@ -6,7 +6,7 @@
 
 <p>
     Pensando na sua comodidade, o Banco Virtude Financeira disponibiliza para seus
-    clientes o depósito virtual. Assim, você pode sacar dinheiro da sua conta,
+    clientes o saque virtual. Assim, você pode sacar dinheiro da sua conta,
     <b>sem precisar</b> sair de casa.
     
     <br>

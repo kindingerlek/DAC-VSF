@@ -40,6 +40,7 @@
         </div>  
 
         <script src="./js/newPersonValidation.js"></script>
+        <script src="./js/newAccountValidation.js"></script>
         <script src="./js/indexBehaviour.js"></script>
 
     </body>

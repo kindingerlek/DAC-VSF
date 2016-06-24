@@ -6,7 +6,7 @@
 
 <p>
     Pensando na sua comodidade, o Banco Virtude Financeira disponibiliza para seus
-    clientes o saque virtual. Assim, você pode sacar dinheiro <b>sem precisar</b>
+    clientes o deposito virtual. Assim, você pode depositar dinheiro <b>sem precisar</b>
     sair de casa.
     <br>
     Como funciona? O Banco Virtude financeira <b>possui uma grande</b>
@@ -17,15 +17,15 @@
 </p>
 
 
-<form class="form" action="deposit" method="POST">
+<form class="form" action="InsertToken?action=Deposit" method="POST">
 	<div class="col-md-12">                                    
 		<div class="form-group">
-			<label>Valor do depósito:</label>
-			<input type="number" class="form-control" id="value" name="value">
+			<label>Valor do deposito:</label>
+			<input type="number" class="form-control" id="value" name="amount" value="R$0000,00">
 		</div>
 	</div>
     
     <div class="text-center">
-        <input type="submit" class="btn btn-primary" value="Sacar" />
+        <input type="submit" class="btn btn-primary" value="Depositar" />
     </div>
 </form>
