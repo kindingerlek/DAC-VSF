@@ -1,7 +1,6 @@
 //triggers
 $('#cpfInput').on('blur', testCpf);
 $('#confirmPassword').on('blur', testPassword);
-$('#password').on('blur', testPassword);
 $('#email').on('blur', testEmail);
 $('#cnpj').on('blur', testCnpj);
 $('#confirmPasswordPj').on('blur', testPassword);

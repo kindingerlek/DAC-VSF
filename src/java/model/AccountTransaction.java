@@ -26,15 +26,11 @@ public class AccountTransaction {
     private int id;
     
     @Column(name = "type")
-    private int transactionType;
+    private String transactionType;
     
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = true)
     private PersonalAccount account;
-    
-    @ManyToOne
-    @JoinColumn(name = "transaction_account", nullable = true)
-    private PersonalAccount transactionAccount;
     
     @Column(name = "date")
     private Date date;
@@ -51,11 +47,11 @@ public class AccountTransaction {
         this.id = id;
     }
 
-    public int getTransactionType() {
+    public String getTransactionType() {
         return transactionType;
     }
 
-    public void setTransactionType(int transactionType) {
+    public void setTransactionType(String transactionType) {
         this.transactionType = transactionType;
     }
 
@@ -65,14 +61,6 @@ public class AccountTransaction {
 
     public void setAccount(PersonalAccount account) {
         this.account = account;
-    }
-
-    public PersonalAccount getTransactionAccount() {
-        return transactionAccount;
-    }
-
-    public void setTransactionAccount(PersonalAccount transactionAccount) {
-        this.transactionAccount = transactionAccount;
     }
 
     public Date getDate() {

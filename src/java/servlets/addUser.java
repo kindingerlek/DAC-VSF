@@ -43,7 +43,7 @@ public class addUser extends HttpServlet {
         User user = new User();
         user.setType(Integer.parseInt((String) request.getParameter("personType")));
         HttpSession session = request.getSession();
-
+        
         if (password.equals(confirmPassword)) {
             switch (user.getType()) {
                 case 1:
@@ -61,25 +61,39 @@ public class addUser extends HttpServlet {
                         errors.add(e1);
                         session.setAttribute("messages", errors);
                         response.sendRedirect("index.jsp");
+                        break;
                     }
 
                     user.setRg((String) request.getParameter("rg"));
                     user.setPassword(password);
-                    if (user.create()) {
+                    try {
+                        if (user.create()) {
+                            ArrayList<PageMessage> errors = new ArrayList();
+                            PageMessage e1 = new PageMessage();
+                            e1.setTitle("Parabéns!");
+                            e1.setText(" O primeiro passo já foi, agora você precisa completar seu cadastro.");
+                            e1.setType("success");
+                            errors.add(e1);
+                            session.setAttribute("messages", errors);
+
+                            session.setAttribute("user", user);
+                            response.sendRedirect("registration.jsp");
+                        } else {
+                            internalError(session, response);
+                        }
+                    } catch (Exception er) {
                         ArrayList<PageMessage> errors = new ArrayList();
                         PageMessage e1 = new PageMessage();
-                        e1.setTitle("Parabéns!");
-                        e1.setText(" O primeiro passo já foi, agora você precisa completar seu cadastro.");
-                        e1.setType("success");
+                        e1.setTitle("CPF já cadastrado.");
+                        e1.setText(" O CPF já está cadastrado.");
+                        e1.setType("danger");
                         errors.add(e1);
                         session.setAttribute("messages", errors);
-
-                        session.setAttribute("user", user);
-                        response.sendRedirect("registration.jsp");
-                    } else {
-                        internalError(session, response);
+                        response.sendRedirect("index.jsp");
+                        break;
                     }
                     break;
+
                 case 2:
                     user.setName((String) request.getParameter("name"));
                     user.setFantasyName((String) request.getParameter("fantasyName"));
@@ -99,23 +113,33 @@ public class addUser extends HttpServlet {
                     }
 
                     user.setPassword(password);
-                    if (user.create()) {
+                    try {
+                        if (user.create()) {
+                            ArrayList<PageMessage> errors = new ArrayList();
+                            PageMessage e1 = new PageMessage();
+                            e1.setTitle("Parabéns!");
+                            e1.setText(" O primeiro passo já foi, agora você precisa completar seu cadastro.");
+                            e1.setType("success");
+                            errors.add(e1);
+                            session.setAttribute("messages", errors);
+
+                            session.setAttribute("user", user);
+                            response.sendRedirect("registration.jsp");
+                        } else {
+                            internalError(session, response);
+                        }
+                    } catch (Exception er) {
                         ArrayList<PageMessage> errors = new ArrayList();
                         PageMessage e1 = new PageMessage();
-                        e1.setTitle("Parabéns!");
-                        e1.setText(" O primeiro passo já foi, agora você precisa completar seu cadastro.");
-                        e1.setType("success");
+                        e1.setTitle("CNPJ já cadastrado.");
+                        e1.setText(" O CNPJ já está cadastrado.");
+                        e1.setType("danger");
                         errors.add(e1);
                         session.setAttribute("messages", errors);
-
-                        session.setAttribute("user", user);
-                        response.sendRedirect("registration.jsp");
-                    } else {
-                        internalError(session, response);
+                        response.sendRedirect("index.jsp");
+                        break;
                     }
                     break;
-                default:
-                    internalError(session, response);
             }
 
         } else {

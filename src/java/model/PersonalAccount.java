@@ -5,12 +5,14 @@
  */
 package model;
 
+import dao.AccountTransactionDAO;
 import dao.PersonalAccountDAO;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,11 +65,8 @@ public class PersonalAccount {
     @Column(name = "account_limit")
     private Double limit;
 
-    @OneToMany(mappedBy = "transactionAccount", fetch = FetchType.EAGER, targetEntity = AccountTransaction.class, cascade = CascadeType.ALL)
-    private Collection<AccountTransaction> transactionsIn;
-
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER, targetEntity = AccountTransaction.class, cascade = CascadeType.ALL)
-    private Collection<AccountTransaction> transactionsOut;
+    private Collection<AccountTransaction> transactions;
 
     @Column(name = "indebt_since")
     private Date indebtSince;
@@ -105,20 +104,12 @@ public class PersonalAccount {
         this.type = type;
     }
 
-    public Collection<AccountTransaction> getTransactionsIn() {
-        return transactionsIn;
+    public Collection<AccountTransaction> getTransactions() {
+        return transactions;
     }
 
-    public void setTransactionsIn(Collection<AccountTransaction> transactionsIn) {
-        this.transactionsIn = transactionsIn;
-    }
-
-    public Collection<AccountTransaction> getTransactionsOut() {
-        return transactionsOut;
-    }
-
-    public void setTransactionsOut(Collection<AccountTransaction> transactionsOut) {
-        this.transactionsOut = transactionsOut;
+    public void setTransactions(Collection<AccountTransaction> transactions) {
+        this.transactions = transactions;
     }
 
     public int getId() {
@@ -170,6 +161,10 @@ public class PersonalAccount {
     }
 
     //Class structure
+    public List<AccountTransaction> getExtract() {
+        return AccountTransactionDAO.getExtract(this);
+    }
+
     public void deposit(Double amount) {
         if (this.getBalance() + amount > 0) {
             this.setStatus("Regular");
@@ -181,7 +176,7 @@ public class PersonalAccount {
         AccountTransaction at = new AccountTransaction();
         at.setAccount(this);
         at.setAmount(amount);
-        at.setTransactionType(2);
+        at.setTransactionType("Deposito");
         at.setDate(new Date());
 
         at.create();
@@ -207,8 +202,8 @@ public class PersonalAccount {
             }
             AccountTransaction at = new AccountTransaction();
             at.setAccount(this);
-            at.setAmount(amount);
-            at.setTransactionType(1);
+            at.setAmount(-amount);
+            at.setTransactionType("Saque");
             at.setDate(new Date());
 
             at.create();
@@ -230,6 +225,7 @@ public class PersonalAccount {
         int conta2 = 1 + numero.nextInt(9);
         this.setNumber(Integer.toString(conta1) + "-" + Integer.toString(conta2));
         this.setType(user.getType());
+        user.setStatus("Ativo");
         this.setUser(user);
 
         if (user.getIncome() > 1000) {
@@ -276,11 +272,12 @@ public class PersonalAccount {
 
     public Double getMonthMovement() {
         Double amount = 0.0;
-        for (AccountTransaction transaction : transactionsIn) {
-            amount += transaction.getAmount();
-        }
-        for (AccountTransaction transaction : transactionsOut) {
-            amount -= transaction.getAmount();
+
+        for (AccountTransaction transaction : transactions) {
+            Date dateBefore = new Date(System.currentTimeMillis() - 30 * 24 * 3600 * 1000);
+            if (transaction.getDate().before(dateBefore)) {
+                amount += transaction.getAmount();
+            }
         }
         return amount;
     }

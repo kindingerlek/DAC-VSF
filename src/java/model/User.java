@@ -71,12 +71,22 @@ public class User {
     private String tokenForAccount;
     @Column(name = "income")
     private Double income;
+    @Column(name = "status")
+    private String status;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, targetEntity = PersonalAccount.class, cascade = CascadeType.ALL)
     private List<PersonalAccount> accountList;
 
     // Beans Structure
     public User() {
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getState() {
@@ -216,6 +226,8 @@ public class User {
     }
 
     public void setCpf(String cpf) throws Exception {
+        cpf = cpf.replaceAll("[.-]", "");
+        System.out.println(cpf);
         if (Utils.isValidCPF(cpf)) {
             this.cpf = cpf;
         } else {
@@ -236,6 +248,7 @@ public class User {
     }
 
     public void setCnpj(String cnpj) throws Exception {
+        cnpj = cnpj.replaceAll("[.-]", "");
         if (Utils.isValidCNPJ(cnpj)) {
             this.cnpj = cnpj;
 

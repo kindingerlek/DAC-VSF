@@ -83,7 +83,7 @@ public class Withdraw extends HttpServlet {
                             e1.setType("danger");
                             errors.add(e1);
                             session.setAttribute("messages", errors);
-                            response.sendRedirect("index.jsp");
+                            response.sendRedirect("home.jsp");
                             break;
                     }
                 }
