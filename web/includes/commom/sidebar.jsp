@@ -35,7 +35,7 @@
 		</div>
 	</a>
 
-    <c:if condition="${user.type == 2}">
+    <c:if test="${user.type == 2}">
         <a href="withdraw.jsp">
             <div class="sidebar-item">
                 <div class="item-icon">
