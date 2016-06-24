@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="sidebar-menu">
@@ -34,16 +35,18 @@
 		</div>
 	</a>
 
-	<a href="withdraw.jsp">
-		<div class="sidebar-item">
-			<div class="item-icon">
-				<i class="fa fa-money fa-2x" aria-hidden="true"></i>					
-			</div>
-			<div class="item-text">
-				Saque Virtual
-			</div>
-		</div>
-	</a>
+    <c:if condition="${user.type == 2}">
+        <a href="withdraw.jsp">
+            <div class="sidebar-item">
+                <div class="item-icon">
+                    <i class="fa fa-money fa-2x" aria-hidden="true"></i>					
+                </div>
+                <div class="item-text">
+                    Saque Virtual
+                </div>
+            </div>
+        </a>
+    </c:if>
 
 	<a href="transaction.jsp">
 		<div class="sidebar-item">
