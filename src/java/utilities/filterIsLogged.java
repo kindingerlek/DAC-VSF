@@ -26,19 +26,20 @@ import model.User;
     "/home.jsp",
     "/insertToken.jsp",
     "/myregister.jsp",
-    "/putTokenTemp.jsp",
     "/template.jsp",
     "/registration.jsp",
     "/withdraw.jsp",
     "/EditUser",
     "/InsertToken",
-    "/Withdraw"
+    "/Withdraw",
+    "/Extract",
+    "/Deposit"
 }, dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD})
 
 public class filterIsLogged implements Filter {
 
     private static final boolean debug = true;
-    private static final boolean active = false;
+    private static final boolean active = true;
     
 
     // The filter configuration object we are associated with.  If

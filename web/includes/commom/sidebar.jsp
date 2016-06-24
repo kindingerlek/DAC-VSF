@@ -12,7 +12,7 @@
 		</div>
 	</a>
 
-	<a href="extract.jsp">
+	<a href="Extract">
 		<div class="sidebar-item">
 			<div class="item-icon">
 				<i class="fa fa-file-text fa-2x" aria-hidden="true"></i>					

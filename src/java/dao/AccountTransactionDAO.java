@@ -5,10 +5,13 @@
  */
 package dao;
 
+import java.util.List;
 import model.AccountTransaction;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import static utilities.HibernateUtils.getSessionFactory;
+import model.PersonalAccount;
+import org.hibernate.Query;
 
 /**
  *
@@ -35,5 +38,23 @@ public class AccountTransactionDAO {
             session.close();
             return false;
         }
+    }
+    
+    public static List<AccountTransaction> getExtract(PersonalAccount personalAccount) {
+        Session session = null;
+        Query query = null;
+        List<AccountTransaction> transactions = null;
+        try {
+            session = getSessionFactory().openSession();
+            query = session.createQuery("from AccountTransaction where "
+                    + "account_id  = :accountId "
+                    + "order by date desc");
+            query.setParameter("accountId", personalAccount.getId());
+            transactions = query.list();
+        } catch (Exception e) {
+            System.out.println("read get extract " + e);
+        }
+            session.close();
+            return transactions;
     }
 }

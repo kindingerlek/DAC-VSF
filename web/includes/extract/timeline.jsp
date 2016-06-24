@@ -29,10 +29,10 @@
             <dt>Hoje</dt>
 
             <%-- Percorre as transações do mês --%>
-            <c:forEach items="${account.transactions}" var="transaction">
+            <c:forEach items="${transactions}" var="transaction">
 
                 <%-- Define a classe CSS com base no valor da transação --%>
-                <c:set var="transactionClass" value="${transaction.ammount < 0 ? 'pos-right clearfix withdrawal' : 'pos-left clearfix deposit'}" />
+                <c:set var="transactionClass" value="${transaction.amount < 0 ? 'pos-right clearfix withdrawal' : 'pos-left clearfix deposit'}" />
                 <dd class="${transactionClass}">
 
                     <div class="circ"></div>
@@ -44,16 +44,16 @@
 
                     <div class="events">
                         <div class="events-body text-center">
-                            <h4 class="events-heading">${transaction.type}</h4>
+                            <h4 class="events-heading">${transaction.transactionType}</h4>
                             <p class="value">
                                 Valor: 
-                                <fmt:formatNumber type="CURRENCY" currencyCode="BRL" value="${transaction.ammount}"/>
+                                <fmt:formatNumber type="CURRENCY" currencyCode="BRL" value="${transaction.amount}"/>
                             </p>
 
                             <%-- Armazena o valor do saldo com o valor da transação--%>
-                            <c:set var="balance" value="${balance-ammount}" />                            
+                            <c:set var="balance" value="${(balance - transaction.amount)}" />                            
                             <p>
-                                Saldo: ${balance}
+                                Saldo:
                                 <fmt:formatNumber type="CURRENCY" currencyCode="BRL" value="${balance}"/>
                             </p>
                         </div>

@@ -95,7 +95,7 @@ public class PersonalAccountDAO {
             return personalAccountReturned;
         }
     }
-    
+
     public static PersonalAccount readById(PersonalAccount personalAccount) {
         Session session = null;
         PersonalAccount personalAccountReturned = new PersonalAccount();
@@ -111,7 +111,7 @@ public class PersonalAccountDAO {
             return personalAccountReturned;
         }
     }
-    
+
     public static PersonalAccount readByUser(PersonalAccount personalAccount) {
         Session session = null;
         PersonalAccount personalAccountReturned = new PersonalAccount();
@@ -127,7 +127,7 @@ public class PersonalAccountDAO {
             return personalAccountReturned;
         }
     }
-    
+
     public static PersonalAccount readByUserIdAndInativeStatus(PersonalAccount personalAccount) {
         Session session = null;
         PersonalAccount personalAccountReturned = new PersonalAccount();
@@ -143,7 +143,7 @@ public class PersonalAccountDAO {
             return personalAccountReturned;
         }
     }
-    
+
     public static List<PersonalAccount> accountsIndebt() {
         Session session = null;
         List<PersonalAccount> personalAccounts = null;
@@ -158,8 +158,8 @@ public class PersonalAccountDAO {
             return personalAccounts;
         }
     }
-    
-    public static Collection<AccountTransaction> readInTransactions(PersonalAccount personalAccount) {
+
+    public static Collection<AccountTransaction> readTransactions(PersonalAccount personalAccount) {
         Session session = null;
         Collection<AccountTransaction> transactionsToReturn = null;
         PersonalAccount personalAccountReturned = new PersonalAccount();
@@ -168,27 +168,8 @@ public class PersonalAccountDAO {
             Query query = session.createQuery("from PersonalAccount where number = :number");
             query.setParameter("number", personalAccount.getNumber());
             personalAccountReturned = (PersonalAccount) query.uniqueResult();
-            personalAccountReturned.getTransactionsIn().size();
-            transactionsToReturn = personalAccountReturned.getTransactionsIn();
-        } catch (Exception e) {
-            System.out.println("read personalAccount");
-        } finally {
-            session.close();
-            return transactionsToReturn;
-        }
-    }
-    
-     public static Collection<AccountTransaction> readOutTransactions(PersonalAccount personalAccount) {
-        Session session = null;
-        Collection<AccountTransaction> transactionsToReturn = null;
-        PersonalAccount personalAccountReturned = new PersonalAccount();
-        try {
-            session = getSessionFactory().openSession();
-            Query query = session.createQuery("from PersonalAccount where number = :number");
-            query.setParameter("number", personalAccount.getNumber());
-            personalAccountReturned = (PersonalAccount) query.uniqueResult();
-            personalAccountReturned.getTransactionsOut().size();
-            transactionsToReturn = personalAccountReturned.getTransactionsOut();
+            personalAccountReturned.getTransactions().size();
+            transactionsToReturn = personalAccountReturned.getTransactions();
         } catch (Exception e) {
             System.out.println("read personalAccount");
         } finally {

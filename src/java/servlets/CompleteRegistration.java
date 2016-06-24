@@ -44,10 +44,10 @@ public class CompleteRegistration extends HttpServlet {
         int type = user.getType();
         Double income = null;
 
-        if (request.getParameter("income").equals("")) {
+        if (((String) request.getParameter("income")).equals("")) {
             income = 0.0;
         } else {
-            Double.parseDouble(request.getParameter("income"));
+            income = Double.parseDouble((String) request.getParameter("income"));
         }
 
         switch (type) {
@@ -76,6 +76,7 @@ public class CompleteRegistration extends HttpServlet {
                 user.setCellPhone(request.getParameter("cellphone"));
                 user.setAddressNumber(request.getParameter("addressNumber"));
                 user.setIncome(income);
+                System.out.println(user.getIncome());
                 user.update();
                 break;
 
