@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <h1>Extrato</h1>
 <hr>
@@ -8,12 +9,21 @@
 
 	<div class="form-group">
 		<label for="">De: </label>
-		<input type="text" name="from-date" class="form-control" id="from-date" placeholder="dd/mm/aaaa">
+		<input type="date" name="fromDate" class="form-control" id="from-date" placeholder="dd/mm/aaaa">
 	</div>
 	<div class="form-group">
 		<label for="">&nbsp até &nbsp</label>
-		<input type="text" name="to-date" class="form-control" id="to-date" placeholder="dd/mm/aaaa">
+		<input type="date" name="toDate" class="form-control" id="to-date" placeholder="dd/mm/aaaa">
 	</div>
+    
+    <div class="form-group" name="periodDate">
+        <label> &nbsp Ou escolha um período:</label>
+        <select class="form-control">
+            <option value="lastWeek">Nos últimos 7 dias</option>
+            <option value="lastFortnight">Nos últimos 15 dias</option>
+            <option value="lastMouth">Nos últimos 30 dias</option>
+        </select>
+    </div>
 
 	<div class="pull-right">
 		<button class="btn btn-primary">
@@ -33,9 +43,16 @@
 		<td class="col-md-2"> <b> Data <b> </td>
 	</thead>
 	<tbody>
-		<td>lorem impsum</td>
-		<td>lorem impsum</td>
-		<td>lorem impsum</td>
-		<td>lorem impsum</td>
+    
+        <c:forEach items="${account.transactions}" var="transaction">
+            
+            <c:set var="inAmmount" value="${transaction.ammount >= 0 ? transaction.ammount : ''}" />
+            <c:set var="outAmmout" value="${transaction.ammount  < 0 ? transaction.ammount : ''}" />
+            
+            <td>${transaction.type}</td>
+            <td>${inAmmount}</td>
+            <td>${outAmmount}</td>
+            <td><fmt:formatDate pattern="d/M/a" value="${transaction.date}"/></td>
+        </c:forEach>
 	</tbody>
 </table>
