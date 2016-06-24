@@ -59,6 +59,10 @@ h3 {
 	font-size: 16pt
 }
 
+.timeline {
+	background: #F3F3F3;
+}
+
 .events h4{
 	margin-top: 6px !important;
 	margin-bottom: 16px !important;
@@ -114,4 +118,5 @@ hr {
     color:#264348;
     font-size: 32pt;
 }
+
 
