@@ -23,47 +23,43 @@
         <%-- Armazena o valor do saldo atual --%>
         <c:set var="balance" value="${extract.balance}" />
 
-        <%-- Percorre os meses --%>
-        <c:forEach items="${extract.transactions}" var="transaction">
-            <dl>
+        <dl>
 
-                <%-- Imprime o mês. (Ex: Junho de 2016) --%>
-                <dt><fmt:formatDate pattern="M de a" value="${extract}" /></dt>
+            <%-- Imprime o mês. (Ex: Junho de 2016) --%>
+            <dt><fmt:formatDate pattern="M de a" value="${extract}" /></dt>
 
-                <%-- Percorre as transações do mês --%>
-                <c:forEach items="${extract.transactions}" var="transaction">
+            <%-- Percorre as transações do mês --%>
+            <c:forEach items="${account.transactions}" var="transaction">
 
-                    <%-- Define a classe CSS com base no valor da transação --%>
-                    <c:set var="transactionClass" value="${transaction.ammount < 0 ? 'pos-right clearfix withdrawal' : 'pos-left clearfix deposit'}" />
-                    <dd class="${transactionClass}">
-                    
-                        <div class="circ"></div>
+                <%-- Define a classe CSS com base no valor da transação --%>
+                <c:set var="transactionClass" value="${transaction.ammount < 0 ? 'pos-right clearfix withdrawal' : 'pos-left clearfix deposit'}" />
+                <dd class="${transactionClass}">
 
-                        <%-- Imprime a data (Ex:23 de Junho)  --%>
-                        <div class="time">
-                            <fmt:formatDate pattern="d - M" value="${transaction.date}"/>
+                    <div class="circ"></div>
+
+                    <%-- Imprime a data (Ex:23/06/2016)  --%>
+                    <div class="time">
+                        <fmt:formatDate pattern="d/M/a" value="${transaction.date}"/>
+                    </div>
+
+                    <div class="events">
+                        <div class="events-body text-center">
+                            <h4 class="events-heading">${transaction.type}</h4>
+                            <p class="value">
+                                Valor: 
+                                <fmt:formatNumber type="CURRENCY" currencyCode="BRL" value="${transaction.ammount}"/>
+                            </p>
+
+                            <%-- Armazena o valor do saldo com o valor da transação--%>
+                            <c:set var="balance" value="${balance-ammount}" />                            
+                            <p>
+                                Saldo: ${balance}
+                                <fmt:formatNumber type="CURRENCY" currencyCode="BRL" value="${balance}"/>
+                            </p>
                         </div>
-                        
-                        <div class="events">
-                            <div class="events-body text-center">
-                                <h4 class="events-heading">${transaction.type}</h4>
-                                <p class="value">
-                                    Valor: 
-                                    <fmt:formatNumber type="CURRENCY " currencyCode="BRL" value="${transaction.ammount}"/>
-                                </p>
-
-                                <%-- Armazena o valor do saldo com o valor da transação --%>
-                                <c:set var="balance" value="${balance-ammount}" />                            
-                                <p>
-                                    Saldo: ${balance}
-                                    <fmt:formatNumber type="CURRENCY " currencyCode="BRL" value="${balance}"/>
-                                </p>
-                            </div>
-                        </div>
-                    </dd>
-                </c:forEach>
-
-            </dl>
-        </c:forEach>
+                    </div>
+                </dd>
+            </c:forEach>
+        </dl>
     </div>
 </div>
