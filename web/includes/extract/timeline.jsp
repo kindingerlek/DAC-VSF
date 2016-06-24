@@ -21,12 +21,12 @@
     <div class="timeline container-fluid">
 
         <%-- Armazena o valor do saldo atual --%>
-        <c:set var="balance" value="${extract.balance}" />
+        <c:set var="balance" value="${account.balance}" />
 
         <dl>
 
             <%-- Imprime o mês. (Ex: Junho de 2016) --%>
-            <dt><fmt:formatDate pattern="M de a" value="${extract}" /></dt>
+            <dt>Hoje</dt>
 
             <%-- Percorre as transações do mês --%>
             <c:forEach items="${account.transactions}" var="transaction">
