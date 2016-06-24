@@ -144,6 +144,21 @@ public class PersonalAccountDAO {
         }
     }
     
+    public static List<PersonalAccount> accountsIndebt() {
+        Session session = null;
+        List<PersonalAccount> personalAccounts = null;
+        try {
+            session = getSessionFactory().openSession();
+            Query query = session.createQuery("from PersonalAccount where status = 'Em cheque especial'");
+            personalAccounts = (List<PersonalAccount>) query.list();
+        } catch (Exception e) {
+            System.out.println("read accounts indebt " + e.getMessage());
+        } finally {
+            session.close();
+            return personalAccounts;
+        }
+    }
+    
     public static Collection<AccountTransaction> readInTransactions(PersonalAccount personalAccount) {
         Session session = null;
         Collection<AccountTransaction> transactionsToReturn = null;

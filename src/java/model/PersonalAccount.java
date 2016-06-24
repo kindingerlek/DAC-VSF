@@ -24,6 +24,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.ws.rs.core.Response;
+import utilities.Utils;
 
 @Entity
 @Table(name = "account")
@@ -67,6 +69,9 @@ public class PersonalAccount {
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER, targetEntity = AccountTransaction.class, cascade = CascadeType.ALL)
     private Collection<AccountTransaction> transactionsOut;
 
+    @Column(name = "indebt_since")
+    private Date indebtSince;
+
     //Bean structure / getters & setters
     public User getUser() {
         return user;
@@ -74,6 +79,14 @@ public class PersonalAccount {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Date getIndebtSince() {
+        return indebtSince;
+    }
+
+    public void setIndebtSince(Date indebtSince) {
+        this.indebtSince = indebtSince;
     }
 
     public Double getLimit() {
@@ -158,33 +171,39 @@ public class PersonalAccount {
 
     //Class structure
     public void deposit(Double amount) {
-            if (this.getBalance() + amount > 0) {
-                this.setStatus("Regular");
-            } else {
-                this.setStatus("Em cheque especial");
-            }
-            AccountTransaction at = new AccountTransaction();
-            at.setAccount(this);
-            at.setAmount(amount);
-            at.setTransactionType(2);
-            at.setDate(new Date());
+        if (this.getBalance() + amount > 0) {
+            this.setStatus("Regular");
+//            Utils.removeDebtorInDOR(getUser());
+        } else if (!getStatus().equals("Em cheque especial")) {
+            this.setStatus("Em cheque especial");
+            this.setIndebtSince(new Date());
+        }
+        AccountTransaction at = new AccountTransaction();
+        at.setAccount(this);
+        at.setAmount(amount);
+        at.setTransactionType(2);
+        at.setDate(new Date());
 
-            at.create();
+        at.create();
 
-            this.setBalance(getBalance() + amount);
-            this.update();
+        this.setBalance(getBalance() + amount);
+        this.update();
 
     }
-    
+
     public void withdraw(Double amount) throws Exception {
         if (this.getType() == 2) {
             if (this.getBalance() - amount < 0) {
                 if ((this.getBalance() - amount) < (-this.getLimit())) {
                     throw new Exception("inadequate limit");
                 }
-                this.setStatus("Em cheque especial");
+                if (!getStatus().equals("Em cheque especial")) {
+                    this.setStatus("Em cheque especial");
+                    this.setIndebtSince(new Date());
+                }
             } else {
                 this.setStatus("Regular");
+//                Utils.removeDebtorInDOR(getUser());
             }
             AccountTransaction at = new AccountTransaction();
             at.setAccount(this);
@@ -254,13 +273,13 @@ public class PersonalAccount {
     public PersonalAccount readById() {
         return PersonalAccountDAO.readById(this);
     }
-    
-    public Double getMonthMovement(){
+
+    public Double getMonthMovement() {
         Double amount = 0.0;
-        for (AccountTransaction transaction : transactionsIn){
+        for (AccountTransaction transaction : transactionsIn) {
             amount += transaction.getAmount();
         }
-        for (AccountTransaction transaction : transactionsOut){
+        for (AccountTransaction transaction : transactionsOut) {
             amount -= transaction.getAmount();
         }
         return amount;
