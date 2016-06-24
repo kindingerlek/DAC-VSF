@@ -71,6 +71,9 @@ public class User {
     private String tokenForAccount;
     @Column(name = "income")
     private Double income;
+    @Column(name = "inactive")
+    private boolean inactive;
+    
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, targetEntity = PersonalAccount.class, cascade = CascadeType.ALL)
     private List<PersonalAccount> accountList;
@@ -79,6 +82,7 @@ public class User {
     public User() {
     }
 
+    // <editor-fold defaultstate="collapsed" desc="Encapsulated Fields">
     public String getState() {
         return state;
     }
@@ -202,7 +206,7 @@ public class User {
     public PersonalAccount getAccountList(int indexPersonalAccount) {
         return accountList.get(indexPersonalAccount);
     }
-
+    
     public String getIdentifier() {
         if(getType() == 1) {
             return getCpf();
@@ -268,6 +272,8 @@ public class User {
         this.fantasyName = fantasyName;
     }
 
+    //</editor-fold>
+    
     //Class Structure
     public boolean create() {
         if (getType() == 1) {
@@ -295,6 +301,8 @@ public class User {
     public boolean delete() {
         return UserDAO.delete(this);
     }
+    
+    // <editor-fold defaultstate="collapsed" desc="Validations Methods">
 
     public boolean hasAllInformation() {
         if (this.getType() == 1) {
@@ -383,6 +391,8 @@ public class User {
                 || (this.getFantasyName().isEmpty())
                 || (this.getCnpj().isEmpty()));
     }
+    
+    //</editor-fold>
 
     public boolean verifyPassword(String password) {
         if (password != null && hashString(password).equals(this.getPassword())) {

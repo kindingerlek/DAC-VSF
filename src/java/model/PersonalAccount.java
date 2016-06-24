@@ -289,6 +289,17 @@ public class PersonalAccount {
         return hashString(password).equals(this.getPassword());
     }
 
+    public boolean close()
+    {
+        if(this.balance < 0)
+            return false;
+        
+        this.setStatus("Deletado");
+        this.update();
+        
+        return true;
+    }
+    
     private String hashString(String message) {
 
         try {
