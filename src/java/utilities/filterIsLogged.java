@@ -39,7 +39,8 @@ import model.User;
     "/ExtractDetailed",
     "/transaction.jsp",
     "/CloseAccount",
-    "/InsertTransferToken"
+    "/InsertTransferToken",
+    "/accounts.jsp"
 }, dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD})
 
 public class filterIsLogged implements Filter {
