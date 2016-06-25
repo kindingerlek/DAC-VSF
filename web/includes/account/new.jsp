@@ -26,7 +26,6 @@
     <div class="form-group">
       <label for="">Senha:</label>
       <input type="password" class="form-control" id="account-password" name="password" placeholder="********">
-      <a href="#"> Esqueceu sua senha?</a>
     </div>
   </div>
 

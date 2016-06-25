@@ -27,6 +27,8 @@
                     <div class="container-fluid">
                         <h1> Bem Vindo(a) ${user.name}! </h1>
                         
+                        <hr>
+                        
                         <h2>Seu saldo nesta conta: <fmt:formatNumber value="${account.balance}" type="currency"/></h2>
                         <h2>Movimentos no mês: <fmt:formatNumber value="${account.getMonthMovement()}" type="currency"/></h2>
                     </div>
