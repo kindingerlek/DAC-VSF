@@ -66,7 +66,7 @@ public class Login extends HttpServlet {
             session.setAttribute("messages", messages);
             RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
             rd.forward(request, response);
-        }
+        } 
         if (!account.getStatus().equals("Fechada")) {
             if (account.verifyPassword(password)) {
                 if (account.getAgency().getNumber().equals(agencyNumber)) {

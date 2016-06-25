@@ -164,42 +164,51 @@ public class PersonalAccount {
     public List<AccountTransaction> getExtract() {
         return AccountTransactionDAO.getExtract(this);
     }
-    
+
     public List<AccountTransaction> getExtractByMonth() {
         return AccountTransactionDAO.getExtractByMonth(this);
     }
-    
+
     public List<AccountTransaction> getExtractByWeek() {
         return AccountTransactionDAO.getExtractByWeek(this);
     }
-    
+
     public List<AccountTransaction> getExtractByFornight() {
         return AccountTransactionDAO.getExtractByFortnight(this);
     }
 
-    public void deposit(Double amount) {
+    public void transfer(PersonalAccount accountToSend, Double ammount) throws Exception {
+        this.withdraw(ammount, "Transferência");
+        accountToSend.deposit(ammount, "Transferência");
+    }
+
+    public void deposit(Double amount, String type) {
         if (this.getBalance() + amount > 0) {
             this.setStatus("Regular");
 //            Utils.removeDebtorInDOR(getUser());
-        } else if (!getStatus().equals("Em cheque especial")) {
-            this.setStatus("Em cheque especial");
-            this.setIndebtSince(new Date());
         }
+        
+        System.out.println("conta deposito"+ this.number);
+        System.out.println(amount);
+        System.out.println(type);
         AccountTransaction at = new AccountTransaction();
         at.setAccount(this);
         at.setAmount(amount);
-        at.setTransactionType("Deposito");
+        at.setTransactionType(type);
         at.setDate(new Date());
 
         at.create();
 
         this.setBalance(getBalance() + amount);
-        this.update();
+        System.out.println(this.update());
 
     }
 
-    public void withdraw(Double amount) throws Exception {
-        if (this.getType() == 2) {
+    public void withdraw(Double amount, String type) throws Exception {
+        if (this.getType() == 2 || type.equals("Transferência")) {
+            System.out.println("entrou");
+            System.out.println(amount);
+
             if (this.getBalance() - amount < 0) {
                 if ((this.getBalance() - amount) < (-this.getLimit())) {
                     throw new Exception("inadequate limit");
@@ -208,14 +217,12 @@ public class PersonalAccount {
                     this.setStatus("Em cheque especial");
                     this.setIndebtSince(new Date());
                 }
-            } else {
-                this.setStatus("Regular");
-//                Utils.removeDebtorInDOR(getUser());
             }
+
             AccountTransaction at = new AccountTransaction();
             at.setAccount(this);
             at.setAmount(-amount);
-            at.setTransactionType("Saque");
+            at.setTransactionType(type);
             at.setDate(new Date());
 
             at.create();
@@ -227,7 +234,7 @@ public class PersonalAccount {
             throw new Exception("user unsupported");
         }
     }
-    
+
     public void closeAccount() {
         this.setStatus("Fechada");
         PersonalAccountDAO.update(this);
