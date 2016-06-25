@@ -7,6 +7,7 @@ package servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -140,10 +141,11 @@ public class OpenAccount extends HttpServlet {
     }
 
     public void createTokenAndRedirect(PersonalAccount account, User user, HttpSession session, HttpServletResponse response) throws IOException {
-        int number = Integer.parseInt(account.getNumber().replace("-", ""));
-        number = (int) +System.currentTimeMillis();
+        Calendar cal = Calendar.getInstance();
+        int mi = cal.get(Calendar.MILLISECOND);
+        int number = (int) Math.abs((Math.random()*1000)*mi);
         String token = Integer.toString(number);
-
+        
         user.setTokenForAccount(token);
         user.update();
 

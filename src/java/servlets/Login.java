@@ -42,7 +42,7 @@ public class Login extends HttpServlet {
         String agencyNumber = request.getParameter("agency_input");
         String accountNumber = request.getParameter("account_input");
         String password = request.getParameter("password_input");
-        if (agencyNumber == null || accountNumber == null || password == null){
+        if (agencyNumber == null || accountNumber == null || password == null) {
             String message = "Campo de agencia, conta ou senha vazios.";
             String title = "Dados incompletos";
             String type = "danger";
@@ -56,7 +56,7 @@ public class Login extends HttpServlet {
         PersonalAccount account = new PersonalAccount();
         account.setNumber(accountNumber);
         account = account.readByNumber();
-        if (account == null){
+        if (account == null) {
             String message = "Conta não encontrada.";
             String title = "Dados incorretos";
             String type = "danger";
@@ -67,14 +67,26 @@ public class Login extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
             rd.forward(request, response);
         }
-        if (account.verifyPassword(password)) {
-            if (account.getAgency().getNumber().equals(agencyNumber)) {
-                session.setAttribute("account", account);
-                session.setAttribute("user", account.getUser());
-                RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
-                rd.forward(request, response);
+        if (!account.getStatus().equals("Fechada")) {
+            if (account.verifyPassword(password)) {
+                if (account.getAgency().getNumber().equals(agencyNumber)) {
+                    session.setAttribute("account", account);
+                    session.setAttribute("user", account.getUser());
+                    RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
+                    rd.forward(request, response);
+                } else {
+                    String message = "Não foi encontrada uma conta com essa agência.";
+                    String title = "Dados incorretos";
+                    String type = "danger";
+                    PageMessage pm = new PageMessage(type, title, message);
+                    ArrayList<PageMessage> messages = new ArrayList<>();
+                    messages.add(pm);
+                    session.setAttribute("messages", messages);
+                    RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+                    rd.forward(request, response);
+                }
             } else {
-                String message = "Não foi encontrada uma conta com essa agência.";
+                String message = "Conta ou senha incorreta.";
                 String title = "Dados incorretos";
                 String type = "danger";
                 PageMessage pm = new PageMessage(type, title, message);
@@ -85,10 +97,9 @@ public class Login extends HttpServlet {
                 rd.forward(request, response);
             }
         } else {
-            String message = "Conta ou senha incorreta.";
-            String title = "Dados incorretos";
+            String title = "Conta Fechada.";
             String type = "danger";
-            PageMessage pm = new PageMessage(type, title, message);
+            PageMessage pm = new PageMessage(type, title, "");
             ArrayList<PageMessage> messages = new ArrayList<>();
             messages.add(pm);
             session.setAttribute("messages", messages);

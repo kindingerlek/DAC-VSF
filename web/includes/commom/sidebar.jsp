@@ -70,7 +70,7 @@
 		</div>
 	</a>
 
-	<a href="accounts.jsp">
+	<a href="ManagerAccounts">
 		<div class="sidebar-item">
 			<div class="item-icon">
 				<i class="fa fa-gear fa-2x" aria-hidden="true"></i>					

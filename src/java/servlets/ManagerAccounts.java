@@ -6,23 +6,22 @@
 package servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.PersonalAccount;
 import model.User;
-import utilities.PageMessage;
 
 /**
  *
  * @author Bruno
  */
-@WebServlet(name = "AccountValidation", urlPatterns = {"/AccountValidation"})
-public class AccountValidation extends HttpServlet {
+@WebServlet(name = "ManagerAccounts", urlPatterns = {"/ManagerAccounts"})
+public class ManagerAccounts extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,45 +34,13 @@ public class AccountValidation extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-
-        String token = request.getParameter("token");
-        String password = request.getParameter("password");
-        int id = Integer.parseInt(request.getParameter("id"));
-
+        
         HttpSession session = request.getSession();
-
-        PersonalAccount account = new PersonalAccount();
-        account.setId(id);
-        account = account.readById();
-
-        User user = account.getUser().read();
-
-        String rightToken = user.getTokenForAccount();
-
-        if (token.equals(rightToken)) {
-            account.setPassword(password);
-            account.setStatus("Regular");
-            account.update();
-
-            ArrayList<PageMessage> errors = new ArrayList();
-            PageMessage e1 = new PageMessage();
-            e1.setTitle("Conta criada com sucesso.");
-            e1.setType("success");
-            errors.add(e1);
-            session.setAttribute("messages", errors);
-            response.sendRedirect("index.jsp");
-        } else {
-            ArrayList<PageMessage> errors = new ArrayList();
-            PageMessage e1 = new PageMessage();
-            e1.setText("O token que você digitou está incorreto.");
-            e1.setTitle(" Token inváldo.");
-            e1.setType("danger");
-            errors.add(e1);
-            session.setAttribute("messages", errors);
-            response.sendRedirect("putTokenTemp.jsp");
-
-        }
+        User user = (User) session.getAttribute("user");
+        
+        request.setAttribute("accounts", user.getActiveAccounts());
+        RequestDispatcher rd = request.getServletContext().getRequestDispatcher("/accounts.jsp");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
