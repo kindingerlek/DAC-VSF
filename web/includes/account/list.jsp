@@ -5,7 +5,7 @@
 <h1>Contas</h1>
 <hr>
 
-<c:forEach var="userAccount" items="${user.accountList}">
+<c:forEach var="userAccount" items="${accounts}">
     <c:set var="allBalance" value="${allBalance + userAccount.balance}"/>
     <c:set var="allBalanceWithLimit" value="${allBalanceWithLimit + userAccount.balance + userAccount.limit}"/>
 </c:forEach>
@@ -20,7 +20,7 @@
 		<td class="col-md-4"> <b> Situação <b> </td>
 		<td class="col-md-1"> <b> Ações</b> </td>
 	</thead>
-        <c:forEach var="userAccount" items="${user.accountList}">
+        <c:forEach var="userAccount" items="${accounts}">
             <tbody>
                     <td>${userAccount.agency.number}</td>
                     <td>${userAccount.number}</td>

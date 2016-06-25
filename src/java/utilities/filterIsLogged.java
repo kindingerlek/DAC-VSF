@@ -33,7 +33,12 @@ import model.User;
     "/InsertToken",
     "/Withdraw",
     "/Extract",
-    "/Deposit"
+    "/Deposit",
+    "/ManagerAccounts",
+    "/Transfer",
+    "/ExtractDetailed",
+    "/transaction.jsp",
+    "/CloseAccount"
 }, dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD})
 
 public class filterIsLogged implements Filter {

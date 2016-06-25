@@ -227,6 +227,11 @@ public class PersonalAccount {
             throw new Exception("user unsupported");
         }
     }
+    
+    public void closeAccount() {
+        this.setStatus("Fechada");
+        PersonalAccountDAO.update(this);
+    }
 
     public boolean openAccount(User user, Agency agency) {
         this.setAgency(agency);

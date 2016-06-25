@@ -5,6 +5,7 @@
  */
 package model;
 
+import dao.PersonalAccountDAO;
 import dao.UserDAO;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -74,7 +75,8 @@ public class User {
     @Column(name = "status")
     private String status;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, targetEntity = PersonalAccount.class, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private List<PersonalAccount> accountList;
 
     // Beans Structure
@@ -299,6 +301,10 @@ public class User {
 
     public User read() {
         return UserDAO.read(this);
+    }
+    
+    public List<PersonalAccount> getActiveAccounts() {
+        return PersonalAccountDAO.activeAccounts();
     }
 
     public boolean update() {

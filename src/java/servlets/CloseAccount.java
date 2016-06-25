@@ -7,6 +7,7 @@ package servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,8 +22,8 @@ import utilities.PageMessage;
  *
  * @author Bruno
  */
-@WebServlet(name = "AccountValidation", urlPatterns = {"/AccountValidation"})
-public class AccountValidation extends HttpServlet {
+@WebServlet(name = "CloseAccount", urlPatterns = {"/CloseAccount"})
+public class CloseAccount extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,44 +36,38 @@ public class AccountValidation extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-
-        String token = request.getParameter("token");
-        String password = request.getParameter("password");
-        int id = Integer.parseInt(request.getParameter("id"));
 
         HttpSession session = request.getSession();
+        PersonalAccount account = (PersonalAccount) session.getAttribute("account");
+        account.closeAccount();
 
-        PersonalAccount account = new PersonalAccount();
-        account.setId(id);
-        account = account.readById();
+        User user = (User) session.getAttribute("user");
+        List<PersonalAccount> activeAccounts = user.getActiveAccounts();
 
-        User user = account.getUser().read();
-
-        String rightToken = user.getTokenForAccount();
-
-        if (token.equals(rightToken)) {
-            account.setPassword(password);
-            account.setStatus("Regular");
-            account.update();
-
+        if (activeAccounts == null || activeAccounts.size() == 0) {
+            user.setStatus("Inativo");
+            user.update();
+            
+            session.invalidate();
+            
             ArrayList<PageMessage> errors = new ArrayList();
             PageMessage e1 = new PageMessage();
-            e1.setTitle("Conta criada com sucesso.");
+            e1.setTitle("Conta fechada com sucesso.");
             e1.setType("success");
             errors.add(e1);
             session.setAttribute("messages", errors);
             response.sendRedirect("index.jsp");
         } else {
+            session.setAttribute("account", activeAccounts.get(0));
+            
             ArrayList<PageMessage> errors = new ArrayList();
             PageMessage e1 = new PageMessage();
-            e1.setText("O token que você digitou está incorreto.");
-            e1.setTitle(" Token inváldo.");
-            e1.setType("danger");
+            e1.setTitle("Conta fechada com sucesso.");
+            e1.setText(" Você agora está logado na conta "+activeAccounts.get(0).getNumber());
+            e1.setType("success");
             errors.add(e1);
             session.setAttribute("messages", errors);
-            response.sendRedirect("putTokenTemp.jsp");
-
+            response.sendRedirect("ManagerAccounts");
         }
     }
 

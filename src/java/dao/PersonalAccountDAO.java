@@ -158,6 +158,22 @@ public class PersonalAccountDAO {
             return personalAccounts;
         }
     }
+    
+    public static List<PersonalAccount> activeAccounts() {
+        Session session = null;
+        List<PersonalAccount> personalAccounts = null;
+        try {
+            session = getSessionFactory().openSession();
+            Query query = session.createQuery("from PersonalAccount where status = 'Em cheque especial'"
+                    + "or status = 'Regular'");
+            personalAccounts = (List<PersonalAccount>) query.list();
+        } catch (Exception e) {
+            System.out.println("read active accounts " + e.getMessage());
+        } finally {
+            session.close();
+            return personalAccounts;
+        }
+    }
 
     public static Collection<AccountTransaction> readTransactions(PersonalAccount personalAccount) {
         Session session = null;
