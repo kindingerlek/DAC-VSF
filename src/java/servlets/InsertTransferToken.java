@@ -83,14 +83,14 @@ public class InsertTransferToken extends HttpServlet {
             String identifier = request.getParameter("identifier");
             
             if (accountToSend.equals("") || agencyToSend.equals("") || identifier.equals("")) {
-            ArrayList<PageMessage> errors = new ArrayList();
-            PageMessage e1 = new PageMessage();
-            e1.setText("O formulário está incompleto.");
-            e1.setType("danger");
-            errors.add(e1);
-            session.setAttribute("messages", errors);
-            response.sendRedirect("transaction.jsp");
-        }
+                ArrayList<PageMessage> errors = new ArrayList();
+                PageMessage e1 = new PageMessage();
+                e1.setText("O formulário está incompleto.");
+                e1.setType("danger");
+                errors.add(e1);
+                session.setAttribute("messages", errors);
+                response.sendRedirect("transaction.jsp");
+            }
             
             request.setAttribute("other_account_number", accountToSend);
             request.setAttribute("other_account_agency", agencyToSend);

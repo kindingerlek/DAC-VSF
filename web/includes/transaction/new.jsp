@@ -1,4 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <h1>Nova Transação</h1>
 <hr>
 
@@ -25,7 +28,7 @@
         <div class="col-md-6">                                    
             <div class="form-group">
                 <label>Valor da Tranferência:</label>
-                <input type="text" class="form-control" name="ammount" value="" />
+                <input type="number" class="form-control" name="ammount" value="" />
             </div>
         </div>
     </div>
@@ -37,8 +40,8 @@
         <div class="col-md-6">
             <div class="form-group">
                 <select class="form-control" name="same_account_number">
-                    <c:forEach var="account" items="${sessionScope.user.activeAccounts}">
-                        <option value="${account.number}">${account.number}</option>
+                    <c:forEach var="userAccount" items="${user.activeAccounts}">
+                        <option value="${userAccount.number}">${userAccount.number}</option>
                     </c:forEach>
                 </select>
             </div>
