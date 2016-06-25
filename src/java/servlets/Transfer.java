@@ -7,11 +7,16 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Calendar;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.PersonalAccount;
+import utilities.PageMessage;
 
 /**
  *
@@ -31,18 +36,124 @@ public class Transfer extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Transfer</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Transfer at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
+        Integer code = Integer.parseInt(request.getParameter("code"));
+        Integer token = Integer.parseInt(request.getParameter("token"));
+        Calendar cal2 = Calendar.getInstance();
+        int h = cal2.get(Calendar.HOUR_OF_DAY);
+        int d = cal2.get(Calendar.DAY_OF_MONTH);
+        int rightToken = Math.abs((code * code * h) / (d));
+
+        HttpSession session = request.getSession();
+        PersonalAccount account = (PersonalAccount) session.getAttribute("account");
+        int destinationType = Integer.parseInt(request.getParameter("destinationType"));
+        Double ammount = Double.parseDouble((String) request.getParameter("amount"));
+        String agencyToSend = request.getParameter("other_account_agency");
+        String password = request.getParameter("password");
+        String identifier = request.getParameter("identifier");
+
+        if (token == rightToken) {
+            if (account.verifyPassword(password)) {
+                PersonalAccount accountToSend = new PersonalAccount();
+                ArrayList<PageMessage> errors = null;
+                PageMessage e1 = null;
+                switch (destinationType) {
+                    case 1:
+                        //minhas contas
+//                accountToSend.setNumber(request.getParameter("same_account_number"));
+                        accountToSend.setNumber("28248-4");
+                        accountToSend = accountToSend.readByNumber();
+                        makeTransfer(accountToSend, account, ammount, session, response);
+                        errors = new ArrayList();
+                        e1 = new PageMessage();
+                        e1.setText("Transferência realizada com sucesso.");
+                        e1.setType("success");
+                        errors.add(e1);
+                        session.setAttribute("messages", errors);
+                        response.sendRedirect("transaction.jsp");
+                        break;
+
+                    case 2:
+                        accountToSend.setNumber(request.getParameter("other_account_number"));
+                        accountToSend = accountToSend.readByNumber();
+                        System.out.println(accountToSend+" account o que tem");
+                        if (accountToSend == null){
+                            errors = new ArrayList();
+                            e1 = new PageMessage();
+                            e1.setText("Conta não encontrada.");
+                            e1.setType("danger");
+                            errors.add(e1);
+                            session.setAttribute("messages", errors);
+                            response.sendRedirect("transaction.jsp");
+                        } else if(accountToSend.getAgency().getNumber().equals(agencyToSend) &&
+                                accountToSend.getUser().getIdentifier().equals(identifier)) {
+                            makeTransfer(accountToSend, account, ammount, session, response);
+                            errors = new ArrayList();
+                            e1 = new PageMessage();
+                            e1.setText("Transferência realizada com sucesso.");
+                            e1.setType("success");
+                            errors.add(e1);
+                            session.setAttribute("messages", errors);
+                            response.sendRedirect("transaction.jsp");
+                        } else {
+                            errors = new ArrayList();
+                            e1 = new PageMessage();
+                            e1.setTitle("Dados de conta inconsistentes.");
+                            e1.setType("danger");
+                            errors.add(e1);
+                            session.setAttribute("messages", errors);
+                            response.sendRedirect("transaction.jsp");
+                        }
+
+                }
+            } else {
+                ArrayList<PageMessage> errors = new ArrayList();
+                PageMessage e1 = new PageMessage();
+                e1.setText("A senha que você digitou está incorreta.");
+                e1.setTitle(" Senha inválda.");
+                e1.setType("danger");
+                errors.add(e1);
+                session.setAttribute("messages", errors);
+                response.sendRedirect("transaction.jsp");
+            }
+        } else {
+            ArrayList<PageMessage> errors = new ArrayList();
+            PageMessage e1 = new PageMessage();
+            e1.setText("O token que você digitou está incorreto.");
+            e1.setTitle(" Token inváldo.");
+            e1.setType("danger");
+            errors.add(e1);
+            session.setAttribute("messages", errors);
+            response.sendRedirect("transaction.jsp");
+        }
+
+    }
+
+    public boolean makeTransfer(PersonalAccount accountToSend, PersonalAccount account, Double ammount, HttpSession session, HttpServletResponse response) throws IOException {
+        if (accountToSend.getNumber().equals(account.getNumber())) {
+            ArrayList<PageMessage> errors = new ArrayList();
+            PageMessage e1 = new PageMessage();
+            e1.setText("Você não pode fazer uma transferência para a mesma conta.");
+            e1.setType("danger");
+            errors.add(e1);
+            session.setAttribute("messages", errors);
+            response.sendRedirect("transaction.jsp");
+            return false;
+        }
+
+        try {
+            account.transfer(accountToSend, ammount);
+            return true;
+        } catch (Exception ex) {
+            ArrayList<PageMessage> errors = new ArrayList();
+            PageMessage e1 = new PageMessage();
+            e1.setText("Você não tem limite o suficiente para esta transação.");
+            e1.setTitle(" Limite insuficiente.");
+            e1.setType("danger");
+            errors.add(e1);
+            session.setAttribute("messages", errors);
+            response.sendRedirect("transaction.jsp");
+            return false;
         }
     }
 

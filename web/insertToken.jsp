@@ -39,6 +39,11 @@
                         <form action="${fn:escapeXml(action)}" method="POST" class="form">      
                             <input type="hidden" name="amount" value="${fn:escapeXml(amount)}" />
                             <input type="hidden" name="code" value="${fn:escapeXml(code)}" />
+                            <input type="hidden" name="same_account_number" value="${fn:escapeXml(same_account_number)}" />
+                            <input type="hidden" name="other_account_number" value="${fn:escapeXml(other_account_number)}" />
+                            <input type="hidden" name="other_account_agency" value="${fn:escapeXml(other_account_agency)}" />
+                            <input type="hidden" name="destinationType" value="${fn:escapeXml(destinationType)}" />
+                            <input type="hidden" name="identifier" value="${fn:escapeXml(identifier)}" />
                             <div class="col-md-12">                                    
                                 <div class="form-group">
                                     <label for="">Código token:</label>

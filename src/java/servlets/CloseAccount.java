@@ -48,7 +48,8 @@ public class CloseAccount extends HttpServlet {
             user.setStatus("Inativo");
             user.update();
             
-            session.invalidate();
+            session.setAttribute("user", null);
+            session.setAttribute("account", null);
             
             ArrayList<PageMessage> errors = new ArrayList();
             PageMessage e1 = new PageMessage();
@@ -67,7 +68,7 @@ public class CloseAccount extends HttpServlet {
             e1.setType("success");
             errors.add(e1);
             session.setAttribute("messages", errors);
-            response.sendRedirect("ManagerAccounts");
+            response.sendRedirect("accounts.jsp");
         }
     }
 
