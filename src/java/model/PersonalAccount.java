@@ -164,6 +164,18 @@ public class PersonalAccount {
     public List<AccountTransaction> getExtract() {
         return AccountTransactionDAO.getExtract(this);
     }
+    
+    public List<AccountTransaction> getExtractByMonth() {
+        return AccountTransactionDAO.getExtractByMonth(this);
+    }
+    
+    public List<AccountTransaction> getExtractByWeek() {
+        return AccountTransactionDAO.getExtractByWeek(this);
+    }
+    
+    public List<AccountTransaction> getExtractByFornight() {
+        return AccountTransactionDAO.getExtractByFortnight(this);
+    }
 
     public void deposit(Double amount) {
         if (this.getBalance() + amount > 0) {
@@ -307,62 +319,4 @@ public class PersonalAccount {
         }
         return stringBuffer.toString();
     }
-
-//    public PersonalAccount getAccountById(int id) {
-//        //TODO
-//        PersonalAccount account = new PersonalAccount();
-//        return account;
-//    }
-//
-//    //Sem agency?
-//    public PersonalAccount getAccountByNumber(int number) {
-//        //TODO
-//        PersonalAccount account = new PersonalAccount();
-//        return account;
-//    }
-//
-//    //Double?
-//    public void deposit(Double in) {
-//        //TODO: Check
-//        this.balance += in;
-//    }
-//
-//    public boolean transfer(PersonalAccount destination, Double out) {
-//        //TODO
-//        return true;
-//    }
-//
-//    public Collection<AccountTransaction> getTransactionsByPeriod(Date start, Date end) {
-//        //TODO
-//        Collection<AccountTransaction> transactions = null;
-//        return transactions;
-//    }
-//
-//    public PersonalAccount createAccount(int number, Agency agency,
-//            User owner, String password) {
-//        //TODO
-//        PersonalAccount account = new PersonalAccount();
-//        return account;
-//    }
-//
-//    public boolean auth(String password) {
-//        //TODO
-//        return true;
-//    }
-//
-//    public boolean update() {
-//        //TODO
-//        return true;
-//    }
-//
-//    public boolean close(User user) {
-//        //TODO
-//        return true;
-//    }
-//
-//    public Collection<AccountTransaction> getExtract(Date from, Date to) {
-//        //TODO
-//        Collection<AccountTransaction> transactions = null;
-//        return transactions;
-//    }
 }
