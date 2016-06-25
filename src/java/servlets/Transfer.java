@@ -47,7 +47,7 @@ public class Transfer extends HttpServlet {
         HttpSession session = request.getSession();
         PersonalAccount account = (PersonalAccount) session.getAttribute("account");
         int destinationType = Integer.parseInt(request.getParameter("destinationType"));
-        Double ammount = Double.parseDouble((String) request.getParameter("amount"));
+        Double ammount = Double.parseDouble( request.getParameter("amount"));
         String agencyToSend = request.getParameter("other_account_agency");
         String password = request.getParameter("password");
         String identifier = request.getParameter("identifier");
@@ -60,8 +60,7 @@ public class Transfer extends HttpServlet {
                 switch (destinationType) {
                     case 1:
                         //minhas contas
-//                accountToSend.setNumber(request.getParameter("same_account_number"));
-                        accountToSend.setNumber("28248-4");
+                        accountToSend.setNumber(request.getParameter("same_account_number"));
                         accountToSend = accountToSend.readByNumber();
                         makeTransfer(accountToSend, account, ammount, session, response);
                         errors = new ArrayList();
