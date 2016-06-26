@@ -78,8 +78,24 @@ public class CompleteRegistration extends HttpServlet {
                 user.setIncome(income);
                 System.out.println(user.getIncome());
                 user.update();
+                ArrayList<PageMessage> messages2 = new ArrayList();
+                PageMessage pm2 = new PageMessage();
+                if (user.hasAllInformationPF()) {
+                    pm2.setTitle("Cadastro completo.");
+                    pm2.setType("sucess");
+                    messages2.add(pm2);
+                    session.setAttribute("messages", messages2);
+                } else {
+                    pm2.setTitle("Cadastro salvo!");
+                    pm2.setText("Os dados do seu cadastro foram salvos,"
+                            + " mas precisamos que você termine seu cadastro"
+                            + " antes de criar uma conta.");
+                    pm2.setType("sucess");
+                    messages2.add(pm2);
+                    session.setAttribute("messages", messages2);
+                }
+                response.sendRedirect("index.jsp");
                 break;
-
             case 2:
                 user.setName(request.getParameter("name"));
                 try {
@@ -107,20 +123,28 @@ public class CompleteRegistration extends HttpServlet {
                 user.setIncome(income);
 
                 user.update();
-                break;
+                ArrayList<PageMessage> messages = new ArrayList();
+                PageMessage pm = new PageMessage();
+                if (user.hasAllInformationPJ()) {
+                    pm.setTitle("Cadastro completo.");
+                    pm.setType("sucess");
+                    messages.add(pm);
+                    session.setAttribute("messages", messages);
+                } else {
+                    pm.setTitle("Cadastro salvo!");
+                    pm.setText("Os dados do seu cadastro foram salvos,"
+                            + " mas precisamos que você termine seu cadastro"
+                            + " antes de criar uma conta.");
+                    pm.setType("sucess");
+                    messages.add(pm);
+                    session.setAttribute("messages", messages);
+                }
 
+                response.sendRedirect("index.jsp");
+                break;
             default:
                 internalError(session, response);
         }
-        
-        ArrayList<PageMessage> errors = new ArrayList();
-        PageMessage e1 = new PageMessage();
-        e1.setTitle("Cadastro completo.");
-        e1.setType("sucess");
-        errors.add(e1);
-        session.setAttribute("messages", errors);
-
-        response.sendRedirect("index.jsp");
     }
 
     public void internalError(HttpSession session, HttpServletResponse response) throws IOException {

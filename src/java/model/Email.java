@@ -22,7 +22,7 @@ public class Email {
         message += "Número da conta: " + account.getNumber() + "\n";
         message += "Agência: " + account.getAgency().getNumber() + "\n";
         message += "Token de autentificação: " + token + "\n";
-        message += "Com este token você é capaz de definir uma senha para sua conta para então, utilizá-la.\n";
+        message += "Com este token você é capaz de definir uma senha para sua conta para, então, utilizá-la.\n";
         message += "\nCaso você perca este token, entre novamente com as informações para abrir conta,";
         message +=" e um novo token será gerado e reenviado à você.";
 
