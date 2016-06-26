@@ -10,7 +10,7 @@
 	<div class="col-md-12">                                    
 		<div class="form-group">
 			<label for="">Nome:</label>
-			<input type="text" class="form-control" id="name" name="name" value="${fn:escapeXml(user.name)}">
+			<input type="text" class="form-control" id="name" name="name" value="${fn:escapeXml(user.name)}" required>
 		</div>
 	</div>
 
@@ -24,7 +24,7 @@
 	<div class="col-md-6">                                    
 		<div class="form-group">
 			<label>CPF:</label>
-			<input type="text" class="form-control" name="cpf" id="cpf" value="${fn:escapeXml(user.cpf)}" readonly>
+			<input type="text" class="form-control cpf" name="cpf" id="cpf" value="${fn:escapeXml(user.cpf)}" readonly>
 
 		</div>
 	</div>
@@ -39,14 +39,14 @@
 	<div class="col-md-6">                                    
 		<div class="form-group">
 			<label>Nome Fantasia:</label>
-			<input type="text" class="form-control" name="fantasyName" id="tradename" value="${fn:escapeXml(user.fantasyName)}">
+			<input type="text" class="form-control" name="fantasyName" id="tradename" value="${fn:escapeXml(user.fantasyName)}" required>
 		</div>
 	</div>
 
 	<div class="col-md-6">                                    
 		<div class="form-group">
 			<label>CNPJ:</label>
-			<input type="text" class="form-control" name="cnpj" id="cnpj" value="${fn:escapeXml(user.cnpj)}" readonly>
+			<input type="text" class="form-control cnpj" name="cnpj" id="cnpj" value="${fn:escapeXml(user.cnpj)}" readonly>
 			
 		</div>
 	</div>
@@ -54,14 +54,14 @@
 	<div class="col-md-6">                                    
 		<div class="form-group">
 			<label>CEP:</label>
-                        <input type="text" class="form-control" name="zipCode" id="cep" value="${fn:escapeXml(user.zipCode)}">
+                        <input type="text" class="form-control cep" name="zipCode" id="cep" value="${fn:escapeXml(user.zipCode)}" required>
 		</div>
 	</div>
 
 	<div class="col-md-6">                                    
 		<div class="form-group">
 			<label>Estado:</label>
-            <input type="text" class="form-control" name="state" id="state" value="${fn:escapeXml(user.state)}">
+            <input type="text" class="form-control" name="state" id="state" value="${fn:escapeXml(user.state)}" required>
             <select class="form-control">
                     <option value="AC"> Acre </option>
                     <option value="AL"> Alagoas </option>
@@ -97,56 +97,56 @@
 	<div class="col-md-6">                                    
 		<div class="form-group">
 			<label>Cidade:</label>
-                        <input type="text" class="form-control" name="city" id="city" value="${fn:escapeXml(user.city)}">
+                        <input type="text" class="form-control" name="city" id="city" value="${fn:escapeXml(user.city)}" required>
 		</div>
 	</div>
 
 	<div class="col-md-6">                                    
 		<div class="form-group">
 			<label>Bairro:</label>
-                        <input type="text" class="form-control" name="neighborhood" id="neighborhood" value="${fn:escapeXml(user.neighborhood)}">
+                        <input type="text" class="form-control" name="neighborhood" id="neighborhood" value="${fn:escapeXml(user.neighborhood)}" required>
 		</div>
 	</div>
 
 	<div class="col-md-10">                                    
 		<div class="form-group">
 			<label>Rua:</label>
-                        <input type="text" class="form-control" name="street" id="street" value="${fn:escapeXml(user.street)}">
+                        <input type="text" class="form-control" name="street" id="street" value="${fn:escapeXml(user.street)}" required>
 		</div>
 	</div>
 
 	<div class="col-md-2">                                    
 		<div class="form-group">
 			<label>Numero:</label>
-                        <input type="text" class="form-control" name="addressNumber" id="number" value="${fn:escapeXml(user.addressNumber)}">
+                        <input type="text" class="form-control" name="addressNumber" id="number" value="${fn:escapeXml(user.addressNumber)}" required>
 		</div>
 	</div>
 
 	<div class="col-md-12">                                    
 		<div class="form-group">
 			<label>Complemento:</label>
-                        <input type="text" class="form-control" name="complement" id="complement" value="${fn:escapeXml(user.complement)}">
+                        <input type="text" class="form-control" name="complement" id="complement" value="${fn:escapeXml(user.complement)}" required>
 		</div>
 	</div>
 
 	<div class="col-md-6">                                    
 		<div class="form-group">
 			<label>Telefone:</label>
-                        <input type="text" class="form-control" name="landphone" id="phone" value="${fn:escapeXml(user.landPhone)}">
+                        <input type="text" class="form-control phone" name="landphone" id="phone" value="${fn:escapeXml(user.landPhone)}">
 		</div>
 	</div>
 
 	<div class="col-md-6">                                    
 		<div class="form-group">
 			<label>Celular:</label>
-                        <input type="text" class="form-control" name="cellphone" id="cellphone" value="${fn:escapeXml(user.cellPhone)}">
+                        <input type="text" class="form-control phone" name="cellphone" id="cellphone" value="${fn:escapeXml(user.cellPhone)}">
 		</div>
 	</div>
 
 	<div class="col-md-6">                                    
 		<div class="form-group">
 			<label>Renda Declarada:</label>
-			<input type="text" class="form-control" name="income" id="income" value="${fn:escapeXml(user.income)}" placeholder="R$1000,00">
+			<input type="text" class="form-control" name="income" id="income" value="${fn:escapeXml(user.income)}" placeholder="R$1000,00" required>
 		</div>
 	</div>
 

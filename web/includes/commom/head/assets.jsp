@@ -9,6 +9,7 @@
 
 <!-- JQuery file-->
 <script src="assets/js/jquery.js"></script>
+<script src="assets/js/jquery.maskedinput.js"></script>
 
 <!-- Bootstrap Files -->
 <script src="assets/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>

@@ -7,17 +7,17 @@ $('#cnpj').on('blur', testCnpj);
 $('#confirmPasswordPj').on('blur', testPassword);
 $('#passwordPj').on('blur', testPassword);
 $('#emailPj').on('blur', testEmail);
-$('.submit-button').on('click', testSubmit);
+//$('.submit-button').on('click', testSubmit);
 
 //functions
-function testSubmit() {
-    if($('#pf')[0].checked){
-        return (testCpf() && testEmail() && testPassword());
-    } else {
-        return (testCnpj() && testEmail() && testPassword());
-    }
-//    return false;
-}
+//function testSubmit() {
+//    if($('#pf')[0].checked){
+//        return (testCpf() && testEmail() && testPassword());
+//    } else {
+//        return (testCnpj() && testEmail() && testPassword());
+//    }
+////    return false;
+//}
 
 function testEmail() {
     var email = $('#email').val();
