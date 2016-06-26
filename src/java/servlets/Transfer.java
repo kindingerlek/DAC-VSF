@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -47,7 +49,23 @@ public class Transfer extends HttpServlet {
         HttpSession session = request.getSession();
         PersonalAccount account = (PersonalAccount) session.getAttribute("account");
         int destinationType = Integer.parseInt(request.getParameter("destinationType"));
-        Double ammount = Double.parseDouble( request.getParameter("amount"));
+        Double ammount = 0.0;
+        String input = request.getParameter("amount");
+        if (input.equals("")) {
+            ammount = 0.0;
+        } else {
+            Pattern regex = Pattern.compile("\\d[\\d,\\.]+");
+            Matcher finder = regex.matcher(input);
+            if (finder.find()) {
+                try {
+                    System.out.println(input);
+                    System.out.println(finder.group(0));
+                    ammount = Double.parseDouble(finder.group(0).replaceAll(",", "."));
+                } catch (NumberFormatException e) {
+                    ammount = 0.0;
+                }
+            }
+        }
         String agencyToSend = request.getParameter("other_account_agency");
         String password = request.getParameter("password");
         String identifier = request.getParameter("identifier");
@@ -75,8 +93,8 @@ public class Transfer extends HttpServlet {
                     case 2:
                         accountToSend.setNumber(request.getParameter("other_account_number"));
                         accountToSend = accountToSend.readByNumber();
-                        System.out.println(accountToSend+" account o que tem");
-                        if (accountToSend == null){
+                        System.out.println(accountToSend + " account o que tem");
+                        if (accountToSend == null) {
                             errors = new ArrayList();
                             e1 = new PageMessage();
                             e1.setText("Conta não encontrada.");
@@ -84,8 +102,8 @@ public class Transfer extends HttpServlet {
                             errors.add(e1);
                             session.setAttribute("messages", errors);
                             response.sendRedirect("transaction.jsp");
-                        } else if(accountToSend.getAgency().getNumber().equals(agencyToSend) &&
-                                accountToSend.getUser().getIdentifier().equals(identifier)) {
+                        } else if (accountToSend.getAgency().getNumber().equals(agencyToSend)
+                                && accountToSend.getUser().getIdentifier().equals(identifier)) {
                             makeTransfer(accountToSend, account, ammount, session, response);
                             errors = new ArrayList();
                             e1 = new PageMessage();

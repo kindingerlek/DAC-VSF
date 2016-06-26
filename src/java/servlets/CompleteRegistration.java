@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,18 +39,18 @@ public class CompleteRegistration extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-
         String email = request.getParameter("email");
         User user = new User();
         user.setEmail(email);
         user = user.read();
         int type = user.getType();
         Double income = null;
-
-        if (((String) request.getParameter("income")).equals("")) {
+        ArrayList<PageMessage> messages = new ArrayList();
+        PageMessage pm = new PageMessage();
+        String input = request.getParameter("income");
+        if (input.equals("")) {
             income = 0.0;
         } else {
-            String input = request.getParameter("income");
             Pattern regex = Pattern.compile("\\d[\\d,\\.]+");
             Matcher finder = regex.matcher(input);
             if (finder.find()) {
@@ -62,7 +63,7 @@ public class CompleteRegistration extends HttpServlet {
                 }
             }
         }
-
+        String action = request.getParameter("action");
         switch (type) {
             case 1:
                 user.setName(request.getParameter("name"));
@@ -91,23 +92,26 @@ public class CompleteRegistration extends HttpServlet {
                 user.setIncome(income);
                 System.out.println(user.getIncome());
                 user.update();
-                ArrayList<PageMessage> messages2 = new ArrayList();
-                PageMessage pm2 = new PageMessage();
                 if (user.hasAllInformationPF()) {
-                    pm2.setTitle("Cadastro completo.");
-                    pm2.setType("sucess");
-                    messages2.add(pm2);
-                    session.setAttribute("messages", messages2);
+                    pm.setTitle("Cadastro completo.");
+                    pm.setType("sucess");
+                    messages.add(pm);
+                    session.setAttribute("messages", messages);
                 } else {
-                    pm2.setTitle("Cadastro salvo!");
-                    pm2.setText("Os dados do seu cadastro foram salvos,"
+                    pm.setTitle("Cadastro salvo!");
+                    pm.setText("Os dados do seu cadastro foram salvos,"
                             + " mas precisamos que você termine seu cadastro"
                             + " antes de criar uma conta.");
-                    pm2.setType("sucess");
-                    messages2.add(pm2);
-                    session.setAttribute("messages", messages2);
+                    pm.setType("sucess");
+                    messages.add(pm);
+                    session.setAttribute("messages", messages);
                 }
-                response.sendRedirect("index.jsp");
+                if (action != null) {
+                    RequestDispatcher rd = request.getRequestDispatcher(action);
+                    rd.forward(request, response);
+                } else {
+                    response.sendRedirect("index.jsp");
+                }
                 break;
             case 2:
                 user.setName(request.getParameter("name"));
@@ -136,8 +140,6 @@ public class CompleteRegistration extends HttpServlet {
                 user.setIncome(income);
 
                 user.update();
-                ArrayList<PageMessage> messages = new ArrayList();
-                PageMessage pm = new PageMessage();
                 if (user.hasAllInformationPJ()) {
                     pm.setTitle("Cadastro completo.");
                     pm.setType("sucess");
@@ -152,8 +154,12 @@ public class CompleteRegistration extends HttpServlet {
                     messages.add(pm);
                     session.setAttribute("messages", messages);
                 }
-
-                response.sendRedirect("index.jsp");
+                if (action != null) {
+                    RequestDispatcher rd = request.getRequestDispatcher(action);
+                    rd.forward(request, response);
+                } else {
+                    response.sendRedirect("index.jsp");
+                }
                 break;
             default:
                 internalError(session, response);

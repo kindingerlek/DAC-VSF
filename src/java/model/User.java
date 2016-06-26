@@ -304,7 +304,7 @@ public class User {
     }
     
     public List<PersonalAccount> getActiveAccounts() {
-        return PersonalAccountDAO.activeAccounts();
+        return PersonalAccountDAO.activeAccounts(this);
     }
 
     public boolean update() {
