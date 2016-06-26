@@ -5,12 +5,12 @@
 <hr>
 
 <p>
-    Pensando na sua comodidade, o Banco Virtude Financeira disponibiliza para seus
+    Pensando na sua comodidade, o Banco Virtude do Sistema Financeiro disponibiliza para seus
     clientes o deposito virtual. Assim, você pode depositar dinheiro <b>sem precisar</b>
     sair de casa.
     <br>
     Como funciona? O Banco Virtude financeira <b>possui uma grande</b>
-    frota de motoboys para realizar a entrega de seu dinheiro.
+    frota de motoboys para realizar a coleta de seu dinheiro.
     <br>
     <br>
     Quer mais comodidade que isso?
@@ -21,7 +21,7 @@
 	<div class="col-md-12">                                    
 		<div class="form-group">
 			<label>Valor do deposito:</label>
-			<input type="number" class="form-control" id="value" name="amount" value="R$0000,00">
+                        <input type="text" class="form-control money" id="value" name="amount" placeholder="R$ 0000,00">
 		</div>
 	</div>
     

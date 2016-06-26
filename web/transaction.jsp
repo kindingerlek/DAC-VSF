@@ -19,6 +19,7 @@
 
             <jsp:include page="includes/commom/alerts.jsp" />
 
+
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="container-fluid">
@@ -26,10 +27,15 @@
                         <jsp:include page="includes/transaction/new.jsp" />
 
                     </div>
+                        <div class="error error-person"></div>
                 </div>
+                
             </div>
         </div>
-                        
-    <script src="js/transactionBehaviour.js"></script>
+
+
+        <script src="js/transactionBehaviour.js"></script>
+        <script type="text/javascript" src="js/maskValidation.js"></script>
+        <script type="text/javascript" src="js/validation.js"></script>
     </body>
 </html>

@@ -8,7 +8,7 @@
     </div>
 </div>
 
-<form class="form" action="CompleteRegistration" method="POST">
+<form class="form" action="CompleteRegistration" method="POST" onsubmit="formatCurrency()">
     <input type="hidden" class="form-control" name="personType" value="${fn:escapeXml(user.type)}">
 
     <div class="col-md-12">                                    
