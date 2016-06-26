@@ -181,7 +181,7 @@ public class OpenAccount extends HttpServlet {
 
         ArrayList<PageMessage> errors = new ArrayList();
         PageMessage e1 = new PageMessage();
-        e1.setTitle("Completar cadastro.");
+        e1.setTitle("Completar cadastro:");
         e1.setText(" Para abrir uma conta, o cadastro precisa estar completo.");
         e1.setType("info");
         errors.add(e1);

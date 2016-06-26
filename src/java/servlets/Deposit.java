@@ -8,6 +8,8 @@ package servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -51,7 +53,23 @@ public class Deposit extends HttpServlet {
 
         if (token == rightToken) {
             if (account.verifyPassword(password)) {
-                Double amount = Double.parseDouble(request.getParameter("amount"));
+                Double amount = 0.0;
+                String input = request.getParameter("amount");
+                if (input.equals("")) {
+                    amount = 0.0;
+                } else {
+                    Pattern regex = Pattern.compile("\\d[\\d,\\.]+");
+                    Matcher finder = regex.matcher(input);
+                    if (finder.find()) {
+                        try {
+                            System.out.println(input);
+                            System.out.println(finder.group(0));
+                            amount = Double.parseDouble(finder.group(0).replaceAll(",", "."));
+                        } catch (NumberFormatException e) {
+                            amount = 0.0;
+                        }
+                    }
+                }
                 account.deposit(amount, "Depósito");
                 ArrayList<PageMessage> errors = new ArrayList();
                 PageMessage e1 = new PageMessage();

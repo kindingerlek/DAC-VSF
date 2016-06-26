@@ -42,8 +42,8 @@
             <c:set var="outAmmout" value="${transaction.amount  < 0 ? transaction.amount : ''}" />
             
             <tr><td>${transaction.transactionType}</td>
-            <td>${inAmmount}</td>
-            <td>${outAmmount}</td>
+            <td><fmt:formatNumber value="${inAmmount}" type="currency"/></td>
+            <td><fmt:formatNumber value="${outAmmount}" type="currency"/></td>
             <td><fmt:formatDate pattern="d/MM/y" value="${transaction.date}"/></td></tr>
         </c:forEach>
 	</tbody>
