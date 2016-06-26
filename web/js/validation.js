@@ -1,4 +1,10 @@
-//triggers
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
 $('#cpfInput').on('blur', testCpf);
 $('#confirmPassword').on('blur', testPassword);
 $('#email').on('blur', testEmail);
@@ -45,14 +51,6 @@ function testCnpj() {
     } else {
         clearError();
     }
-    
-    return $.get("./HasCnpj?cnpj=" + cnpj, function (message) {
-        if (message) {
-            return putError(message);
-        } else {
-            clearError();
-        }
-    });
 }
 
 function testCpf() {
@@ -64,14 +62,6 @@ function testCpf() {
     } else {
         clearError();
     }
-    
-    return $.get("./HasCpf?cpf=" + cpf, function (message) {
-        if (message) {
-            return putError(message);
-        } else {
-            clearError();
-        }
-    });
 }
 
 function testPassword() {

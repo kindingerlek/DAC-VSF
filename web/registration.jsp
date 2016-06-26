@@ -30,5 +30,7 @@
                 </div>
             </div>
         </div>
+
+        <script type="text/javascript" src="js/maskValidation.js"></script>
     </body>
 </html>

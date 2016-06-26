@@ -22,7 +22,7 @@
 	<div class="col-md-12">                                    
 		<div class="form-group">
 			<label>Valor do saque:</label>
-			<input type="number" class="form-control" id="value" name="amount">
+			<input type="number" class="form-control" id="value" name="amount" required>
 		</div>
 	</div>
     

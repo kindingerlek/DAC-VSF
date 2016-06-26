@@ -33,14 +33,14 @@
                             <div class="col-md-12">                                    
                                 <div class="form-group">
                                     <label for="">Código token enviado no seu e-mail:</label>
-                                    <input type="text" name="token" class="form-control">
+                                    <input type="text" name="token" class="form-control" required>
                                 </div>
                             </div>
 
                             <div class="col-md-12">                                    
                                 <div class="form-group">
                                     <label for="">A senha da sua conta:</label>
-                                    <input type="password" name="password" class="form-control">
+                                    <input type="password" name="password" class="form-control" required>
                                 </div>
                             </div>
 

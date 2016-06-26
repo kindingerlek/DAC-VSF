@@ -28,7 +28,7 @@
         <div class="col-md-6">                                    
             <div class="form-group">
                 <label>Valor da Tranferência:</label>
-                <input type="number" class="form-control" name="ammount" value="" />
+                <input type="text" class="form-control money" name="ammount" value="" />
             </div>
         </div>
     </div>
@@ -54,21 +54,21 @@
         <div class="col-md-6">                                    
             <div class="form-group">
                 <label>CPF:</label>
-                <input type="text" class="form-control" name="identifier" value="" />
+                <input type="text" class="form-control cpf" id="cpfInput" name="identifier" value="" />
             </div>
         </div>
 
         <div class="col-md-2">                                    
             <div class="form-group">
                 <label>Agência:</label>
-                <input type="text" class="form-control" name="other_account_agency" value="" />
+                <input type="text" class="form-control agency" name="other_account_agency" value="" />
             </div>
         </div>
 
         <div class="col-md-2">                                    
             <div class="form-group">
                 <label>Conta:</label>
-                <input type="text" class="form-control" name="other_account_number" value="" />
+                <input type="text" class="form-control account" name="other_account_number" value="" />
             </div>
         </div>
     </div>

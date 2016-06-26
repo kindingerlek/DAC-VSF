@@ -47,7 +47,7 @@
                             <div class="col-md-12">                                    
                                 <div class="form-group">
                                     <label for="">Código token:</label>
-                                    <input type="text" name="token" class="form-control">
+                                    <input type="text" name="token" class="form-control" required>
                                 </div>
                             </div>
 
