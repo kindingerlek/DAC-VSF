@@ -1,11 +1,11 @@
 //triggers
 $('#cpfInput').on('blur', testCpf);
 $('#confirmPassword').on('blur', testPassword);
-$('#email').on('blur', testEmail);
 $('#cnpj').on('blur', testCnpj);
-$('#confirmPasswordPj').on('blur', testPassword);
-$('#passwordPj').on('blur', testPassword);
+$('#confirmPasswordPj').on('blur', testPasswordPj);
+$('#passwordPj').on('blur', testPasswordPj);
 $('#emailPj').on('blur', testEmail);
+$('#emailPf').on('blur', testEmail);
 //$('.submit-button').on('click', testSubmit);
 
 //functions
@@ -19,8 +19,8 @@ $('#emailPj').on('blur', testEmail);
 //}
 
 function testEmail() {
-    var email = $('#email').val();
-
+    var email = $(this).val();
+    
     if (!/@/i.test(email)) {
         return putError("Email inválido.");
     } else {
@@ -37,7 +37,7 @@ function testEmail() {
 }
 
 function testCnpj() {
-    var cnpj = $('#cnpj').val().replace(/[.-]/g, '');
+    var cnpj = $('#cnpj').val().replace(/[.\/-]/g, '');
     if (!isNumeric(cnpj)) {
         return putError("CNPJ com caracteres inválidos.");
     } else if (!validateCnpj(cnpj)) {
@@ -77,6 +77,21 @@ function testCpf() {
 function testPassword() {
     var password = $('#password').val();
     var confirmPassword = $('#confirmPassword').val();
+    if (password !== confirmPassword) {
+        return putError("As senhas não coincidem.");
+    } else if (password === '' || confirmPassword === '') {
+        return putError("O campo senha está vazio.");
+    } else if (!isAlphanumeric(password)) {
+        return putError("A senha tem caracteres inválidos.");
+    } else {
+        clearError();
+    }
+}
+
+function testPasswordPj() {
+    var password = $('#passwordPj').val();
+    var confirmPassword = $('#confirmPasswordPj').val();
+    console.log(password+confirmPassword);
     if (password !== confirmPassword) {
         return putError("As senhas não coincidem.");
     } else if (password === '' || confirmPassword === '') {
@@ -142,7 +157,7 @@ function validateCnpj(cnpj) {
             pos = 9;
     }
     result = add % 11 < 2 ? 0 : 11 - add % 11;
-    if (result !== digits.charAt(0))
+    if (!(result == digits.charAt(0)))
         return false;
 
     length = length + 1;
@@ -155,7 +170,7 @@ function validateCnpj(cnpj) {
             pos = 9;
     }
     result = add % 11 < 2 ? 0 : 11 - add % 11;
-    if (result !== digits.charAt(1))
+    if (!(result == digits.charAt(1)))
         return false;
 
     return true;
