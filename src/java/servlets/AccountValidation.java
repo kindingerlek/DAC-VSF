@@ -6,7 +6,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -57,6 +56,12 @@ public class AccountValidation extends HttpServlet {
             account.setStatus("Regular");
             account.update();
 
+            ArrayList<PageMessage> errors = new ArrayList();
+            PageMessage e1 = new PageMessage();
+            e1.setTitle("Conta criada com sucesso.");
+            e1.setType("success");
+            errors.add(e1);
+            session.setAttribute("messages", errors);
             response.sendRedirect("index.jsp");
         } else {
             ArrayList<PageMessage> errors = new ArrayList();

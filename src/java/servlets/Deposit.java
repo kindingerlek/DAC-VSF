@@ -52,7 +52,7 @@ public class Deposit extends HttpServlet {
         if (token == rightToken) {
             if (account.verifyPassword(password)) {
                 Double amount = Double.parseDouble(request.getParameter("amount"));
-                account.deposit(amount);
+                account.deposit(amount, "Depósito");
                 ArrayList<PageMessage> errors = new ArrayList();
                 PageMessage e1 = new PageMessage();
                 e1.setTitle("Deposito realizado com sucesso.");

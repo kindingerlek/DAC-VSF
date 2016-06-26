@@ -56,7 +56,7 @@ public class Withdraw extends HttpServlet {
                 Double amount = Double.parseDouble(request.getParameter("amount"));
 
                 try {
-                    account.withdraw(amount);
+                    account.withdraw(amount, "Saque");
                     ArrayList<PageMessage> errors = new ArrayList();
                     PageMessage e1 = new PageMessage();
                     e1.setTitle("Saque realizado com sucesso.");
@@ -83,7 +83,7 @@ public class Withdraw extends HttpServlet {
                             e1.setType("danger");
                             errors.add(e1);
                             session.setAttribute("messages", errors);
-                            response.sendRedirect("index.jsp");
+                            response.sendRedirect("home.jsp");
                             break;
                     }
                 }

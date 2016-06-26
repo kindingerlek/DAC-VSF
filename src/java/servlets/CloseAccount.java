@@ -7,25 +7,23 @@ package servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import javax.servlet.RequestDispatcher;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.Email;
+import model.PersonalAccount;
 import model.User;
-import org.apache.commons.mail.EmailException;
 import utilities.PageMessage;
 
 /**
  *
  * @author Bruno
  */
-@WebServlet(name = "InsertToken", urlPatterns = {"/InsertToken"})
-public class InsertToken extends HttpServlet {
+@WebServlet(name = "CloseAccount", urlPatterns = {"/CloseAccount"})
+public class CloseAccount extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,57 +36,40 @@ public class InsertToken extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession();
+        PersonalAccount account = (PersonalAccount) session.getAttribute("account");
+        account.closeAccount();
+
         User user = (User) session.getAttribute("user");
-        
-        String amount = request.getParameter("amount");
-        String email = user.getEmail();
-        String action = request.getParameter("action");
-        
-        if (amount.equals("")) {
+        List<PersonalAccount> activeAccounts = user.getActiveAccounts();
+
+        if (activeAccounts == null || activeAccounts.size() == 0) {
+            user.setStatus("Inativo");
+            user.update();
+            
+            session.setAttribute("user", null);
+            session.setAttribute("account", null);
+            
             ArrayList<PageMessage> errors = new ArrayList();
             PageMessage e1 = new PageMessage();
-            e1.setText("É obrigatório a inserção de um valor para a transferência.");
-            e1.setType("danger");
+            e1.setTitle("Conta fechada com sucesso.");
+            e1.setType("success");
             errors.add(e1);
             session.setAttribute("messages", errors);
-            response.sendRedirect("transaction.jsp");
+            response.sendRedirect("index.jsp");
+        } else {
+            session.setAttribute("account", activeAccounts.get(0));
+            
+            ArrayList<PageMessage> errors = new ArrayList();
+            PageMessage e1 = new PageMessage();
+            e1.setTitle("Conta fechada com sucesso.");
+            e1.setText(" Você agora está logado na conta "+activeAccounts.get(0).getNumber());
+            e1.setType("success");
+            errors.add(e1);
+            session.setAttribute("messages", errors);
+            response.sendRedirect("accounts.jsp");
         }
-        
-        Calendar cal = Calendar.getInstance();
-        int mi = cal.get(Calendar.MILLISECOND);
-        int code = (int) Math.abs((Math.random()*1000)*mi);
-        
-        Calendar cal2 = Calendar.getInstance();
-        int h = cal2.get(Calendar.HOUR_OF_DAY);
-        int d = cal2.get(Calendar.DAY_OF_MONTH);
-        int token = Math.abs((code * code * h) / (d));
-        
-        try {
-            Email.sendToken(email, Integer.toString(token));
-        } catch (EmailException ex) {
-            internalError(session, response);
-        }
-        
-        request.setAttribute("code", code);
-        request.setAttribute("amount", amount);
-        request.setAttribute("action", action);
-        
-        RequestDispatcher rd = request.getServletContext().getRequestDispatcher("/insertToken.jsp");
-        rd.forward(request, response);
-        
-    }
-    
-    public void internalError(HttpSession session, HttpServletResponse response) throws IOException {
-        ArrayList<PageMessage> errors = new ArrayList();
-        PageMessage e1 = new PageMessage();
-        e1.setTitle("Erro interno."); 
-        e1.setText(" Aconteceu algum erro interno, estaremos solucionando o problema assim que possível.");
-        e1.setType("danger");
-        errors.add(e1);
-        session.setAttribute("messages", errors);
-        response.sendRedirect("home.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

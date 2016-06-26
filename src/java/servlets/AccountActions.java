@@ -6,8 +6,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,80 +15,70 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.Email;
+import model.PersonalAccount;
 import model.User;
-import org.apache.commons.mail.EmailException;
 import utilities.PageMessage;
 
 /**
  *
- * @author Bruno
+ * @author Mei (Jessyka Alycia Amaral)
  */
-@WebServlet(name = "InsertToken", urlPatterns = {"/InsertToken"})
-public class InsertToken extends HttpServlet {
+@WebServlet(name = "AccountActions", urlPatterns = {"/AccountActions"})
+public class AccountActions extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        
-        String amount = request.getParameter("amount");
-        String email = user.getEmail();
-        String action = request.getParameter("action");
-        
-        if (amount.equals("")) {
+        PersonalAccount account = (PersonalAccount) session.getAttribute("account");
+        String accountNumber = request.getParameter("number");
+        String password = request.getParameter("password");
+        if (accountNumber == null || password == null) {
             ArrayList<PageMessage> errors = new ArrayList();
             PageMessage e1 = new PageMessage();
-            e1.setText("É obrigatório a inserção de um valor para a transferência.");
+            e1.setTitle("Dados inválidos.");
+            e1.setText("Não foram digitados os dados necessários");
             e1.setType("danger");
             errors.add(e1);
             session.setAttribute("messages", errors);
-            response.sendRedirect("transaction.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("accounts.jsp");
+            rd.forward(request, response);
         }
-        
-        Calendar cal = Calendar.getInstance();
-        int mi = cal.get(Calendar.MILLISECOND);
-        int code = (int) Math.abs((Math.random()*1000)*mi);
-        
-        Calendar cal2 = Calendar.getInstance();
-        int h = cal2.get(Calendar.HOUR_OF_DAY);
-        int d = cal2.get(Calendar.DAY_OF_MONTH);
-        int token = Math.abs((code * code * h) / (d));
-        
-        try {
-            Email.sendToken(email, Integer.toString(token));
-        } catch (EmailException ex) {
-            internalError(session, response);
+        PersonalAccount accountToChange = null;
+        for (PersonalAccount acc : user.getActiveAccounts()) {
+            if (acc.getNumber().equals(accountNumber)) {
+                accountToChange = acc;
+                break;
+            }
         }
-        
-        request.setAttribute("code", code);
-        request.setAttribute("amount", amount);
-        request.setAttribute("action", action);
-        
-        RequestDispatcher rd = request.getServletContext().getRequestDispatcher("/insertToken.jsp");
-        rd.forward(request, response);
-        
-    }
-    
-    public void internalError(HttpSession session, HttpServletResponse response) throws IOException {
-        ArrayList<PageMessage> errors = new ArrayList();
-        PageMessage e1 = new PageMessage();
-        e1.setTitle("Erro interno."); 
-        e1.setText(" Aconteceu algum erro interno, estaremos solucionando o problema assim que possível.");
-        e1.setType("danger");
-        errors.add(e1);
-        session.setAttribute("messages", errors);
-        response.sendRedirect("home.jsp");
+        if (accountToChange == null) {
+            ArrayList<PageMessage> errors = new ArrayList();
+            PageMessage e1 = new PageMessage();
+            e1.setTitle("Dados inválidos.");
+            e1.setText("Não foi encontrada uma conta com esse número.");
+            e1.setType("danger");
+            errors.add(e1);
+            session.setAttribute("messages", errors);
+            RequestDispatcher rd = request.getRequestDispatcher("accounts.jsp");
+            rd.forward(request, response);
+        }
+        if (accountToChange.verifyPassword(password)) {
+            session.setAttribute("account", accountToChange);
+            if (request.getParameter("action").equals("close")) {
+                RequestDispatcher rd = request.getRequestDispatcher("CloseAccount");
+                rd.forward(request, response);
+            } else if (request.getParameter("action").equals("change")) {
+                ArrayList<PageMessage> errors = new ArrayList();
+                PageMessage e1 = new PageMessage();
+                e1.setTitle("Conta ativa: ");
+                e1.setText("Sua conta ativa agora é " + accountToChange.getNumber() + ".");
+                e1.setType("success");
+                errors.add(e1);
+                session.setAttribute("messages", errors);
+                RequestDispatcher rd = request.getRequestDispatcher("accounts.jsp");
+                rd.forward(request, response);
+            }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

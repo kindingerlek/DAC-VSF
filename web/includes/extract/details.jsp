@@ -1,27 +1,19 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <h1>Extrato</h1>
 <hr>
 
 <h2> Intervalo:</h2>
 
-<form class="form-inline">
-
-	<div class="form-group">
-		<label for="">De: </label>
-		<input type="date" name="fromDate" class="form-control" id="from-date" placeholder="dd/mm/aaaa">
-	</div>
-	<div class="form-group">
-		<label for="">&nbsp até &nbsp</label>
-		<input type="date" name="toDate" class="form-control" id="to-date" placeholder="dd/mm/aaaa">
-	</div>
+<form class="form-inline" action="ExtractDetailed" method="POST">
     
-    <div class="form-group" name="periodDate">
-        <label> &nbsp Ou escolha um período:</label>
-        <select class="form-control">
+    <div class="form-group">
+        <label> &nbsp Escolha um período:</label>
+        <select class="form-control" name="periodDate">
             <option value="lastWeek">Nos últimos 7 dias</option>
             <option value="lastFortnight">Nos últimos 15 dias</option>
-            <option value="lastMouth">Nos últimos 30 dias</option>
+            <option value="lastMonth">Nos últimos 30 dias</option>
         </select>
     </div>
 
@@ -44,15 +36,15 @@
 	</thead>
 	<tbody>
     
-        <c:forEach items="${account.transactions}" var="transaction">
+        <c:forEach items="${transactions}" var="transaction">
             
-            <c:set var="inAmmount" value="${transaction.ammount >= 0 ? transaction.ammount : ''}" />
-            <c:set var="outAmmout" value="${transaction.ammount  < 0 ? transaction.ammount : ''}" />
+            <c:set var="inAmmount" value="${transaction.amount >= 0 ? transaction.amount : ''}" />
+            <c:set var="outAmmout" value="${transaction.amount  < 0 ? transaction.amount : ''}" />
             
-            <td>${transaction.type}</td>
+            <tr><td>${transaction.transactionType}</td>
             <td>${inAmmount}</td>
             <td>${outAmmount}</td>
-            <td><fmt:formatDate pattern="d/M/a" value="${transaction.date}"/></td>
+            <td><fmt:formatDate pattern="d/MM/y" value="${transaction.date}"/></td></tr>
         </c:forEach>
 	</tbody>
 </table>

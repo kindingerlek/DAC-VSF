@@ -5,12 +5,14 @@
  */
 package model;
 
+import dao.AccountTransactionDAO;
 import dao.PersonalAccountDAO;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,11 +65,8 @@ public class PersonalAccount {
     @Column(name = "account_limit")
     private Double limit;
 
-    @OneToMany(mappedBy = "transactionAccount", fetch = FetchType.EAGER, targetEntity = AccountTransaction.class, cascade = CascadeType.ALL)
-    private Collection<AccountTransaction> transactionsIn;
-
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER, targetEntity = AccountTransaction.class, cascade = CascadeType.ALL)
-    private Collection<AccountTransaction> transactionsOut;
+    private Collection<AccountTransaction> transactions;
 
     @Column(name = "indebt_since")
     private Date indebtSince;
@@ -105,20 +104,12 @@ public class PersonalAccount {
         this.type = type;
     }
 
-    public Collection<AccountTransaction> getTransactionsIn() {
-        return transactionsIn;
+    public Collection<AccountTransaction> getTransactions() {
+        return transactions;
     }
 
-    public void setTransactionsIn(Collection<AccountTransaction> transactionsIn) {
-        this.transactionsIn = transactionsIn;
-    }
-
-    public Collection<AccountTransaction> getTransactionsOut() {
-        return transactionsOut;
-    }
-
-    public void setTransactionsOut(Collection<AccountTransaction> transactionsOut) {
-        this.transactionsOut = transactionsOut;
+    public void setTransactions(Collection<AccountTransaction> transactions) {
+        this.transactions = transactions;
     }
 
     public int getId() {
@@ -170,29 +161,54 @@ public class PersonalAccount {
     }
 
     //Class structure
-    public void deposit(Double amount) {
+    public List<AccountTransaction> getExtract() {
+        return AccountTransactionDAO.getExtract(this);
+    }
+
+    public List<AccountTransaction> getExtractByMonth() {
+        return AccountTransactionDAO.getExtractByMonth(this);
+    }
+
+    public List<AccountTransaction> getExtractByWeek() {
+        return AccountTransactionDAO.getExtractByWeek(this);
+    }
+
+    public List<AccountTransaction> getExtractByFornight() {
+        return AccountTransactionDAO.getExtractByFortnight(this);
+    }
+
+    public void transfer(PersonalAccount accountToSend, Double ammount) throws Exception {
+        this.withdraw(ammount, "Transferência");
+        accountToSend.deposit(ammount, "Transferência");
+    }
+
+    public void deposit(Double amount, String type) {
         if (this.getBalance() + amount > 0) {
             this.setStatus("Regular");
 //            Utils.removeDebtorInDOR(getUser());
-        } else if (!getStatus().equals("Em cheque especial")) {
-            this.setStatus("Em cheque especial");
-            this.setIndebtSince(new Date());
         }
+        
+        System.out.println("conta deposito"+ this.number);
+        System.out.println(amount);
+        System.out.println(type);
         AccountTransaction at = new AccountTransaction();
         at.setAccount(this);
         at.setAmount(amount);
-        at.setTransactionType(2);
+        at.setTransactionType(type);
         at.setDate(new Date());
 
         at.create();
 
         this.setBalance(getBalance() + amount);
-        this.update();
+        System.out.println(this.update());
 
     }
 
-    public void withdraw(Double amount) throws Exception {
-        if (this.getType() == 2) {
+    public void withdraw(Double amount, String type) throws Exception {
+        if (this.getType() == 2 || type.equals("Transferência")) {
+            System.out.println("entrou");
+            System.out.println(amount);
+
             if (this.getBalance() - amount < 0) {
                 if ((this.getBalance() - amount) < (-this.getLimit())) {
                     throw new Exception("inadequate limit");
@@ -201,14 +217,12 @@ public class PersonalAccount {
                     this.setStatus("Em cheque especial");
                     this.setIndebtSince(new Date());
                 }
-            } else {
-                this.setStatus("Regular");
-//                Utils.removeDebtorInDOR(getUser());
             }
+
             AccountTransaction at = new AccountTransaction();
             at.setAccount(this);
-            at.setAmount(amount);
-            at.setTransactionType(1);
+            at.setAmount(-amount);
+            at.setTransactionType(type);
             at.setDate(new Date());
 
             at.create();
@@ -221,6 +235,11 @@ public class PersonalAccount {
         }
     }
 
+    public void closeAccount() {
+        this.setStatus("Fechada");
+        PersonalAccountDAO.update(this);
+    }
+
     public boolean openAccount(User user, Agency agency) {
         this.setAgency(agency);
         this.setBalance(0.0);
@@ -230,6 +249,7 @@ public class PersonalAccount {
         int conta2 = 1 + numero.nextInt(9);
         this.setNumber(Integer.toString(conta1) + "-" + Integer.toString(conta2));
         this.setType(user.getType());
+        user.setStatus("Ativo");
         this.setUser(user);
 
         if (user.getIncome() > 1000) {
@@ -276,11 +296,12 @@ public class PersonalAccount {
 
     public Double getMonthMovement() {
         Double amount = 0.0;
-        for (AccountTransaction transaction : transactionsIn) {
-            amount += transaction.getAmount();
-        }
-        for (AccountTransaction transaction : transactionsOut) {
-            amount -= transaction.getAmount();
+
+        for (AccountTransaction transaction : transactions) {
+            Date dateBefore = new Date(System.currentTimeMillis() - 30 * 24 * 3600 * 1000);
+            if (transaction.getDate().before(dateBefore)) {
+                amount += transaction.getAmount();
+            }
         }
         return amount;
     }
@@ -310,62 +331,4 @@ public class PersonalAccount {
         }
         return stringBuffer.toString();
     }
-
-//    public PersonalAccount getAccountById(int id) {
-//        //TODO
-//        PersonalAccount account = new PersonalAccount();
-//        return account;
-//    }
-//
-//    //Sem agency?
-//    public PersonalAccount getAccountByNumber(int number) {
-//        //TODO
-//        PersonalAccount account = new PersonalAccount();
-//        return account;
-//    }
-//
-//    //Double?
-//    public void deposit(Double in) {
-//        //TODO: Check
-//        this.balance += in;
-//    }
-//
-//    public boolean transfer(PersonalAccount destination, Double out) {
-//        //TODO
-//        return true;
-//    }
-//
-//    public Collection<AccountTransaction> getTransactionsByPeriod(Date start, Date end) {
-//        //TODO
-//        Collection<AccountTransaction> transactions = null;
-//        return transactions;
-//    }
-//
-//    public PersonalAccount createAccount(int number, Agency agency,
-//            User owner, String password) {
-//        //TODO
-//        PersonalAccount account = new PersonalAccount();
-//        return account;
-//    }
-//
-//    public boolean auth(String password) {
-//        //TODO
-//        return true;
-//    }
-//
-//    public boolean update() {
-//        //TODO
-//        return true;
-//    }
-//
-//    public boolean close(User user) {
-//        //TODO
-//        return true;
-//    }
-//
-//    public Collection<AccountTransaction> getExtract(Date from, Date to) {
-//        //TODO
-//        Collection<AccountTransaction> transactions = null;
-//        return transactions;
-//    }
 }

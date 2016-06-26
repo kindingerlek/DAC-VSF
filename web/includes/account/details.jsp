@@ -12,7 +12,7 @@
 <p>Situação: ${fn:escapeXml(account.status)}</p>
 
 <div class="text-center">
-	<a href="#" class="btn btn-danger btn-lg">
+	<a href="CloseAccount" class="btn btn-danger btn-lg">
 		FECHAR ESTA CONTA
 	</a>
 </div>	

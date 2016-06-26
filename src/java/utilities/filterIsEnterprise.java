@@ -19,33 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.User;
 
-@WebFilter(filterName = "IsLogged", urlPatterns = {
-    "/deposit.jsp",
-    "/extract.jsp",
-    "/extract_details.jsp",
-    "/home.jsp",
-    "/insertToken.jsp",
-    "/myregister.jsp",
-    "/template.jsp",
-    "/registration.jsp",
+@WebFilter(filterName = "IsEnterprise", urlPatterns = {
     "/withdraw.jsp",
-    "/EditUser",
-    "/InsertToken",
-    "/Withdraw",
-    "/Extract",
-    "/Deposit",
-    "/ManagerAccounts",
-    "/Transfer",
-    "/ExtractDetailed",
-    "/transaction.jsp",
-    "/CloseAccount",
-    "/InsertTransferToken",
-    "/accounts.jsp",
-    "/AccountActions",
-    "/askpassword.jsp"
 }, dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD})
 
-public class filterIsLogged implements Filter {
+public class filterIsEnterprise implements Filter {
 
     private static final boolean debug = true;
     private static final boolean active = true;
@@ -56,20 +34,20 @@ public class filterIsLogged implements Filter {
     // configured. 
     private FilterConfig filterConfig = null;
 
-    public filterIsLogged() {
+    public filterIsEnterprise() {
     }
 
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("IsLogged:DoBeforeProcessing");
+            log("IsEnterprise:DoBeforeProcessing");
         }
     }
 
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("IsLogged:DoAfterProcessing");
+            log("IsEnterprise:DoAfterProcessing");
         }
     }
 
@@ -87,7 +65,7 @@ public class filterIsLogged implements Filter {
             throws IOException, ServletException {
 
         if (debug) {
-            log("IsLogged:doFilter()");
+            log("IsEnterprise:doFilter()");
         }
 
         doBeforeProcessing(request, response);
@@ -104,13 +82,13 @@ public class filterIsLogged implements Filter {
                         new PageMessage(
                                 "info",
                                 "Acesso restrito",
-                                "Apenas usuários logados podem acessar a página requisitada"
+                                "Apenas pessoas físicas podem acessar essa área."
                         )
                 );
 
                 session.setAttribute("messages", messages);
 
-                RequestDispatcher rd = req.getRequestDispatcher("/index.jsp");
+                RequestDispatcher rd = req.getRequestDispatcher("/home.jsp");
                 rd.forward(request, response);
                 return;
             }
@@ -169,7 +147,7 @@ public class filterIsLogged implements Filter {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
             if (debug) {
-                log("IsLogged:Initializing filter");
+                log("IsEnterprise:Initializing filter");
             }
         }
     }
@@ -180,9 +158,9 @@ public class filterIsLogged implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("IsLogged()");
+            return ("IsEnterprise()");
         }
-        StringBuffer sb = new StringBuffer("IsLogged(");
+        StringBuffer sb = new StringBuffer("IsEnterprise(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());

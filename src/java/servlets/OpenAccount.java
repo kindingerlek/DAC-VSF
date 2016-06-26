@@ -7,6 +7,7 @@ package servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -90,6 +91,7 @@ public class OpenAccount extends HttpServlet {
                     this.redirectToRegistration(user, request, response);
                 }
 //                } else {
+//String page = null;
 //                ArrayList<PageMessage> errors = new ArrayList();
 //                PageMessage e1 = new PageMessage();
 //                e1.setText("Devedores não podem abrir novas contas.");
@@ -97,12 +99,14 @@ public class OpenAccount extends HttpServlet {
 //                e1.setType("danger");
 //                errors.add(e1);
 //                session.setAttribute("messages", errors);
-//                if (((PersonalAccount) session.getAttribute("account")).getNumber().equals("")) {
-//                    response.sendRedirect("index.jsp");
+//                if (((PersonalAccount) session.getAttribute("account")) == null) {
+//                    page = "index.jsp";
+//                } else {
+//                    page = "accounts.jsp";
 //                }
-//                response.sendRedirect("accounts.jsp");
-//                }
+//                response.sendRedirect(page);
             } else {
+                String page = null;
                 ArrayList<PageMessage> errors = new ArrayList();
                 PageMessage e1 = new PageMessage();
                 e1.setText("A senha que você digitou está incorreta.");
@@ -110,12 +114,15 @@ public class OpenAccount extends HttpServlet {
                 e1.setType("danger");
                 errors.add(e1);
                 session.setAttribute("messages", errors);
-                if (((PersonalAccount) session.getAttribute("account")).getNumber().equals("")) {
-                    response.sendRedirect("index.jsp");
+                if (((PersonalAccount) session.getAttribute("account")) == null) {
+                    page = "index.jsp";
+                } else {
+                    page = "accounts.jsp";
                 }
-                response.sendRedirect("accounts.jsp");
+                response.sendRedirect(page);
             }
         } else {
+            String page = null;
             ArrayList<PageMessage> errors = new ArrayList();
             PageMessage e1 = new PageMessage();
             e1.setTitle("Email não cadastrado.");
@@ -123,19 +130,22 @@ public class OpenAccount extends HttpServlet {
             e1.setType("danger");
             errors.add(e1);
             session.setAttribute("messages", errors);
-            if (((PersonalAccount) session.getAttribute("account")).getNumber().equals("")) {
-                response.sendRedirect("index.jsp");
-            }
-            response.sendRedirect("accounts.jsp");
+            if (((PersonalAccount) session.getAttribute("account")) == null) {
+                    page = "index.jsp";
+                } else {
+                    page = "accounts.jsp";
+                }
+                response.sendRedirect(page);
         }
 
     }
 
     public void createTokenAndRedirect(PersonalAccount account, User user, HttpSession session, HttpServletResponse response) throws IOException {
-        int number = Integer.parseInt(account.getNumber().replace("-", ""));
-        number = (int) +System.currentTimeMillis();
+        Calendar cal = Calendar.getInstance();
+        int mi = cal.get(Calendar.MILLISECOND);
+        int number = (int) Math.abs((Math.random()*1000)*mi);
         String token = Integer.toString(number);
-
+        
         user.setTokenForAccount(token);
         user.update();
 
@@ -150,16 +160,19 @@ public class OpenAccount extends HttpServlet {
 
     public void internalError(HttpSession session, HttpServletResponse response) throws IOException {
         ArrayList<PageMessage> errors = new ArrayList();
+        String page = null;
         PageMessage e1 = new PageMessage();
         e1.setTitle("Erro interno.");
         e1.setText(" Aconteceu algum erro interno, estaremos solucionando o problema assim que possível.");
         e1.setType("danger");
         errors.add(e1);
         session.setAttribute("messages", errors);
-        if (((PersonalAccount) session.getAttribute("account")).getNumber().equals("")) {
-            response.sendRedirect("index.jsp");
-        }
-        response.sendRedirect("accounts.jsp");
+        if (((PersonalAccount) session.getAttribute("account")) == null) {
+                    page = "index.jsp";
+                } else {
+                    page = "accounts.jsp";
+                }
+                response.sendRedirect(page);
     }
 
     public void redirectToRegistration(User user, HttpServletRequest request, HttpServletResponse response) throws IOException {
