@@ -5,7 +5,7 @@ $('.agency').mask('99999');
 $('.account').mask('99999-9');
 
 $('.money').on('blur', function () {
-    var value = $('.money').val();
+    var value = $('.money').val().replace('.','');
     if (value) {
         if (!value.match(/R\$/gi)) {
             $('.money').val('R$ ' + value);

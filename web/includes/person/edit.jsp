@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <h1>Meu Cadastro</h1>
 <hr>
 
@@ -147,7 +148,7 @@
     <div class="col-md-6">                                    
         <div class="form-group">
             <label>Renda Declarada:</label>
-            <input type="text" class="form-control" name="income" id="income" value="${fn:escapeXml(user.income)}" placeholder="R$1000,00" required>
+            <input type="text" class="form-control money" name="income" id="income" placeholder="R$1000,00" value='<fmt:formatNumber value="${user.income}" type="currency"/>' required>
         </div>
     </div>
 
