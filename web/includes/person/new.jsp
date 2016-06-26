@@ -5,6 +5,7 @@
 <div class="container-fluid">					
 	<div class="row">
 		<h4>Para ter direito a uma conta no banco, por favor complete seu cadastro:</h4>	
+                <h6>Os campos com asterisco são obrigatórios.</h6>
 	</div>
 </div>
 
@@ -13,14 +14,14 @@
 
 	<div class="col-md-12">                                    
 		<div class="form-group">
-			<label for="">Nome:</label>
+			<label for="">Nome*:</label>
 			<input type="text" class="form-control" id="name" name="name" value="${fn:escapeXml(user.name)}">
 		</div>
 	</div>
 
 	<div class="col-md-12">                                    
 		<div class="form-group">
-			<label>Email:</label>
+			<label>Email*:</label>
 			<input type="text" class="form-control" name="email" id="email" placeholder="example@domain.com" value="${fn:escapeXml(user.email)}" readonly>
 		</div>
 	</div>
@@ -59,14 +60,14 @@
         </c:if>
 	<div class="col-md-6">
 		<div class="form-group">
-			<label>CEP:</label>
+			<label>CEP*:</label>
                         <input type="text" class="form-control" name="zipCode" id="cep" value="${fn:escapeXml(user.zipCode)}">
 		</div>
 	</div>
 
 	<div class="col-md-6">                                    
 		<div class="form-group">
-                    <label>Estado:</label>
+                    <label>Estado*:</label>
                     <select name="state" class="form-control">
                             <option value="AC" ${user.state.equals("AC") ? 'selected' : ''}> Acre </option>
                             <option value="AL" ${user.state.equals("AL") ? 'selected' : ''}> Alagoas </option>
@@ -101,28 +102,28 @@
 
 	<div class="col-md-6">                                    
 		<div class="form-group">
-			<label>Cidade:</label>
+			<label>Cidade*:</label>
                         <input type="text" class="form-control" name="city" id="city" value="${fn:escapeXml(user.city)}">
 		</div>
 	</div>
 
 	<div class="col-md-6">                                    
 		<div class="form-group">
-			<label>Bairro:</label>
+			<label>Bairro*:</label>
                         <input type="text" class="form-control" name="neighborhood" id="neighborhood" value="${fn:escapeXml(user.neighborhood)}">
 		</div>
 	</div>
 
 	<div class="col-md-10">                                    
 		<div class="form-group">
-			<label>Rua:</label>
+			<label>Rua*:</label>
                         <input type="text" class="form-control" name="street" id="street" value="${fn:escapeXml(user.street)}">
 		</div>
 	</div>
 
 	<div class="col-md-2">                                    
 		<div class="form-group">
-			<label>Numero:</label>
+			<label>Numero*:</label>
                         <input type="text" class="form-control" name="addressNumber" id="number" value="${fn:escapeXml(user.addressNumber)}">
 		</div>
 	</div>
@@ -150,7 +151,7 @@
 
 	<div class="col-md-6">                                    
 		<div class="form-group">
-			<label>Renda Declarada:</label>
+			<label>Renda Declarada*:</label>
 			<input type="text" class="form-control" name="income" id="income" placeholder="R$1000,00">
 		</div>
 	</div>

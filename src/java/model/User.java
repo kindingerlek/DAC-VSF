@@ -351,9 +351,6 @@ public class User {
                 || this.getNeighborhood() == null
                 || this.getStreet() == null
                 || this.getAddressNumber() == null
-                || this.getCellPhone() == null
-                || this.getComplement() == null
-                || this.getLandPhone() == null
                 || this.getZipCode() == null
                 || this.getRg() == null
                 || this.getCpf() == null
@@ -366,9 +363,6 @@ public class User {
                 || (this.getNeighborhood().isEmpty())
                 || (this.getStreet().isEmpty())
                 || (this.getAddressNumber().isEmpty())
-                || (this.getCellPhone().isEmpty())
-                || (this.getComplement().isEmpty())
-                || (this.getLandPhone().isEmpty())
                 || (this.getZipCode().isEmpty())
                 || (this.getRg().isEmpty())
                 || (this.getCpf().isEmpty()));
@@ -380,9 +374,6 @@ public class User {
                 || this.getNeighborhood() == null
                 || this.getStreet() == null
                 || this.getAddressNumber() == null
-                || this.getCellPhone() == null
-                || this.getComplement() == null
-                || this.getLandPhone() == null
                 || this.getZipCode() == null
                 || this.getFantasyName() == null
                 || this.getCnpj() == null
@@ -395,9 +386,6 @@ public class User {
                 || (this.getNeighborhood().isEmpty())
                 || (this.getStreet().isEmpty())
                 || (this.getAddressNumber().isEmpty())
-                || (this.getCellPhone().isEmpty())
-                || (this.getComplement().isEmpty())
-                || (this.getLandPhone().isEmpty())
                 || (this.getZipCode().isEmpty())
                 || (this.getFantasyName().isEmpty())
                 || (this.getCnpj().isEmpty()));
