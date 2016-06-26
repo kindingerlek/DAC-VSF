@@ -8,6 +8,8 @@ package servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -66,7 +68,24 @@ public class EditUser extends HttpServlet {
                 user.setLandPhone(request.getParameter("landphone"));
                 user.setCellPhone(request.getParameter("cellphone"));
                 user.setAddressNumber(request.getParameter("addressNumber"));
-                user.setIncome(Double.parseDouble(request.getParameter("income")));
+                Double amount = 0.0;
+                String input = request.getParameter("income");
+                if (input.equals("")) {
+                    amount = 0.0;
+                } else {
+                    Pattern regex = Pattern.compile("\\d[\\d,\\.]+");
+                    Matcher finder = regex.matcher(input);
+                    if (finder.find()) {
+                        try {
+                            System.out.println(input);
+                            System.out.println(finder.group(0));
+                            amount = Double.parseDouble(finder.group(0).replaceAll(",", "."));
+                        } catch (NumberFormatException e) {
+                            amount = 0.0;
+                        }
+                    }
+                }
+                user.setIncome(amount);
 
                 updateUser(session, response, user);
                 break;
