@@ -7,6 +7,9 @@ package servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,22 +37,33 @@ public class CompleteRegistration extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
 
+        HttpSession session = request.getSession();
         String email = request.getParameter("email");
         User user = new User();
         user.setEmail(email);
         user = user.read();
         int type = user.getType();
         Double income = null;
-
-        if (((String) request.getParameter("income")).equals("")) {
+        ArrayList<PageMessage> messages = new ArrayList();
+        PageMessage pm = new PageMessage();
+        String input = request.getParameter("income");
+        if (input.equals("")) {
             income = 0.0;
         } else {
-            income = Double.parseDouble((String) request.getParameter("income"));
+            Pattern regex = Pattern.compile("\\d[\\d,\\.]+");
+            Matcher finder = regex.matcher(input);
+            if (finder.find()) {
+                try {
+                    System.out.println(input);
+                    System.out.println(finder.group(0));
+                    income = Double.parseDouble(finder.group(0).replaceAll(",", "."));
+                } catch (NumberFormatException e) {
+                    income = 0.0;
+                }
+            }
         }
-
+        String action = request.getParameter("action");
         switch (type) {
             case 1:
                 user.setName(request.getParameter("name"));
@@ -78,8 +92,27 @@ public class CompleteRegistration extends HttpServlet {
                 user.setIncome(income);
                 System.out.println(user.getIncome());
                 user.update();
+                if (user.hasAllInformationPF()) {
+                    pm.setTitle("Cadastro completo.");
+                    pm.setType("sucess");
+                    messages.add(pm);
+                    session.setAttribute("messages", messages);
+                } else {
+                    pm.setTitle("Cadastro salvo!");
+                    pm.setText("Os dados do seu cadastro foram salvos,"
+                            + " mas precisamos que você termine seu cadastro"
+                            + " antes de criar uma conta.");
+                    pm.setType("sucess");
+                    messages.add(pm);
+                    session.setAttribute("messages", messages);
+                }
+                if (action != null) {
+                    RequestDispatcher rd = request.getRequestDispatcher(action);
+                    rd.forward(request, response);
+                } else {
+                    response.sendRedirect("index.jsp");
+                }
                 break;
-
             case 2:
                 user.setName(request.getParameter("name"));
                 try {
@@ -107,20 +140,30 @@ public class CompleteRegistration extends HttpServlet {
                 user.setIncome(income);
 
                 user.update();
+                if (user.hasAllInformationPJ()) {
+                    pm.setTitle("Cadastro completo.");
+                    pm.setType("sucess");
+                    messages.add(pm);
+                    session.setAttribute("messages", messages);
+                } else {
+                    pm.setTitle("Cadastro salvo!");
+                    pm.setText("Os dados do seu cadastro foram salvos,"
+                            + " mas precisamos que você termine seu cadastro"
+                            + " antes de criar uma conta.");
+                    pm.setType("sucess");
+                    messages.add(pm);
+                    session.setAttribute("messages", messages);
+                }
+                if (action != null) {
+                    RequestDispatcher rd = request.getRequestDispatcher(action);
+                    rd.forward(request, response);
+                } else {
+                    response.sendRedirect("index.jsp");
+                }
                 break;
-
             default:
                 internalError(session, response);
         }
-        
-        ArrayList<PageMessage> errors = new ArrayList();
-        PageMessage e1 = new PageMessage();
-        e1.setTitle("Cadastro completo.");
-        e1.setType("sucess");
-        errors.add(e1);
-        session.setAttribute("messages", errors);
-
-        response.sendRedirect("index.jsp");
     }
 
     public void internalError(HttpSession session, HttpServletResponse response) throws IOException {

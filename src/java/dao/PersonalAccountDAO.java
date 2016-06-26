@@ -10,6 +10,7 @@ import model.AccountTransaction;
 import java.util.Collection;
 import java.util.List;
 import model.PersonalAccount;
+import model.User;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -159,13 +160,14 @@ public class PersonalAccountDAO {
         }
     }
     
-    public static List<PersonalAccount> activeAccounts() {
+    public static List<PersonalAccount> activeAccounts(User user) {
         Session session = null;
         List<PersonalAccount> personalAccounts = null;
         try {
             session = getSessionFactory().openSession();
             Query query = session.createQuery("from PersonalAccount where status = 'Em cheque especial'"
-                    + "or status = 'Regular'");
+                    + "or status = 'Regular' and user_id = :id");
+            query.setParameter("id", user.getId());
             personalAccounts = (List<PersonalAccount>) query.list();
         } catch (Exception e) {
             System.out.println("read active accounts " + e.getMessage());
