@@ -39,8 +39,7 @@
         <c:forEach items="${transactions}" var="transaction">
             
             <c:set var="inAmmount" value="${transaction.amount >= 0 ? transaction.amount : ''}" />
-            <c:set var="outAmmout" value="${transaction.amount  < 0 ? transaction.amount : ''}" />
-            
+            <c:set var="outAmmount" value="${transaction.amount  < 0 ? transaction.amount : ''}" />
             <tr><td>${transaction.transactionType}</td>
             <td><fmt:formatNumber value="${inAmmount}" type="currency"/></td>
             <td><fmt:formatNumber value="${outAmmount}" type="currency"/></td>
