@@ -20,7 +20,7 @@
                 <input type="radio" name="destinationType" id="" value="1">&nbsp; Para uma de minhas contas.<br>
 
                 <br>
-                <input type="radio" name="destinationType" id="" value="2">&nbsp; Para uma conta de Terceiros.<br>
+                <input type="radio" name="destinationType" id="" value="2" checked="checked">&nbsp; Para uma conta de Terceiros.<br>
 
             </div>
         </div>
@@ -28,7 +28,7 @@
         <div class="col-md-6">                                    
             <div class="form-group">
                 <label>Valor da Tranferência:</label>
-                <input type="text" class="form-control money" name="ammount" value="" />
+                <input type="text" class="form-control money" name="ammount" value="" required/>
             </div>
         </div>
     </div>
@@ -54,7 +54,7 @@
         <div class="col-md-6">                                    
             <div class="form-group">
                 <label>CPF:</label>
-                <input type="text" class="form-control cpf" id="cpfInput" name="identifier" value="" />
+                <input type="text" class="form-control cpf" id="cpfInput" name="identifier" value="" required/>
             </div>
         </div>
 

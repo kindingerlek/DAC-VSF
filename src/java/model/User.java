@@ -250,7 +250,7 @@ public class User {
     }
 
     public void setCnpj(String cnpj) throws Exception {
-        cnpj = cnpj.replaceAll("[.-]", "");
+        cnpj = cnpj.replaceAll("[./-]", "");
         if (Utils.isValidCNPJ(cnpj)) {
             this.cnpj = cnpj;
 

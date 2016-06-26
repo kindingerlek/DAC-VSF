@@ -6,10 +6,7 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,7 +40,7 @@ public class addUser extends HttpServlet {
         User user = new User();
         user.setType(Integer.parseInt((String) request.getParameter("personType")));
         HttpSession session = request.getSession();
-        
+
         if (password.equals(confirmPassword)) {
             switch (user.getType()) {
                 case 1:
@@ -60,7 +57,8 @@ public class addUser extends HttpServlet {
                         e1.setType("danger");
                         errors.add(e1);
                         session.setAttribute("messages", errors);
-                        response.sendRedirect("index.jsp");
+                        RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+                        rd.forward(request, response);
                         break;
                     }
 
@@ -79,7 +77,7 @@ public class addUser extends HttpServlet {
                             session.setAttribute("user", user);
                             response.sendRedirect("registration.jsp");
                         } else {
-                            internalError(session, response);
+                            internalError(session, request, response);
                         }
                     } catch (Exception er) {
                         ArrayList<PageMessage> errors = new ArrayList();
@@ -89,7 +87,8 @@ public class addUser extends HttpServlet {
                         e1.setType("danger");
                         errors.add(e1);
                         session.setAttribute("messages", errors);
-                        response.sendRedirect("index.jsp");
+                        RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+                        rd.forward(request, response);
                         break;
                     }
                     break;
@@ -109,7 +108,8 @@ public class addUser extends HttpServlet {
                         e1.setType("danger");
                         errors.add(e1);
                         session.setAttribute("messages", errors);
-                        response.sendRedirect("index.jsp");
+                        RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+                        rd.forward(request, response);
                     }
 
                     user.setPassword(password);
@@ -126,7 +126,7 @@ public class addUser extends HttpServlet {
                             session.setAttribute("user", user);
                             response.sendRedirect("registration.jsp");
                         } else {
-                            internalError(session, response);
+                            internalError(session, request, response);
                         }
                     } catch (Exception er) {
                         ArrayList<PageMessage> errors = new ArrayList();
@@ -136,7 +136,8 @@ public class addUser extends HttpServlet {
                         e1.setType("danger");
                         errors.add(e1);
                         session.setAttribute("messages", errors);
-                        response.sendRedirect("index.jsp");
+                        RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+                        rd.forward(request, response);
                         break;
                     }
                     break;
@@ -150,12 +151,14 @@ public class addUser extends HttpServlet {
             e1.setType("danger");
             errors.add(e1);
             session.setAttribute("messages", errors);
-            response.sendRedirect("index.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+            rd.forward(request, response);
         }
 
     }
 
-    public void internalError(HttpSession session, HttpServletResponse response) throws IOException {
+    public void internalError(HttpSession session, HttpServletRequest request,
+            HttpServletResponse response) throws IOException, ServletException {
         ArrayList<PageMessage> errors = new ArrayList();
         PageMessage e1 = new PageMessage();
         e1.setTitle("Erro interno.");
@@ -163,7 +166,8 @@ public class addUser extends HttpServlet {
         e1.setType("danger");
         errors.add(e1);
         session.setAttribute("messages", errors);
-        response.sendRedirect("index.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

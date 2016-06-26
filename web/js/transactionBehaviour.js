@@ -5,7 +5,7 @@ $(document).ready(function () {
     });
 
     $("input[name=destinationType]:radio").on('ifChecked', changePerson);
-
+    changePerson();
 });
 
 function changePerson() {

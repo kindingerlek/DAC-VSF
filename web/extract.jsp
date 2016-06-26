@@ -28,6 +28,6 @@
             </div>
         </div>
 
-
+        <script src="js/maskValidation.js"></script>               
     </body>
 </html>

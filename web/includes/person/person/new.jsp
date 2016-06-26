@@ -12,7 +12,7 @@
         <div class="col-md-12">                                    
             <div class="form-group">
                 <label for="">Email:</label>
-                <input type="email" name="email" class="form-control" id="email" placeholder="exemplo@dominio.com" required>
+                <input type="email" name="email" class="form-control" id="emailPf" placeholder="exemplo@dominio.com" required>
             </div>
         </div>
 

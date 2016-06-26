@@ -246,6 +246,9 @@ public class PersonalAccount {
         this.setStatus("Inativa");
         Random numero = new Random();
         int conta1 = 1 + numero.nextInt(99999);
+        while(conta1<10000){
+            conta1 = 1 + numero.nextInt(99999);
+        }
         int conta2 = 1 + numero.nextInt(9);
         this.setNumber(Integer.toString(conta1) + "-" + Integer.toString(conta2));
         this.setType(user.getType());

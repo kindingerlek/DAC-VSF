@@ -34,7 +34,7 @@ public class Email {
             email.setFrom("brunofaczz2@gmail.com");
             email.setSubject("Token de autentificação");
             email.setMsg(message);
-            email.addTo("bruno.braga@tuntscorp.com");
+            email.addTo(receiver);
             email.send();
 
         } catch (EmailException e) {
@@ -59,7 +59,7 @@ public class Email {
             email.setFrom("brunofaczz2@gmail.com");
             email.setSubject("Token para realizar transação");
             email.setMsg(message);
-            email.addTo("bruno.braga@tuntscorp.com");
+            email.addTo(receiver);
             email.send();
 
         } catch (EmailException e) {
