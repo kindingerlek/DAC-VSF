@@ -7,6 +7,8 @@ package servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,7 +36,7 @@ public class CompleteRegistration extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+
         HttpSession session = request.getSession();
 
         String email = request.getParameter("email");
@@ -47,7 +49,18 @@ public class CompleteRegistration extends HttpServlet {
         if (((String) request.getParameter("income")).equals("")) {
             income = 0.0;
         } else {
-            income = Double.parseDouble((String) request.getParameter("income"));
+            String input = request.getParameter("income");
+            Pattern regex = Pattern.compile("\\d[\\d,\\.]+");
+            Matcher finder = regex.matcher(input);
+            if (finder.find()) {
+                try {
+                    System.out.println(input);
+                    System.out.println(finder.group(0));
+                    income = Double.parseDouble(finder.group(0).replaceAll(",", "."));
+                } catch (NumberFormatException e) {
+                    income = 0.0;
+                }
+            }
         }
 
         switch (type) {
