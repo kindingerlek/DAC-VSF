@@ -17,5 +17,5 @@ $('.money').on('blur', function () {
 });
 
 function formatCurrency() {
-    $('.money').val($('.money').val().slice(2, -3));
+    
 }
