@@ -28,8 +28,8 @@ public class VerifyIndebt extends TimerTask {
         
         for(PersonalAccount account : accountsIndebt) {
             if(account.getIndebtSince().before(dateBefore)) {
-//                Utils.addDebtorInDOR(account.getUser());
-            };
+                Utils.addDebtorInDOR(account.getUser());
+            }
         }
     }
 }

@@ -29,9 +29,9 @@ public class Email {
         try {
             email.setHostName("smtp.googlemail.com");
             email.setSmtpPort(465);
-            email.setAuthenticator(new DefaultAuthenticator("brunofaczz2@gmail.com", "misterios"));
+            email.setAuthenticator(new DefaultAuthenticator("totheworldgroup@gmail.com", "albrcalu"));
             email.setSSLOnConnect(true);
-            email.setFrom("brunofaczz2@gmail.com");
+            email.setFrom("totheworldgroup@gmail.com");
             email.setSubject("Token de autentificação");
             email.setMsg(message);
             email.addTo(receiver);
@@ -54,9 +54,9 @@ public class Email {
         try {
             email.setHostName("smtp.googlemail.com");
             email.setSmtpPort(465);
-            email.setAuthenticator(new DefaultAuthenticator("brunofaczz2@gmail.com", "misterios"));
+            email.setAuthenticator(new DefaultAuthenticator("totheworldgroup@gmail.com", "albrcalu"));
             email.setSSLOnConnect(true);
-            email.setFrom("brunofaczz2@gmail.com");
+            email.setFrom("totheworldgroup@gmail.com");
             email.setSubject("Token para realizar transação");
             email.setMsg(message);
             email.addTo(receiver);

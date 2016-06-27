@@ -37,7 +37,7 @@ public class Utils {
 
     public static Response addDebtorInDOR(User user) {
         Client client = ClientBuilder.newClient();
-        String uri = "http://172.31.41.180:8084/DAC-DOR/webresources/debtorSituation";
+        String uri = "http://172.31.41.180:8084/DAC-DOR/webresources/debtorSituations";
 
         DebtorCompanySituationWeb debtor = new DebtorCompanySituationWeb();
         debtor.setDebtorIdentifier(user.getIdentifier());
@@ -53,7 +53,7 @@ public class Utils {
     
     public static Response removeDebtorInDOR(User user) {
         Client client = ClientBuilder.newClient();
-        String uri = "http://172.31.41.180:8084/DAC-DOR/webresources/debtorSituation";
+        String uri = "http://172.31.41.180:8084/DAC-DOR/webresources/debtorSituations";
 
         DebtorCompanySituationWeb debtor = new DebtorCompanySituationWeb();
         debtor.setDebtorIdentifier(user.getIdentifier());

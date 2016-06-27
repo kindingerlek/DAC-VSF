@@ -185,12 +185,8 @@ public class PersonalAccount {
     public void deposit(Double amount, String type) {
         if (this.getBalance() + amount > 0) {
             this.setStatus("Regular");
-//            Utils.removeDebtorInDOR(getUser());
+            Utils.removeDebtorInDOR(getUser());
         }
-        
-        System.out.println("conta deposito"+ this.number);
-        System.out.println(amount);
-        System.out.println(type);
         AccountTransaction at = new AccountTransaction();
         at.setAccount(this);
         at.setAmount(amount);
@@ -200,14 +196,12 @@ public class PersonalAccount {
         at.create();
 
         this.setBalance(getBalance() + amount);
-        System.out.println(this.update());
+        this.update();
 
     }
 
     public void withdraw(Double amount, String type) throws Exception {
         if (this.getType() == 2 || type.equals("Transferência")) {
-            System.out.println("entrou");
-            System.out.println(amount);
 
             if (this.getBalance() - amount < 0) {
                 if ((this.getBalance() - amount) < (-this.getLimit())) {

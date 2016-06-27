@@ -49,7 +49,7 @@ public class OpenAccount extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         Client client = ClientBuilder.newClient();
-        String uri = "http://172.31.41.180:8084/DAC-DOR/webresources/debtorSituation?debtorIdentifier=";
+        String uri = "http://localhost:8084/DAC-DOR/webresources/debtorSituations?debtorIdentifier=";
 
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -61,50 +61,58 @@ public class OpenAccount extends HttpServlet {
         user = user.read();
         if (user != null) {
             if (user.verifyPassword(password)) {
-//                uri += user.getIdentifier();
-//
-//                Response res = client
-//                        .target(uri)
-//                        .request(MediaType.APPLICATION_JSON)
-//                        .get();
-//
-//                DebtorActualSituation debtor = res.readEntity(DebtorActualSituation.class);
-//                if (!debtor.isIndebt()) {
-                if (user.hasAllInformation()) {
-                    PersonalAccount account = new PersonalAccount();
-                    account.setUser(user);
+                uri += user.getIdentifier();
 
-                    account = account.readByUserIdAndInativeStatus();
+                Response res = client
+                        .target(uri)
+                        .request(MediaType.APPLICATION_JSON)
+                        .get();
+                DebtorActualSituation debtor;
 
-                    if (account.getNumber() != null && !account.getNumber().isEmpty()) {
-                        createTokenAndRedirect(account, user, session, response);
+                if (res.getStatus() == 404) {
+                    debtor = new DebtorActualSituation();
+                    debtor.setIndebt(false);
+                } else {
+                    debtor = res.readEntity(DebtorActualSituation.class);
+                }
+                if (!debtor.isIndebt()) {
+                    if (user.hasAllInformation()) {
+                        PersonalAccount account = new PersonalAccount();
+                        account.setUser(user);
+
+                        account = account.readByUserIdAndInativeStatus();
+
+                        if (account.getNumber() != null && !account.getNumber().isEmpty()) {
+                            createTokenAndRedirect(account, user, session, response);
+                        } else {
+                            Agency agency = new Agency();
+                            agency.setNumber("12345");
+                            agency = agency.readByNumber();
+
+                            account.openAccount(user, agency);
+                            account = account.readByNumber();
+                            createTokenAndRedirect(account, user, session, response);
+                        }
                     } else {
-                        Agency agency = new Agency();
-                        agency.setNumber("12345");
-                        agency = agency.readByNumber();
-
-                        account.openAccount(user, agency);
-                        account = account.readByNumber();
-                        createTokenAndRedirect(account, user, session, response);
+                        this.redirectToRegistration(user, request, response);
                     }
                 } else {
-                    this.redirectToRegistration(user, request, response);
+                    String page = null;
+                    ArrayList<PageMessage> errors = new ArrayList();
+                    PageMessage e1 = new PageMessage();
+                    e1.setText("Devedores não podem abrir novas contas.");
+                    e1.setTitle("Devedor.");
+                    e1.setType("danger");
+                    errors.add(e1);
+                    session.setAttribute("messages", errors);
+                    if (((PersonalAccount) session.getAttribute("account")) == null) {
+                        page = "index.jsp";
+                    } else {
+                        page = "accounts.jsp";
+                    }
+                    response.sendRedirect(page);
                 }
-//                } else {
-//String page = null;
-//                ArrayList<PageMessage> errors = new ArrayList();
-//                PageMessage e1 = new PageMessage();
-//                e1.setText("Devedores não podem abrir novas contas.");
-//                e1.setTitle("Devedor.");
-//                e1.setType("danger");
-//                errors.add(e1);
-//                session.setAttribute("messages", errors);
-//                if (((PersonalAccount) session.getAttribute("account")) == null) {
-//                    page = "index.jsp";
-//                } else {
-//                    page = "accounts.jsp";
-//                }
-//                response.sendRedirect(page);
+
             } else {
                 String page = null;
                 ArrayList<PageMessage> errors = new ArrayList();
@@ -131,11 +139,11 @@ public class OpenAccount extends HttpServlet {
             errors.add(e1);
             session.setAttribute("messages", errors);
             if (((PersonalAccount) session.getAttribute("account")) == null) {
-                    page = "index.jsp";
-                } else {
-                    page = "accounts.jsp";
-                }
-                response.sendRedirect(page);
+                page = "index.jsp";
+            } else {
+                page = "accounts.jsp";
+            }
+            response.sendRedirect(page);
         }
 
     }
@@ -143,9 +151,9 @@ public class OpenAccount extends HttpServlet {
     public void createTokenAndRedirect(PersonalAccount account, User user, HttpSession session, HttpServletResponse response) throws IOException {
         Calendar cal = Calendar.getInstance();
         int mi = cal.get(Calendar.MILLISECOND);
-        int number = (int) Math.abs((Math.random()*1000)*mi);
+        int number = (int) Math.abs((Math.random() * 1000) * mi);
         String token = Integer.toString(number);
-        
+
         user.setTokenForAccount(token);
         user.update();
 
@@ -168,11 +176,11 @@ public class OpenAccount extends HttpServlet {
         errors.add(e1);
         session.setAttribute("messages", errors);
         if (((PersonalAccount) session.getAttribute("account")) == null) {
-                    page = "index.jsp";
-                } else {
-                    page = "accounts.jsp";
-                }
-                response.sendRedirect(page);
+            page = "index.jsp";
+        } else {
+            page = "accounts.jsp";
+        }
+        response.sendRedirect(page);
     }
 
     public void redirectToRegistration(User user, HttpServletRequest request, HttpServletResponse response) throws IOException {
