@@ -1,0 +1,29 @@
+body
+{
+	padding-top: 0px;
+
+	background-image: url('../img/mainpage_background.jpg');
+
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+
+	background-size: cover;
+}
+
+.section
+{
+}
+
+.panel
+{
+	opacity: 0.86;
+	-webkit-transition: opacity 0.5s; /* Safari */
+	transition: opacity 0.5s;
+}
+
+.panel:hover
+{
+	opacity: 1;
+	-webkit-transition: opacity 0.5s; /* Safari */
+	transition: opacity 0.5s;
+}

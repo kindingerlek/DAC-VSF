@@ -1,0 +1,122 @@
+
+body {
+	background-color: #F1F2F6;
+}
+
+.header {
+	background-color: #264348;	
+	color: #ffffff;
+
+	min-height: 55px;
+	padding-left: 20px;
+	padding-right: 20px;
+
+	padding-top: 12px;
+	padding-bottom: 12px;
+
+	margin-top: 0px;
+}
+
+.header h1 {
+	font-size: 18pt;
+
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.header button {
+	height: 30px;
+
+	font-size: 12pt;
+	font-style: bold;
+
+	margin-left: 8px;
+	margin-right: 8px;
+
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+.nav {
+	min-width: 240px;
+	padding: 0px 0px 0px 0px;
+}
+
+.section {
+	padding: 18px 18px 18px 18px;
+
+}
+
+h1 {
+	font-size: 20pt;
+}
+
+h2 {
+	font-size: 18pt;
+}
+
+h3 {
+	font-size: 16pt
+}
+
+.timeline {
+	background: #F3F3F3;
+}
+
+.events h4{
+	margin-top: 6px !important;
+	margin-bottom: 16px !important;
+}
+
+.withdrawal .circ {
+	background-color: #DC3023 !important;
+}
+
+.withdrawal .time {
+	color: #DC3023 !important;
+}
+
+.withdrawal .value {
+	color: #DC3023 !important;
+	font-size: 11pt;
+	font-weight: bold;
+}
+
+
+.deposit .circ {
+	background-color: #26A65B !important;
+}
+
+.deposit .time {
+	color: #26A65B !important;
+}
+
+.deposit .value {
+	color: #26A65B !important;
+	font-size: 11pt;
+	font-weight: bold;
+}
+
+.panel
+{
+	border-radius: 0px;
+	border: 1px solid #c0c0c0;
+}
+
+hr {
+	border-top: 1px solid #c0c0c0;
+}
+
+#insert-token
+{
+    margin-top: 25pt;
+    margin-bottom: 25pt;
+}
+
+#insert-token #code
+{
+    color:#264348;
+    font-size: 32pt;
+}
+
+
