@@ -49,7 +49,7 @@ public class OpenAccount extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         Client client = ClientBuilder.newClient();
-        String uri = "http://localhost:8084/DAC-DOR/webresources/debtorSituations?debtorIdentifier=";
+        String uri = "http://10.41.5.109:8084/DAC-DOR/webresources/debtorSituations/";
 
         String email = request.getParameter("email");
         String password = request.getParameter("password");

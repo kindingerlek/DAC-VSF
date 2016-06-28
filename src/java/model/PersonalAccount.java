@@ -185,6 +185,7 @@ public class PersonalAccount {
     public void deposit(Double amount, String type) {
         if (this.getBalance() + amount > 0) {
             this.setStatus("Regular");
+            this.setIndebtSince(null);
             Utils.removeDebtorInDOR(getUser());
         }
         AccountTransaction at = new AccountTransaction();
